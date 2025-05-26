@@ -28,7 +28,7 @@ class _DeleteReservationsScreenState extends State<DeleteReservationsScreen> {
   @override
   void initState() {
     super.initState();
-    // Load tables data once on init
+    // Delete old reservations on init
     FirebaseFirestore.instance.collection("reservations").where('userID',
                     isEqualTo: FirebaseAuth.instance.currentUser!.uid).get().then((snapshot) {
       for(var index = 0; index < snapshot.docs.length; index++){
