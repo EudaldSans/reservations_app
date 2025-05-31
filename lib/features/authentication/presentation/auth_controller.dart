@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:reservations_app/app_routes.dart';
 import 'package:reservations_app/features/authentication/application/auth_service.dart';
 import 'package:reservations_app/features/authentication/domain/user_model.dart';
 import 'package:reservations_app/features/authentication/data/user_repository.dart';
@@ -14,7 +15,7 @@ class AuthController {
     await _authService.signout();
   }
 
-  Future<dynamic> loginUser(String email, String password) async {
+  Future<dynamic> loginUser(BuildContext context, String email, String password) async {
     final user =
         await _authService.loginUserWithEmailAndPassword(email, password);
     if (user != null) {
@@ -27,12 +28,13 @@ class AuthController {
         final updatedUser = existingUser.copyWithUpdatedLogin();
         await _userRepository.saveUser(updatedUser);
         log("Last login timestamp updated");
+        AppRoutes.navigateTo(context, AppRoutes.home);
       }
     }
     return user;
   }
 
-  Future<dynamic> signupUser(String name, String email, String password) async {
+  Future<dynamic> signupUser(BuildContext context, String name, String email, String password) async {
     final user =
         await _authService.createUserWithEmailAndPassword(email, password);
     if (user != null) {
@@ -48,6 +50,8 @@ class AuthController {
       // Save to Firestore
       await _userRepository.saveUser(userModel);
       log("User data saved to Firestore");
+
+      AppRoutes.navigateTo(context, AppRoutes.home);
     }
     return user;
   }
@@ -56,8 +60,11 @@ class AuthController {
   Future<UserModel?> getCurrentUserData() async {
     final currentUser = _auth.currentUser;
     if (currentUser != null) {
+      log(currentUser.uid);
       return await _userRepository.getUserById(currentUser.uid);
     }
+    log("user is null");
+    
     return null;
   }
 }

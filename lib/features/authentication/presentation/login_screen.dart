@@ -73,7 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 label: "Login",
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    _authController.loginUser(_email.text, _password.text);
+                    _authController.loginUser(context, _email.text, _password.text);
                   }
                 },
               ),
