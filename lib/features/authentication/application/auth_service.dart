@@ -50,4 +50,16 @@ class AuthService {
           type: ToastificationType.error);
     }
   }
+
+  Future<void> deleteCurrentUser() async {
+    try {
+      await _auth.currentUser!.delete();
+    } on FirebaseAuthException catch (e) {
+      log(e.message!);
+      toastification.show(
+          title: Text(e.message!),
+          autoCloseDuration: const Duration(seconds: 5),
+          type: ToastificationType.error);
+    }
+  }
 }

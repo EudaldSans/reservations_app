@@ -90,7 +90,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     _authController.signupUser(
-                        _name.text, _email.text, _password.text);
+                        context, _name.text, _email.text, _password.text);
                   }
                 },
               ),

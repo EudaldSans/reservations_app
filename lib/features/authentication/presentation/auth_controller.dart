@@ -5,10 +5,12 @@ import 'package:reservations_app/app_routes.dart';
 import 'package:reservations_app/features/authentication/application/auth_service.dart';
 import 'package:reservations_app/features/authentication/domain/user_model.dart';
 import 'package:reservations_app/features/authentication/data/user_repository.dart';
+import 'package:reservations_app/features/reservations/data/reservation_repository.dart';
 
 class AuthController {
   final _authService = AuthService();
   final _userRepository = UserRepository();
+  final _reservationRepository = ReservationRepository();
   final _auth = FirebaseAuth.instance;
 
   Future<void> signOutUser(BuildContext context) async {
@@ -66,5 +68,19 @@ class AuthController {
     log("user is null");
     
     return null;
+  }
+
+  // Delete current user
+  void deleteCurrentUser() {
+    final currentUser = _auth.currentUser;
+
+    if (currentUser == null) {
+      log("Current user is null!");
+      return;
+    }
+    
+    _reservationRepository.deleteAllReservations(currentUser.uid);
+    _userRepository.deleteUser(currentUser.uid);
+    _authService.deleteCurrentUser();
   }
 }

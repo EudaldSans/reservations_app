@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:reservations_app/features/profile/presentation/profile_screen.dart';
 import 'package:reservations_app/features/reservations/presentation/delete_reservations_screen.dart';
 import 'package:reservations_app/features/reservations/presentation/make_reservations_screen.dart';
 import 'package:reservations_app/widgets/reserve_table_buttons.dart';
 import 'package:reservations_app/features/authentication/presentation/auth_controller.dart';
 
-enum Page { makeReservationsPage, deleteReservationsPage, unknownPage }
+enum Page { makeReservationsPage, deleteReservationsPage, userProfilePage, unknownPage }
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -32,6 +33,10 @@ class _MyHomeScreenState extends State<HomeScreen> {
         page = const DeleteReservationsScreen();
         pageTitle = 'My reservations';
         break;
+      case Page.userProfilePage:
+        page = const UserProfileScreen();
+        pageTitle = "User profile";
+        break;
       default:
         throw UnimplementedError('no widget for $selectedIndex');
     }
@@ -50,6 +55,12 @@ class _MyHomeScreenState extends State<HomeScreen> {
             icon: const IconData(0xeeaa, fontFamily: 'MaterialIcons'),
             onPressed: () => setState(() {
               selectedIndex = Page.deleteReservationsPage;
+            }),
+          ),
+          CustomIconButton(
+            icon: const IconData(0xe491, fontFamily: 'MaterialIcons'),
+            onPressed: () => setState(() {
+              selectedIndex = Page.userProfilePage;
             }),
           ),
           CustomIconButton(

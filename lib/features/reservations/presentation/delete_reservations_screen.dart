@@ -66,8 +66,6 @@ class _DeleteReservationsScreenState extends State<DeleteReservationsScreen> {
                 return const Text('No data here :(');
               }
 
-              
-
               return ListView.builder(
                 shrinkWrap: true,
                 itemCount: snapshot.data!.docs.length,

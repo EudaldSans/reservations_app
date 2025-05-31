@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:reservations_app/features/authentication/domain/user_model.dart';
 
@@ -23,8 +25,11 @@ class UserRepository {
       final doc = await _firestore.collection(_collection).doc(userId).get();
 
       if (doc.exists) {
+        log("doc exists");
         return UserModel.fromFirestore(doc);
       }
+
+      log("doc does not exist");
 
       return null;
     } catch (e) {
