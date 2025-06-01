@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import 'package:toastification/toastification.dart';
-import 'package:time_range_picker/time_range_picker.dart';
 
+import 'package:time_range_picker/time_range_picker.dart';
 import 'package:reservations_app/widgets/time_ranges.dart';
+
 import '../domain/reservation_model.dart';
 import 'reservation_controller.dart';
 

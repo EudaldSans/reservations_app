@@ -1,9 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:reservations_app/features/authentication/domain/user_model.dart';
+import 'package:reservations_app/features/authentication/presentation/auth_controller.dart';
+
 import 'dart:developer';
 
 import '../data/reservation_repository.dart';
 import '../domain/reservation_model.dart';
+
+import 'package:firebase_auth/firebase_auth.dart';
 
 enum ReservationError {
   userNotAuthenticated,
@@ -38,6 +43,7 @@ class ReservationResult {
 
 class ReservationController {
   final ReservationRepository repository;
+  final AuthController _authController = AuthController();
 
   ReservationController({ReservationRepository? repository})
       : repository = repository ?? ReservationRepository();
@@ -86,6 +92,16 @@ class ReservationController {
 
     // Debug: Print Timestamp objects
     log("Timestamps created - Start: ${startTimestamp.toDate().toString()}, End: ${endTimestamp.toDate().toString()}");
+
+    final activeUserReservations = await repository.getUserReservations(FirebaseAuth.instance.currentUser!.uid);
+    final currentUser = await _authController.getCurrentUserData();
+
+    log("Number of reservations: ${activeUserReservations.length}, admin ${currentUser!.admin}");
+
+    if (!currentUser!.admin && activeUserReservations.length > 5) {
+      return ReservationResult.failure(ReservationError.timeSlotNotAvailable,
+          "You can't have more than 5 active reservations");
+    }
 
     // Check availability
     final isAvailable = await repository.isTimeSlotAvailable(

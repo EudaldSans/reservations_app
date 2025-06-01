@@ -38,6 +38,25 @@ class ReservationRepository {
     log("All reservations for user $userId deleted.");
   }
 
+  Future<List<Reservation>> getUserReservations(String userID) async {
+    final snapshot = await firestore
+      .collection("reservations")
+      .where('userID', isEqualTo: userID)
+      .get();
+
+    return snapshot.docs.map((doc) {
+      final data = doc.data();
+        return Reservation(
+        id: doc.id,
+        userId: data['userID'],
+        tableId: data['tableID'],
+        startDate: data['startDate'],
+        endDate: data['endDate'],
+        creationDate: data['creationDate'] ?? Timestamp.now(),
+      );
+    }).toList();
+  }
+
   /// Get reservations for a specific table on a specific date
   Future<List<Reservation>> getTableReservations(
       String tableId, DateTime date) async {
