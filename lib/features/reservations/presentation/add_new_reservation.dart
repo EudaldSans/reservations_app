@@ -12,11 +12,13 @@ import 'reservation_controller.dart';
 class ReserveTable extends StatefulWidget {
   final String tableId;
   final DateTime selectedDate;
+  final String currentUser;
 
   const ReserveTable({
     super.key,
     required this.tableId,
     required this.selectedDate,
+    required this.currentUser,
   });
 
   @override
@@ -72,6 +74,7 @@ class _ReserveTableState extends State<ReserveTable> {
       selectedDate: widget.selectedDate,
       startTime: _selectedStartTime,
       endTime: _selectedEndTime,
+      userName: widget.currentUser,
     );
 
     if (!mounted) return;

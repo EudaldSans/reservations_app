@@ -4,11 +4,13 @@ import 'package:reservations_app/features/reservations/presentation/add_new_rese
 class ReserveButton extends StatelessWidget {
   final String tableID;
   final DateTime selectedDate;
+  final String currentUser;
 
   const ReserveButton({
     super.key,
     required this.tableID,
     required this.selectedDate,
+    required this.currentUser,
   });
 
   @override
@@ -21,6 +23,7 @@ class ReserveButton extends StatelessWidget {
             builder: (context) => ReserveTable(
               tableId: tableID,
               selectedDate: selectedDate,
+              currentUser: currentUser,
             ),
           ),
         );

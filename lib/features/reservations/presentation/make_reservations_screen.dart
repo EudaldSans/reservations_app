@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 // Firebase
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:reservations_app/features/authentication/domain/user_model.dart';
+import 'package:reservations_app/features/authentication/presentation/auth_controller.dart';
 
 // Widgets
 import 'package:reservations_app/widgets/date_selector.dart';
@@ -19,6 +21,8 @@ class _MakeReservationsScreenState extends State<MakeReservationsScreen> {
   final selectedDateNotifier = ValueNotifier(DateTime.now());
   // Store the snapshot data
   List<QueryDocumentSnapshot>? tablesSnapshot;
+  String _userName = "";
+  AuthController _authController = AuthController();
   bool isLoading = true;
 
   @override
@@ -30,6 +34,21 @@ class _MakeReservationsScreenState extends State<MakeReservationsScreen> {
         tablesSnapshot = snapshot.docs;
         isLoading = false;
       });
+    });
+
+    _getCurrentUserName();
+  }
+
+  Future<void> _getCurrentUserName() async {
+    var currentUser = await _authController.getCurrentUserData();
+
+    if (currentUser == null) {
+      _userName = "User not found";
+      return;
+    }
+
+    setState(() {
+      _userName = currentUser.name;
     });
   }
 
@@ -73,7 +92,7 @@ class _MakeReservationsScreenState extends State<MakeReservationsScreen> {
                             ),
                           ),
                           ReserveButton(
-                              tableID: table.id, selectedDate: normalizedDate),
+                              tableID: table.id, selectedDate: normalizedDate, currentUser: _userName),
                         ],
                       );
                     },

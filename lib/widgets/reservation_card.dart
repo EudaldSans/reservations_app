@@ -77,6 +77,7 @@ class ReservationCard extends StatelessWidget {
               const SizedBox(height: 8),
               Row(
                 children: [
+                  const SizedBox(width: 4),
                   Icon(
                     Icons.calendar_today,
                     size: 16,

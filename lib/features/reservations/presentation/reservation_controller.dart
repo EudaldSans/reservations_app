@@ -48,6 +48,7 @@ class ReservationController {
     required DateTime selectedDate,
     required TimeOfDay startTime,
     required TimeOfDay endTime,
+    required String userName,
   }) async {
     // Check if user is authenticated
     final userId = repository.getCurrentUserId();
@@ -105,6 +106,7 @@ class ReservationController {
       userId: userId,
       startDate: startTimestamp,
       endDate: endTimestamp,
+      userName: userName,
     );
 
     if (success) {

@@ -75,6 +75,7 @@ class ReservationRepository {
     required String userId,
     required Timestamp startDate,
     required Timestamp endDate,
+    required String userName,
   }) async {
     final id = uuidGenerator.v4();
 
@@ -84,7 +85,8 @@ class ReservationRepository {
         "creationDate": FieldValue.serverTimestamp(),
         "tableID": tableId,
         "startDate": startDate,
-        "endDate": endDate
+        "endDate": endDate,
+        "userName": userName,
       });
 
       return true;

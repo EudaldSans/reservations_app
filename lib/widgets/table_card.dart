@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 
-Row createReservationText(Timestamp startTime, Timestamp endTime) {
+Row createReservationText(Timestamp startTime, Timestamp endTime, String userName) {
   // Create DateTime objects from the Timestamps
   final startDateTime = startTime.toDate();
   final endDateTime = endTime.toDate();
@@ -13,6 +13,19 @@ Row createReservationText(Timestamp startTime, Timestamp endTime) {
 
   return Row(
     children: [
+      Icon(
+        Icons.person,
+        size: 16,
+      ),
+      const SizedBox(width: 4),
+      Text(
+        userName,
+        style: const TextStyle(
+          fontWeight: FontWeight.bold,
+          color: Colors.blueAccent,
+        ),
+      ),
+      const SizedBox(width: 16),
       const Icon(
         Icons.access_time,
         size: 16,
@@ -95,89 +108,64 @@ class _TableCardState extends State<TableCard> {
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: Colors.grey.shade800, width: 1.5),
       ),
-      child: Row(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          Text(
+            widget.tableName,
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 1.2,
+                ),
+          ),
+          const SizedBox(height: 2),
+          Row(
             children: [
+              Icon(
+                Icons.aspect_ratio,
+                size: 16,
+              ),
+              const SizedBox(width: 4),
               Text(
-                widget.tableName,
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 1.2,
-                    ),
-              ),
-              const SizedBox(
-                height: 12,
-              ),
-              Row(
-                children: [
-                  const Icon(
-                    Icons.table_restaurant,
-                    size: 36,
-                    color: Colors.grey,
-                  ),
-                  const SizedBox(width: 16),
-                  Text(
-                    "${widget.length} x ${widget.width} cm\n$inchesLength x $inchesWidth in",
-                  ),
-                ],
+                "${widget.length} x ${widget.width} cm, $inchesLength x $inchesWidth in",
               ),
             ],
           ),
-          const SizedBox(
-            width: 16,
-          ),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Reserved slots",
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w600,
-                        letterSpacing: 1.1,
-                      ),
-                ),
-                const SizedBox(height: 8),
-                StreamBuilder(
-                  stream: _reservationsStream,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                    if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                      return Text('No reserved slots',
-                          style: TextStyle(color: Colors.grey[500]));
-                    }
+          const SizedBox(height: 8),
+          StreamBuilder(
+            stream: _reservationsStream,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                return Text('No reserved slots',
+                    style: TextStyle(color: Colors.grey[500]));
+              }
 
-                    final filtered = _filterReservationsForDate(
-                      snapshot.data!.docs,
-                      widget.selectedDate,
-                    );
+              final filtered = _filterReservationsForDate(
+                snapshot.data!.docs,
+                widget.selectedDate,
+              );
 
-                    if (filtered.isEmpty) {
-                      return Text('No reserved slots',
-                          style: TextStyle(color: Colors.grey[500]));
-                    }
+              if (filtered.isEmpty) {
+                return Text('No reserved slots',
+                    style: TextStyle(color: Colors.grey[500]));
+              }
 
-                    return ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: filtered.length,
-                        itemBuilder: (context, index) {
-                          final data =
-                              filtered[index].data() as Map<String, dynamic>;
-                          return createReservationText(
-                              data['startDate'], data['endDate']);
-                        });
-                  },
-                ),
-              ],
-            ),
+              return ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: filtered.length,
+                itemBuilder: (context, index) {
+                  final data =
+                      filtered[index].data() as Map<String, dynamic>;
+                  return createReservationText(
+                      data['startDate'], data['endDate'], data['userName']);
+                });
+            },
           ),
         ],
       ),
