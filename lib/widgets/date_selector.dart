@@ -96,12 +96,12 @@ class _DateSelectorState extends State<DateSelector> {
                         const EdgeInsets.only(right: 8), // Space between items
                     decoration: BoxDecoration(
                       color: isSelected
-                          ? Colors.blueAccent
+                          ? Theme.of(context).primaryColor
                           : Colors.transparent,
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(
                         color: isSelected
-                            ? Colors.blueAccent
+                            ? Theme.of(context).primaryColor
                             : Colors.grey.shade300,
                         width: 2,
                       ),

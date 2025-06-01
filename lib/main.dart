@@ -29,6 +29,7 @@ class MainApp extends StatelessWidget {
       title: 'Reservations App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        primaryColor: Colors.blueAccent,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
     ));

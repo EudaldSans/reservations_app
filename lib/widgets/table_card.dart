@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 
-Row createReservationText(Timestamp startTime, Timestamp endTime, String userName) {
+Row createReservationText(BuildContext context, Timestamp startTime, Timestamp endTime, String userName) {
   // Create DateTime objects from the Timestamps
   final startDateTime = startTime.toDate();
   final endDateTime = endTime.toDate();
@@ -20,9 +20,9 @@ Row createReservationText(Timestamp startTime, Timestamp endTime, String userNam
       const SizedBox(width: 4),
       Text(
         '$formattedStart - $formattedEnd',
-        style: const TextStyle(
+        style: TextStyle(
           fontWeight: FontWeight.bold,
-          color: Colors.blueAccent,
+          color: Theme.of(context).primaryColor,
         ),
       ),
       const SizedBox(width: 16),
@@ -33,9 +33,9 @@ Row createReservationText(Timestamp startTime, Timestamp endTime, String userNam
       const SizedBox(width: 4),
       Text(
         userName,
-        style: const TextStyle(
+        style: TextStyle(
           fontWeight: FontWeight.bold,
-          color: Colors.blueAccent,
+          color: Theme.of(context).primaryColor,
         ),
       ),
     ],
@@ -162,7 +162,7 @@ class _TableCardState extends State<TableCard> {
                   final data =
                       filtered[index].data() as Map<String, dynamic>;
                   return createReservationText(
-                      data['startDate'], data['endDate'], data['userName']);
+                      context, data['startDate'], data['endDate'], data['userName']);
                 });
             },
           ),

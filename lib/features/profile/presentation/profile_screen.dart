@@ -73,7 +73,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           children: [
             CircleAvatar(
               radius: 40,
-              backgroundColor: Colors.blueAccent,
+              backgroundColor: Theme.of(context).primaryColor,
               child: Text(
                 _user.name.isNotEmpty ? _user.name[0].toUpperCase() : '?',
                 style: const TextStyle(fontSize: 32, color: Colors.black87),

@@ -60,9 +60,9 @@ class ReservationCard extends StatelessWidget {
                         child: CircularProgressIndicator(strokeWidth: 2));
                   }
                   if (!snapshot.hasData) {
-                    return const Text(
+                    return Text(
                       'Unknown Table',
-                      style: TextStyle(color: Colors.blueAccent),
+                      style: TextStyle(color: Theme.of(context).primaryColor),
                     );
                   }
                   return Text(
