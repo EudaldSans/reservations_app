@@ -146,37 +146,7 @@ class _ReserveTableState extends State<ReserveTable> {
     // Create disabled time ranges for each reservation
     List<Widget> disabledRanges = [];
 
-    if (_reservations.isEmpty) {
-      // No reservations yet
-      disabledRanges.add(
-        Center(
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 16.0),
-            child: Text(
-              "No existing reservations for this table on this date.",
-              style: TextStyle(
-                color: Colors.grey.shade600,
-                fontStyle: FontStyle.italic,
-              ),
-            ),
-          ),
-        ),
-      );
-    } else {
-      // Add a header to indicate disabled times
-      disabledRanges.add(
-        Padding(
-          padding: const EdgeInsets.only(bottom: 16.0),
-          child: Text(
-            "Reserved time slots are shown in red",
-            style: TextStyle(
-              color: Colors.red.shade700,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-      );
-
+    if (_reservations.isNotEmpty) {
       for (var reservation in _reservations) {
         // Convert Firestore Timestamp to TimeOfDay
         final startDateTime = reservation.startDate.toDate();
