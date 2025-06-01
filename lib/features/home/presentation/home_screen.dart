@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:reservations_app/app_routes.dart';
 import 'package:reservations_app/features/profile/presentation/profile_screen.dart';
 import 'package:reservations_app/features/reservations/presentation/delete_reservations_screen.dart';
 import 'package:reservations_app/features/reservations/presentation/make_reservations_screen.dart';
@@ -65,7 +66,10 @@ class _MyHomeScreenState extends State<HomeScreen> {
           ),
           CustomIconButton(
             icon: const IconData(0xf199, fontFamily: 'MaterialIcons'),
-            onPressed: () => _authController.signOutUser(context),
+            onPressed: () {
+              _authController.signOutUser(context);
+              AppRoutes.navigateTo(context, AppRoutes.login);
+            }
           ),
         ],
       ),

@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:reservations_app/features/authentication/presentation/login_screen.dart';
 import 'package:reservations_app/features/authentication/presentation/signup_screen.dart';
-import 'package:reservations_app/features/authentication/presentation/auth_wrapper.dart';
 import 'package:reservations_app/features/home/presentation/home_screen.dart';
-import 'package:reservations_app/features/reservations/presentation/make_reservations_screen.dart';
-import 'package:reservations_app/features/reservations/presentation/delete_reservations_screen.dart';
 
 class AppRoutes {
   // Route names as constants
@@ -18,12 +15,9 @@ class AppRoutes {
   // Route definitions
   static Map<String, WidgetBuilder> get routes {
     return {
-      initial: (_) => const AuthWrapper(),
       login: (_) => const LoginScreen(),
       signup: (_) => const SignupScreen(),
       home: (_) => const HomeScreen(),
-      makeReservations: (_) => const MakeReservationsScreen(),
-      deleteReservations: (_) => const DeleteReservationsScreen(),
     };
   }
 
@@ -41,6 +35,13 @@ class AppRoutes {
   // Navigation methods
   static void navigateTo(BuildContext context, String routeName,
       {Object? arguments}) {
+    if (context == null) {
+      throw Exception("Context was null");
+    }
+
+    if (routeName == null) {
+      throw Exception("Context was null");
+    }
     Navigator.pushNamed(context, routeName, arguments: arguments);
   }
 

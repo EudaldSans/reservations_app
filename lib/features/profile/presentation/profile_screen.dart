@@ -29,7 +29,7 @@ class UserProfileScreen extends StatefulWidget {
 class _UserProfileScreenState extends State<UserProfileScreen> {
   final selectedDateNotifier = ValueNotifier(DateTime.now());
   final AuthController _authController = AuthController();
-  UserModel _user = UserModel(id: "id", name: "name", email: "email", createdAt: DateTime.now(), lastLogin: DateTime.now());
+  UserModel _user = UserModel(id: "id", name: "name", email: "email", createdAt: DateTime.now(), lastLogin: DateTime.now(), admin: false);
 
   @override
   void initState() {

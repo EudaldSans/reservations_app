@@ -6,6 +6,7 @@ class UserModel {
   final String email;
   final DateTime createdAt;
   final DateTime lastLogin;
+  final bool admin;
 
   UserModel({
     required this.id,
@@ -13,6 +14,7 @@ class UserModel {
     required this.email,
     required this.createdAt,
     required this.lastLogin,
+    required this.admin,
   });
 
   // Create from Firebase authentication data plus name
@@ -20,6 +22,7 @@ class UserModel {
     required String uid,
     required String name,
     required String email,
+    required bool admin,
   }) {
     final now = DateTime.now();
     return UserModel(
@@ -28,6 +31,7 @@ class UserModel {
       email: email,
       createdAt: now,
       lastLogin: now,
+      admin: admin,
     );
   }
 
@@ -39,6 +43,7 @@ class UserModel {
       'email': email,
       'createdAt': Timestamp.fromDate(createdAt),
       'lastLogin': Timestamp.fromDate(lastLogin),
+      'admin': false,
     };
   }
 
@@ -49,6 +54,7 @@ class UserModel {
       name: name,
       email: email,
       createdAt: createdAt,
+      admin: admin,
       lastLogin: DateTime.now(),
     );
   }
@@ -60,6 +66,7 @@ class UserModel {
       id: doc.id,
       name: data['name'] ?? '',
       email: data['email'] ?? '',
+      admin: data['admin'] ?? false,
       createdAt: (data['createdAt'] as Timestamp).toDate(),
       lastLogin: data['lastLogin'] != null
           ? (data['lastLogin'] as Timestamp).toDate()

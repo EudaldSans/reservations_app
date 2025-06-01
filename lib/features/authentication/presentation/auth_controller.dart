@@ -47,6 +47,7 @@ class AuthController {
         uid: user.uid,
         name: name,
         email: email,
+        admin: false,
       );
 
       // Save to Firestore
