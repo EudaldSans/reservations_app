@@ -35,13 +35,6 @@ class AppRoutes {
   // Navigation methods
   static void navigateTo(BuildContext context, String routeName,
       {Object? arguments}) {
-    if (context == null) {
-      throw Exception("Context was null");
-    }
-
-    if (routeName == null) {
-      throw Exception("Context was null");
-    }
     Navigator.pushNamed(context, routeName, arguments: arguments);
   }
 
