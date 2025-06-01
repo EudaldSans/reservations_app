@@ -32,7 +32,8 @@ class _DeleteReservationsScreenState extends State<DeleteReservationsScreen> {
     FirebaseFirestore.instance.collection("reservations").where('userID',
                     isEqualTo: FirebaseAuth.instance.currentUser!.uid).get().then((snapshot) {
       for(var index = 0; index < snapshot.docs.length; index++){
-        if (snapshot.docs[index].data()['startDate'] < getTodayAt0000().millisecondsSinceEpoch) {
+        Timestamp reservationTime = snapshot.docs[index].data()['startDate'];
+        if (reservationTime.millisecondsSinceEpoch < getTodayAt0000().millisecondsSinceEpoch) {
           FirebaseFirestore.instance
               .collection("reservations")
               .doc(snapshot.docs[index].id)
@@ -47,6 +48,7 @@ class _DeleteReservationsScreenState extends State<DeleteReservationsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    log(FirebaseAuth.instance.currentUser!.uid);
     return Center(
       child: Column(
         children: [
