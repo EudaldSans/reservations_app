@@ -44,6 +44,7 @@ class _MyHomeScreenState extends State<HomeScreen> {
 
     Scaffold scaffold = Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text(pageTitle),
         actions: [
           CustomIconButton(
