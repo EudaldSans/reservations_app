@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 // Firebase
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:reservations_app/features/authentication/domain/user_model.dart';
 import 'package:reservations_app/features/authentication/presentation/auth_controller.dart';
 
 // Widgets
@@ -68,36 +67,36 @@ class _MakeReservationsScreenState extends State<MakeReservationsScreen> {
             const Text('No tables available')
           else
             ValueListenableBuilder<DateTime>(
-                valueListenable: selectedDateNotifier,
-                builder: (context, selectedDate, _) {
-                  return ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: tablesSnapshot!.length,
-                    itemBuilder: (context, index) {
-                      final table = tablesSnapshot![index];
-                      final tableData = table.data() as Map<String, dynamic>;
-                      final normalizedDate = DateTime(selectedDate.year,
-                          selectedDate.month, selectedDate.day);
+              valueListenable: selectedDateNotifier,
+              builder: (context, selectedDate, _) {
+                return ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: tablesSnapshot!.length,
+                  itemBuilder: (context, index) {
+                    final table = tablesSnapshot![index];
+                    final tableData = table.data() as Map<String, dynamic>;
+                    final normalizedDate = DateTime(selectedDate.year,
+                        selectedDate.month, selectedDate.day);
 
-                      return Row(
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: TableCard(
-                              tableName: tableData['tableName'],
-                              length: tableData['length'],
-                              width: tableData['width'],
-                              selectedDate: normalizedDate,
-                              tableID: table.id,
-                            ),
+                    return Row(
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: TableCard(
+                            tableName: tableData['tableName'],
+                            length: tableData['length'],
+                            width: tableData['width'],
+                            selectedDate: normalizedDate,
+                            tableID: table.id,
                           ),
-                          ReserveButton(
-                              tableID: table.id, selectedDate: normalizedDate, currentUser: _userName),
-                        ],
-                      );
-                    },
-                  );
-                }),
+                        ),
+                        ReserveButton(
+                            tableID: table.id, selectedDate: normalizedDate, currentUser: _userName),
+                      ],
+                    );
+                  },
+                );
+              }),
         ],
       ),
     );

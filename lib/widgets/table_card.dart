@@ -13,6 +13,19 @@ Row createReservationText(Timestamp startTime, Timestamp endTime, String userNam
 
   return Row(
     children: [
+      const Icon(
+        Icons.access_time,
+        size: 16,
+      ),
+      const SizedBox(width: 4),
+      Text(
+        '$formattedStart - $formattedEnd',
+        style: const TextStyle(
+          fontWeight: FontWeight.bold,
+          color: Colors.blueAccent,
+        ),
+      ),
+      const SizedBox(width: 16),
       Icon(
         Icons.person,
         size: 16,
@@ -20,20 +33,6 @@ Row createReservationText(Timestamp startTime, Timestamp endTime, String userNam
       const SizedBox(width: 4),
       Text(
         userName,
-        style: const TextStyle(
-          fontWeight: FontWeight.bold,
-          color: Colors.blueAccent,
-        ),
-      ),
-      const SizedBox(width: 16),
-      const Icon(
-        Icons.access_time,
-        size: 16,
-        color: Colors.blueAccent,
-      ),
-      const SizedBox(width: 4),
-      Text(
-        '$formattedStart - $formattedEnd',
         style: const TextStyle(
           fontWeight: FontWeight.bold,
           color: Colors.blueAccent,
