@@ -20,11 +20,12 @@ class _MyHomeScreenState extends State<HomeScreen> {
   final selectedDateNotifier = ValueNotifier(DateTime.now());
   var selectedIndex = Page.makeReservationsPage;
   var pageTitle = 'ERROR';
-
+  
   @override
   Widget build(BuildContext context) {
     Widget page;
 
+    // Figure out which page we should show
     switch (selectedIndex) {
       case Page.makeReservationsPage:
         page = const MakeReservationsScreen();
@@ -42,47 +43,59 @@ class _MyHomeScreenState extends State<HomeScreen> {
         throw UnimplementedError('no widget for $selectedIndex');
     }
 
+    // Build app bar buttons
+    final makeReservationsButton = CustomIconButton(
+      icon: Icons.more_time,
+      onPressed: () => setState(() {
+        selectedIndex = Page.makeReservationsPage;
+      }),
+    );
+
+    final deleteReservationsButton = CustomIconButton(
+      icon: Icons.auto_delete_outlined,
+      onPressed: () => setState(() {
+        selectedIndex = Page.deleteReservationsPage;
+      }),
+    );
+
+    final userProfileButton = CustomIconButton(
+      icon: Icons.person,
+      onPressed: () => setState(() {
+        selectedIndex = Page.userProfilePage;
+      }),
+    );
+
+    final logOutButton = CustomIconButton(
+      icon: Icons.logout,
+      onPressed: () {
+        _authController.signOutUser(context);
+        AppRoutes.navigateTo(context, AppRoutes.login);
+      }
+    );
+
+    // Build Scaffold
     Scaffold scaffold = Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text(pageTitle),
         actions: [
-          CustomIconButton(
-            icon: const IconData(0xe403, fontFamily: 'MaterialIcons'),
-            onPressed: () => setState(() {
-              selectedIndex = Page.makeReservationsPage;
-            }),
-          ),
-          CustomIconButton(
-            icon: const IconData(0xeeaa, fontFamily: 'MaterialIcons'),
-            onPressed: () => setState(() {
-              selectedIndex = Page.deleteReservationsPage;
-            }),
-          ),
-          CustomIconButton(
-            icon: const IconData(0xe491, fontFamily: 'MaterialIcons'),
-            onPressed: () => setState(() {
-              selectedIndex = Page.userProfilePage;
-            }),
-          ),
-          CustomIconButton(
-            icon: const IconData(0xf199, fontFamily: 'MaterialIcons'),
-            onPressed: () {
-              _authController.signOutUser(context);
-              AppRoutes.navigateTo(context, AppRoutes.login);
-            }
-          ),
+          makeReservationsButton,
+          deleteReservationsButton,
+          userProfileButton,
+          logOutButton,
         ],
       ),
       body: page,
     );
 
+    // Find scaffold constraints
     double width = MediaQuery.sizeOf(context).width;
     double widtFactor = 1;
     if (width > 600) {
       widtFactor = 600 / width;
     }
 
+    // Creturn width constrained scaffold
     return FractionallySizedBox(
       widthFactor: widtFactor,
       child: scaffold,

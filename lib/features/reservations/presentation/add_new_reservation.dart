@@ -104,7 +104,26 @@ class _ReserveTableState extends State<ReserveTable> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    // Build submit button
+    ElevatedButton submitButton = ElevatedButton(
+      onPressed: _isLoading ? null : _onSubmit,
+      child: _isLoading
+          ? const SizedBox(
+              height: 20,
+              width: 20,
+              child: CircularProgressIndicator(strokeWidth: 2),
+            )
+          : Text(
+              'SUBMIT',
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.grey.shade800,
+              ),
+            ),
+    );
+
+    // Build main scaffold
+    Scaffold scaffold = Scaffold(
       appBar: AppBar(
         title: Text(DateFormat('d-MMM').format(widget.selectedDate)),
       ),
@@ -113,6 +132,7 @@ class _ReserveTableState extends State<ReserveTable> {
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const SizedBox(height: 10),
               if (_isLoading)
@@ -120,26 +140,24 @@ class _ReserveTableState extends State<ReserveTable> {
               else
                 _buildTimePicker(),
               const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _isLoading ? null : _onSubmit,
-                child: _isLoading
-                    ? const SizedBox(
-                        height: 20,
-                        width: 20,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      )
-                    : Text(
-                        'SUBMIT',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.grey.shade800,
-                        ),
-                      ),
-              ),
+              submitButton,
             ],
           ),
         ),
       ),
+    );
+
+    // Find scaffold constraints
+    double width = MediaQuery.sizeOf(context).width;
+    double widtFactor = 1;
+    if (width > 600) {
+      widtFactor = 600 / width;
+    }
+
+    // Creturn width constrained scaffold
+    return FractionallySizedBox(
+      widthFactor: widtFactor,
+      child: scaffold,
     );
   }
 
