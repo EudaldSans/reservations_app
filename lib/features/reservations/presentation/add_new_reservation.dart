@@ -6,6 +6,7 @@ import 'package:toastification/toastification.dart';
 
 import 'package:time_range_picker/time_range_picker.dart';
 import 'package:reservations_app/widgets/time_ranges.dart';
+import 'package:reservations_app/features/reservations/data/reservation_repository.dart';
 
 import '../domain/reservation_model.dart';
 import 'reservation_controller.dart';
@@ -31,6 +32,7 @@ class _ReserveTableState extends State<ReserveTable> {
   final ReservationController _controller = ReservationController();
   bool _isLoading = true;
   List<Reservation> _reservations = [];
+  final _reservationRepository = ReservationRepository();
 
   // Store the selected times
   TimeOfDay _selectedStartTime = const TimeOfDay(hour: 6, minute: 0);
@@ -39,6 +41,9 @@ class _ReserveTableState extends State<ReserveTable> {
   @override
   void initState() {
     super.initState();
+
+    _reservationRepository.deleteOutdatedReservations();
+
     // Initialize the time picker with a callback
     mainPicker = MainTimeRange(
       initialStart: const TimeOfDay(hour: 6, minute: 0),

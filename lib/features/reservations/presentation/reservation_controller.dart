@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:reservations_app/features/authentication/domain/user_model.dart';
+
 import 'package:reservations_app/features/authentication/presentation/auth_controller.dart';
 
 import 'dart:developer';

@@ -13,6 +13,7 @@ import 'package:toastification/toastification.dart';
 // app
 import 'package:reservations_app/widgets/reservation_card.dart';
 import 'package:reservations_app/widgets/date_selector.dart';
+import 'package:reservations_app/features/reservations/data/reservation_repository.dart';
 
 class DeleteReservationsScreen extends StatefulWidget {
   const DeleteReservationsScreen({super.key});
@@ -24,26 +25,13 @@ class DeleteReservationsScreen extends StatefulWidget {
 
 class _DeleteReservationsScreenState extends State<DeleteReservationsScreen> {
   final selectedDateNotifier = ValueNotifier(DateTime.now());
+  final _reservationRepository = ReservationRepository();
 
   @override
   void initState() {
     super.initState();
-    // Delete old reservations on init
-    FirebaseFirestore.instance.collection("reservations").where('userID',
-                    isEqualTo: FirebaseAuth.instance.currentUser!.uid).get().then((snapshot) {
-      for(var index = 0; index < snapshot.docs.length; index++){
-        Timestamp reservationTime = snapshot.docs[index].data()['startDate'];
-        if (reservationTime.millisecondsSinceEpoch < getTodayAt0000().millisecondsSinceEpoch) {
-          FirebaseFirestore.instance
-              .collection("reservations")
-              .doc(snapshot.docs[index].id)
-              .delete()
-              .then((_) {
-            log("Reservation deleted");
-          });
-        }
-      }
-    });
+
+    _reservationRepository.deleteOutdatedReservations();
   }
 
   @override

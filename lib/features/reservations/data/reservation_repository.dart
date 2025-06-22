@@ -4,6 +4,8 @@ import 'package:uuid/uuid.dart';
 import 'dart:developer';
 import 'package:flutter/material.dart';
 
+import 'package:reservations_app/widgets/date_selector.dart';
+
 import '../domain/reservation_model.dart';
 
 class ReservationRepository {
@@ -180,5 +182,23 @@ class ReservationRepository {
       timeOfDay.hour,
       timeOfDay.minute,
     );
+  }
+
+  void deleteOutdatedReservations() {
+    FirebaseFirestore.instance.collection("reservations").where('userID',
+                    isEqualTo: FirebaseAuth.instance.currentUser!.uid).get().then((snapshot) {
+      for(var index = 0; index < snapshot.docs.length; index++){
+        Timestamp reservationTime = snapshot.docs[index].data()['startDate'];
+        if (reservationTime.millisecondsSinceEpoch < getTodayAt0000().millisecondsSinceEpoch) {
+          FirebaseFirestore.instance
+              .collection("reservations")
+              .doc(snapshot.docs[index].id)
+              .delete()
+              .then((_) {
+            log("Reservation deleted");
+          });
+        }
+      }
+    });
   }
 }
