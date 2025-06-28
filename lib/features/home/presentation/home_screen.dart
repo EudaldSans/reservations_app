@@ -5,8 +5,9 @@ import 'package:reservations_app/features/reservations/presentation/delete_reser
 import 'package:reservations_app/features/reservations/presentation/make_reservations_screen.dart';
 import 'package:reservations_app/widgets/reserve_table_buttons.dart';
 import 'package:reservations_app/features/authentication/presentation/auth_controller.dart';
+import 'package:reservations_app/features/authentication/domain/user_model.dart';
 
-enum Page { makeReservationsPage, deleteReservationsPage, userProfilePage, unknownPage }
+enum Page { makeReservationsPage, deleteReservationsPage, userProfilePage, handleTablesPage, unknownPage }
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -20,7 +21,15 @@ class _MyHomeScreenState extends State<HomeScreen> {
   final selectedDateNotifier = ValueNotifier(DateTime.now());
   var selectedIndex = Page.makeReservationsPage;
   var pageTitle = 'ERROR';
+  UserModel? _currentUser;
   
+  @override
+  void initState() async {
+    super.initState();
+
+    _currentUser = await _authController.getCurrentUserData();
+  }
+
   @override
   Widget build(BuildContext context) {
     Widget page;
@@ -73,17 +82,31 @@ class _MyHomeScreenState extends State<HomeScreen> {
       }
     );
 
+    List<Widget> actions = [
+          makeReservationsButton,
+          deleteReservationsButton,
+          userProfileButton,
+          logOutButton,
+        ];
+
+    if (!_currentUser!.admin) {
+      final tableEditButton = CustomIconButton(
+        icon: Icons.table_restaurant_rounded,
+        onPressed: () {
+          _authController.signOutUser(context);
+          AppRoutes.navigateTo(context, AppRoutes.login);
+        }
+      );
+
+      actions.insert(3, tableEditButton);
+    }
+
     // Build Scaffold
     Scaffold scaffold = Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text(pageTitle),
-        actions: [
-          makeReservationsButton,
-          deleteReservationsButton,
-          userProfileButton,
-          logOutButton,
-        ],
+        actions: actions,
       ),
       body: page,
     );

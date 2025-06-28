@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 Row createReservationText(BuildContext context, Timestamp startTime, Timestamp endTime, String userName) {
   // Create DateTime objects from the Timestamps
   final startDateTime = startTime.toDate();
@@ -140,7 +142,7 @@ class _TableCardState extends State<TableCard> {
                 );
               }
               if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                return Text('No reserved slots',
+                return Text(AppLocalizations.of(context)!.noReservedSlots,
                     style: TextStyle(color: Colors.grey[500]));
               }
 
@@ -150,7 +152,7 @@ class _TableCardState extends State<TableCard> {
               );
 
               if (filtered.isEmpty) {
-                return Text('No reserved slots',
+                return Text(AppLocalizations.of(context)!.noReservedSlots,
                     style: TextStyle(color: Colors.grey[500]));
               }
 
