@@ -28,7 +28,7 @@ class _MakeReservationsScreenState extends State<MakeReservationsScreen> {
   void initState() {
     super.initState();
     // Load tables data once on init
-    FirebaseFirestore.instance.collection("tables").get().then((snapshot) {
+    FirebaseFirestore.instance.collection("tables").orderBy('tableName').get().then((snapshot) {
       setState(() {
         tablesSnapshot = snapshot.docs;
         isLoading = false;
@@ -53,7 +53,7 @@ class _MakeReservationsScreenState extends State<MakeReservationsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return SizedBox.expand(
       child: Column(
         children: [
           DateSelector(
@@ -69,32 +69,33 @@ class _MakeReservationsScreenState extends State<MakeReservationsScreen> {
             ValueListenableBuilder<DateTime>(
               valueListenable: selectedDateNotifier,
               builder: (context, selectedDate, _) {
-                return ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: tablesSnapshot!.length,
-                  itemBuilder: (context, index) {
-                    final table = tablesSnapshot![index];
-                    final tableData = table.data() as Map<String, dynamic>;
-                    final normalizedDate = DateTime(selectedDate.year,
-                        selectedDate.month, selectedDate.day);
-
-                    return Row(
-                      children: [
-                        Expanded(
-                          flex: 1,
-                          child: TableCard(
-                            tableName: tableData['tableName'],
-                            length: tableData['length'],
-                            width: tableData['width'],
-                            selectedDate: normalizedDate,
-                            tableID: table.id,
+                return Expanded(
+                  child: ListView.builder(
+                    itemCount: tablesSnapshot!.length,
+                    itemBuilder: (context, index) {
+                      final table = tablesSnapshot![index];
+                      final tableData = table.data() as Map<String, dynamic>;
+                      final normalizedDate = DateTime(selectedDate.year,
+                          selectedDate.month, selectedDate.day);
+                  
+                      return Row(
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: TableCard(
+                              tableName: tableData['tableName'],
+                              length: tableData['length'],
+                              width: tableData['width'],
+                              selectedDate: normalizedDate,
+                              tableID: table.id,
+                            ),
                           ),
-                        ),
-                        ReserveButton(
-                            tableID: table.id, selectedDate: normalizedDate, currentUser: _userName),
-                      ],
-                    );
-                  },
+                          ReserveButton(
+                              tableID: table.id, selectedDate: normalizedDate, currentUser: _userName),
+                        ],
+                      );
+                    },
+                  ),
                 );
               }),
         ],
