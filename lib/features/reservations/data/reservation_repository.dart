@@ -161,6 +161,7 @@ class ReservationRepository {
                 id: doc.id,
                 userId: data['userID'],
                 tableId: data['tableID'],
+                gameName: data['gameName'] ?? Reservation.unavailableGameName,
                 startDate: data['startDate'],
                 endDate: data['endDate'],
                 creationDate: data['creationDate'] ?? Timestamp.now(),
