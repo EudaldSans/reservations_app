@@ -12,7 +12,6 @@ import 'package:toastification/toastification.dart';
 
 // app
 import 'package:reservations_app/widgets/reservation_card.dart';
-import 'package:reservations_app/widgets/date_selector.dart';
 import 'package:reservations_app/features/reservations/data/reservation_repository.dart';
 
 class DeleteReservationsScreen extends StatefulWidget {

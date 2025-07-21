@@ -3,20 +3,13 @@ import 'package:intl/intl.dart';
 import 'dart:developer';
 
 // Firebase
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:reservations_app/app_routes.dart';
 import 'package:reservations_app/features/authentication/domain/user_model.dart';
 import 'package:reservations_app/features/authentication/presentation/auth_controller.dart';
 
 // Widgets
-import 'package:reservations_app/widgets/button.dart';
 import 'package:toastification/toastification.dart';
 import 'package:reservations_app/widgets/alert_dialog.dart';
-
-// app
-import 'package:reservations_app/widgets/reservation_card.dart';
-import 'package:reservations_app/widgets/date_selector.dart';
 
 class UserProfileScreen extends StatefulWidget {
   const UserProfileScreen({super.key});

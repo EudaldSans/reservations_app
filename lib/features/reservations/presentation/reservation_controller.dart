@@ -98,7 +98,7 @@ class ReservationController {
 
     log("Number of reservations: ${activeUserReservations.length}, admin ${currentUser!.admin}");
 
-    if (!currentUser!.admin && activeUserReservations.length > 5) {
+    if (!currentUser.admin && activeUserReservations.length > 5) {
       return ReservationResult.failure(ReservationError.timeSlotNotAvailable,
           "You can't have more than 5 active reservations");
     }

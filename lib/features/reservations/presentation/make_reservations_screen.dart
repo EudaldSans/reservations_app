@@ -21,7 +21,7 @@ class _MakeReservationsScreenState extends State<MakeReservationsScreen> {
   // Store the snapshot data
   List<QueryDocumentSnapshot>? tablesSnapshot;
   String _userName = "";
-  AuthController _authController = AuthController();
+  final AuthController _authController = AuthController();
   bool isLoading = true;
 
   @override
