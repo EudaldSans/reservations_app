@@ -5,6 +5,8 @@ import 'package:intl/intl.dart';
 import 'package:toastification/toastification.dart';
 
 import 'package:time_range_picker/time_range_picker.dart';
+import 'package:reservations_app/widgets/game_selector.dart';
+
 import 'package:reservations_app/widgets/time_ranges.dart';
 import 'package:reservations_app/features/reservations/data/reservation_repository.dart';
 
@@ -29,6 +31,8 @@ class ReserveTable extends StatefulWidget {
 
 class _ReserveTableState extends State<ReserveTable> {
   late MainTimeRange mainPicker;
+  late GameSelector gameSelector;
+  
   final ReservationController _controller = ReservationController();
   bool _isLoading = true;
   List<Reservation> _reservations = [];
@@ -37,6 +41,7 @@ class _ReserveTableState extends State<ReserveTable> {
   // Store the selected times
   TimeOfDay _selectedStartTime = const TimeOfDay(hour: 6, minute: 0);
   TimeOfDay _selectedEndTime = const TimeOfDay(hour: 8, minute: 0);
+  String _selectedGame = Reservation.unavailableGameName;
 
   @override
   void initState() {
@@ -55,6 +60,15 @@ class _ReserveTableState extends State<ReserveTable> {
         });
       },
     );
+
+    gameSelector  = GameSelector(
+      onGameChanged: (gameName) {
+        setState(() {
+          _selectedGame = gameName;
+        });
+      },
+    );
+
     _loadReservations();
   }
 
@@ -81,6 +95,7 @@ class _ReserveTableState extends State<ReserveTable> {
       startTime: _selectedStartTime,
       endTime: _selectedEndTime,
       userName: widget.currentUser,
+      gameName: _selectedGame
     );
 
     if (!mounted) return;
@@ -144,6 +159,9 @@ class _ReserveTableState extends State<ReserveTable> {
                 const Center(child: CircularProgressIndicator())
               else
                 _buildTimePicker(),
+
+              const SizedBox(height: 20),
+              gameSelector,
               const SizedBox(height: 20),
               submitButton,
             ],

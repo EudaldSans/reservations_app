@@ -16,6 +16,7 @@ class ReservationCard extends StatelessWidget {
   final Timestamp reservationStart;
   final Timestamp reservationEnd;
   final String tableID;
+  final String gameName;
 
   const ReservationCard({
     super.key,
@@ -24,6 +25,7 @@ class ReservationCard extends StatelessWidget {
     required this.tableName,
     required this.selectedDate,
     required this.tableID,
+    required this.gameName
   });
 
   @override
@@ -36,14 +38,9 @@ class ReservationCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: Colors.grey.shade800, width: 1.5),
       ),
-      child: Row(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          const Icon(
-            Icons.table_restaurant,
-            size: 36,
-            color: Colors.grey,
-          ),
-          const SizedBox(width: 16),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -97,6 +94,19 @@ class ReservationCard extends StatelessWidget {
               )
             ],
           ),
+          Row(
+            children: [
+              const SizedBox(width: 4),
+              Icon(
+                Icons.casino_outlined,
+                size: 16,
+              ),
+              const SizedBox(width: 4),
+              Text(
+                gameName,
+              ),
+            ],
+          )  
         ],
       ),
     );

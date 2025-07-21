@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
+import 'package:reservations_app/features/reservations/data/reservation_repository.dart';
 
-Row createReservationText(BuildContext context, Timestamp startTime, Timestamp endTime, String userName) {
+Row createReservationText(BuildContext context, Timestamp startTime, Timestamp endTime, String userName, String gameName) {
   // Create DateTime objects from the Timestamps
   final startDateTime = startTime.toDate();
   final endDateTime = endTime.toDate();
@@ -26,18 +27,44 @@ Row createReservationText(BuildContext context, Timestamp startTime, Timestamp e
         ),
       ),
       const SizedBox(width: 16),
-      Icon(
-        Icons.person,
-        size: 16,
-      ),
-      const SizedBox(width: 4),
-      Text(
-        userName,
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-          color: Theme.of(context).primaryColor,
-        ),
-      ),
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(
+                Icons.person,
+                size: 16,
+              ),
+              const SizedBox(width: 4),
+              Text(
+                userName,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).primaryColor,
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Icon(
+                Icons.casino_outlined,
+                size: 16,
+              ),
+              const SizedBox(width: 4),
+              Text(
+                gameName,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).primaryColor,
+                ),
+              ),
+            ],
+          )
+        ],
+      )
+      
     ],
   );
 }
@@ -63,36 +90,7 @@ class TableCard extends StatefulWidget {
 }
 
 class _TableCardState extends State<TableCard> {
-  Stream<QuerySnapshot>? _reservationsStream;
-
-  @override
-  void initState() {
-    super.initState();
-    // Create a stream for all reservations for this table
-    _reservationsStream = FirebaseFirestore.instance
-        .collection("reservations")
-        .where('tableID', isEqualTo: widget.tableID)
-        .snapshots();
-  }
-
-  List<DocumentSnapshot> _filterReservationsForDate(
-    List<DocumentSnapshot> allReservations,
-    DateTime date,
-  ) {
-    // Filter for the selected date
-    final startOfDay = DateTime(date.year, date.month, date.day);
-    final endOfDay = startOfDay.add(const Duration(days: 1));
-
-    return allReservations.where((doc) {
-      final data = doc.data() as Map<String, dynamic>;
-      final Timestamp startDate = data['startDate'];
-      final reservationDate =
-          DateTime.fromMillisecondsSinceEpoch(startDate.millisecondsSinceEpoch);
-
-      return reservationDate.isAfter(startOfDay) &&
-          reservationDate.isBefore(endOfDay);
-    }).toList();
-  }
+  final ReservationRepository _reservationRepository = ReservationRepository();
 
   @override
   Widget build(BuildContext context) {
@@ -132,24 +130,20 @@ class _TableCardState extends State<TableCard> {
           ),
           const SizedBox(height: 8),
           StreamBuilder(
-            stream: _reservationsStream,
+            stream: _reservationRepository.watchTableReservations(widget.tableID, widget.selectedDate),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
                   child: CircularProgressIndicator(),
                 );
               }
-              if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+              if (!snapshot.hasData || snapshot.data!.isEmpty) {
                 return Text('No reserved slots',
                     style: TextStyle(color: Colors.grey[500]));
               }
 
-              final filtered = _filterReservationsForDate(
-                snapshot.data!.docs,
-                widget.selectedDate,
-              );
-
-              if (filtered.isEmpty) {
+              final reservationList = snapshot.data;
+              if (reservationList == null) {
                 return Text('No reserved slots',
                     style: TextStyle(color: Colors.grey[500]));
               }
@@ -157,12 +151,11 @@ class _TableCardState extends State<TableCard> {
               return ListView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: filtered.length,
+                itemCount: reservationList.length,
                 itemBuilder: (context, index) {
-                  final data =
-                      filtered[index].data() as Map<String, dynamic>;
+                  final reservation = reservationList[index];
                   return createReservationText(
-                      context, data['startDate'], data['endDate'], data['userName']);
+                      context, reservation.startDate, reservation.endDate, reservation.userName, reservation.gameName);
                 });
             },
           ),

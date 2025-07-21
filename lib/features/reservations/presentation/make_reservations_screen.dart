@@ -97,7 +97,8 @@ class _MakeReservationsScreenState extends State<MakeReservationsScreen> {
                     },
                   ),
                 );
-              }),
+              }
+            ),
         ],
       ),
     );

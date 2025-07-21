@@ -55,6 +55,7 @@ class ReservationController {
     required TimeOfDay startTime,
     required TimeOfDay endTime,
     required String userName,
+    required String gameName
   }) async {
     // Check if user is authenticated
     final userId = repository.getCurrentUserId();
@@ -123,6 +124,7 @@ class ReservationController {
       startDate: startTimestamp,
       endDate: endTimestamp,
       userName: userName,
+      gameName: gameName,
     );
 
     if (success) {

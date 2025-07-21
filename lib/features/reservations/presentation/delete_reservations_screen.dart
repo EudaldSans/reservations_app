@@ -13,6 +13,7 @@ import 'package:toastification/toastification.dart';
 // app
 import 'package:reservations_app/widgets/reservation_card.dart';
 import 'package:reservations_app/features/reservations/data/reservation_repository.dart';
+import 'package:reservations_app/features/reservations/domain/reservation_model.dart';
 
 class DeleteReservationsScreen extends StatefulWidget {
   const DeleteReservationsScreen({super.key});
@@ -36,79 +37,74 @@ class _DeleteReservationsScreenState extends State<DeleteReservationsScreen> {
   @override
   Widget build(BuildContext context) {
     log(FirebaseAuth.instance.currentUser!.uid);
-    return Center(
-      child: Column(
-        children: [
-          StreamBuilder(
-            stream: FirebaseFirestore.instance
-                .collection("reservations")
-                .where('userID',
-                    isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-                .snapshots(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-              if (!snapshot.hasData) {
-                return const Text('No data here :(');
-              }
 
-              return ListView.builder(
-                shrinkWrap: true,
-                itemCount: snapshot.data!.docs.length,
-                itemBuilder: (context, index) {
-                  String tableName = 'Test';
+    return FutureBuilder<List<Reservation>>(
+      future: _reservationRepository.getUserReservations(FirebaseAuth.instance.currentUser!.uid), 
+      builder: (context, AsyncSnapshot<List<Reservation>> snapshot) {
+        if (!snapshot.hasData) {
+          return CircularProgressIndicator();
+        } else {
+          List<Reservation> reservations = snapshot.data!;
 
-                  Timestamp startTime =
-                      snapshot.data!.docs[index].data()['startDate'];
-                  Timestamp endtTime =
-                      snapshot.data!.docs[index].data()['endDate'];
-                  DateTime selectedDate = DateTime.fromMillisecondsSinceEpoch(
-                      startTime.millisecondsSinceEpoch);
+          return Center(
+            child: Column(
+              children: [
+                ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: reservations.length,
+                  itemBuilder: (context, index) {
+                    String tableName = 'Test';
 
-                  return Row(
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: ReservationCard(
-                          tableID: snapshot.data!.docs[index].data()['tableID'],
-                          selectedDate: selectedDate,
-                          reservationStart: startTime,
-                          reservationEnd: endtTime,
-                          tableName: tableName,
+                    Timestamp startTime =
+                        reservations[index].startDate;
+                    Timestamp endtTime =
+                        reservations[index].endDate;
+                    DateTime selectedDate = DateTime.fromMillisecondsSinceEpoch(
+                        startTime.millisecondsSinceEpoch);
+
+                    return Row(
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: ReservationCard(
+                            tableID: reservations[index].tableId,
+                            selectedDate: selectedDate,
+                            reservationStart: startTime,
+                            reservationEnd: endtTime,
+                            tableName: tableName,
+                            gameName: reservations[index].gameName
+                          ),
                         ),
-                      ),
-                      CustomIconButton(
-                        icon:
-                            const IconData(0xeeaa, fontFamily: 'MaterialIcons'),
-                        onPressed: () {
-                          try {
-                            FirebaseFirestore.instance
-                                .collection("reservations")
-                                .doc(snapshot.data!.docs[index].id)
-                                .delete()
-                                .then((_) {
-                              log("Reservation deleted");
-                            });
-                          } on FirebaseException catch (e) {
-                            log(e.message!);
-                            toastification.show(
-                                title: Text(e.message!),
-                                autoCloseDuration: const Duration(seconds: 5),
-                                type: ToastificationType.error);
-                          }
-                        },
-                      ),
-                    ],
-                  );
-                },
-              );
-            },
-          ),
-        ],
-      ),
+                        CustomIconButton(
+                          icon:
+                              const IconData(0xeeaa, fontFamily: 'MaterialIcons'),
+                          onPressed: () {
+                            try {
+                              FirebaseFirestore.instance
+                                  .collection("reservations")
+                                  .doc(reservations[index].id)
+                                  .delete()
+                                  .then((_) {
+                                log("Reservation deleted");
+                              });
+                            } on FirebaseException catch (e) {
+                              log(e.message!);
+                              toastification.show(
+                                  title: Text(e.message!),
+                                  autoCloseDuration: const Duration(seconds: 5),
+                                  type: ToastificationType.error);
+                            }
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                )
+              ]
+            )
+          );
+        }
+      }
     );
   }
 }
