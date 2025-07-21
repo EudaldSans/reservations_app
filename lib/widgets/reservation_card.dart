@@ -2,12 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 
-Text createReservationText(Timestamp startTime, Timestamp endTime) {
+Text createReservationText(BuildContext context, Timestamp startTime, Timestamp endTime) {
   String formattedStart = DateFormat('kk:mm').format(
       DateTime.fromMillisecondsSinceEpoch(startTime.millisecondsSinceEpoch));
   String dormattedEnd = DateFormat('kk:mm').format(
       DateTime.fromMillisecondsSinceEpoch(endTime.millisecondsSinceEpoch));
-  return Text('$formattedStart - $dormattedEnd');
+  return Text(
+    '$formattedStart - $dormattedEnd',
+    style: TextStyle(
+      fontWeight: FontWeight.bold,
+      color: Theme.of(context).primaryColor,
+    ),
+  );
 }
 
 class ReservationCard extends StatelessWidget {
@@ -82,6 +88,10 @@ class ReservationCard extends StatelessWidget {
                   const SizedBox(width: 4),
                   Text(
                     DateFormat('d MMM').format(selectedDate),
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).primaryColor,
+                    ),
                   ),
                   const SizedBox(width: 12),
                   Icon(
@@ -89,7 +99,7 @@ class ReservationCard extends StatelessWidget {
                     size: 16,
                   ),
                   const SizedBox(width: 4),
-                  createReservationText(reservationStart, reservationEnd),
+                  createReservationText(context, reservationStart, reservationEnd),
                 ],
               )
             ],
@@ -104,6 +114,10 @@ class ReservationCard extends StatelessWidget {
               const SizedBox(width: 4),
               Text(
                 gameName,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).primaryColor,
+                ),
               ),
             ],
           )  
