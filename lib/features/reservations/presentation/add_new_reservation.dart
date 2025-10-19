@@ -147,24 +147,27 @@ class _ReserveTableState extends State<ReserveTable> {
       appBar: AppBar(
         title: Text(DateFormat('d-MMM').format(widget.selectedDate)),
       ),
-      body: Container(
-        constraints: const BoxConstraints(maxWidth: 550),
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const SizedBox(height: 10),
-              if (_isLoading)
-                const Center(child: CircularProgressIndicator())
-              else
-                _buildTimePicker(),
-
-              const SizedBox(height: 20),
-              gameSelector,
-              const SizedBox(height: 20),
-              submitButton,
-            ],
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Container(
+          constraints: const BoxConstraints(maxWidth: 550),
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SizedBox(height: 10),
+                if (_isLoading)
+                  const Center(child: CircularProgressIndicator())
+                else
+                  _buildTimePicker(),
+        
+                const SizedBox(height: 20),
+                gameSelector,
+                const SizedBox(height: 20),
+                submitButton,
+              ],
+            ),
           ),
         ),
       ),
