@@ -84,4 +84,8 @@ class AuthController {
     _userRepository.deleteUser(currentUser.uid);
     _authService.deleteCurrentUser();
   }
+
+  Future<void> resetPassword(String email) async {
+    await _authService.sendPasswordResetEmail(email);
+  }
 }

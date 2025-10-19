@@ -68,6 +68,27 @@ class _LoginScreenState extends State<LoginScreen> {
                   return null;
                 },
               ),
+
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton(
+                  onPressed: () {
+                    final email = _email.text.trim();
+                    if (email.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Please enter your email to reset password')),
+                      );
+                      return;
+                    }
+                    _authController.resetPassword(email);
+                  },
+                  child: const Text(
+                    "Forgot Password?",
+                    style: TextStyle(color: Colors.red),
+                  ),
+                ),
+              ),
+
               const SizedBox(height: 30),
               CustomButton(
                 label: "Login",
