@@ -5,6 +5,7 @@ import 'package:reservations_app/features/reservations/presentation/delete_reser
 import 'package:reservations_app/features/reservations/presentation/make_reservations_screen.dart';
 import 'package:reservations_app/widgets/reserve_table_buttons.dart';
 import 'package:reservations_app/features/authentication/presentation/auth_controller.dart';
+import 'package:reservations_app/l10n/app_localizations.dart';
 
 enum Page { makeReservationsPage, deleteReservationsPage, userProfilePage, unknownPage }
 
@@ -23,21 +24,22 @@ class _MyHomeScreenState extends State<HomeScreen> {
   
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     Widget page;
 
     // Figure out which page we should show
     switch (selectedIndex) {
       case Page.makeReservationsPage:
         page = const MakeReservationsScreen();
-        pageTitle = 'New reservation';
+        pageTitle = l10n.newReservation;
         break;
       case Page.deleteReservationsPage:
         page = const DeleteReservationsScreen();
-        pageTitle = 'My reservations';
+        pageTitle = l10n.myReservations;
         break;
       case Page.userProfilePage:
         page = const UserProfileScreen();
-        pageTitle = "User profile";
+        pageTitle = l10n.userProfile;
         break;
       default:
         throw UnimplementedError('no widget for $selectedIndex');

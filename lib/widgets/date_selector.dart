@@ -30,8 +30,10 @@ class _DateSelectorState extends State<DateSelector> {
 
   @override
   Widget build(BuildContext context) {
+    final locale = Localizations.localeOf(context).toString();
     List<DateTime> weekDates = generateWeekDates(weekOffset);
-    String monthName = DateFormat('MMMM').format(weekDates.first);
+    String monthName = toBeginningOfSentenceCase(
+        DateFormat('MMMM', locale).format(weekDates.first), locale)!;
 
     return Column(
       children: [
@@ -119,8 +121,9 @@ class _DateSelectorState extends State<DateSelector> {
                         ),
                         const SizedBox(height: 3),
                         Text(
-                          DateFormat('E')
-                              .format(date), // Short weekday (Mon, Tue, etc.)
+                          toBeginningOfSentenceCase(
+                              DateFormat('E', locale).format(date),
+                              locale)!, // Short weekday (Mon, Tue, etc.)
                           style: TextStyle(
                             color: textColor,
                             fontSize: 16,

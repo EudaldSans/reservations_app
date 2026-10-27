@@ -2,6 +2,7 @@ import 'package:reservations_app/app_routes.dart';
 import 'package:reservations_app/features/authentication/presentation/auth_controller.dart';
 import 'package:reservations_app/widgets/button.dart';
 import 'package:reservations_app/widgets/textfield.dart';
+import 'package:reservations_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -26,6 +27,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25),
@@ -34,36 +37,36 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             children: [
               const Spacer(),
-              const Text("Login",
-                  style: TextStyle(fontSize: 40, fontWeight: FontWeight.w500)),
+              Text(l10n.login,
+                  style: const TextStyle(fontSize: 40, fontWeight: FontWeight.w500)),
               const SizedBox(height: 50),
               CustomTextField(
-                hint: "Enter Email",
-                label: "Email",
+                hint: l10n.enterEmail,
+                label: l10n.email,
                 controller: _email,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter your email';
+                    return l10n.validationEnterEmail;
                   }
                   if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
                       .hasMatch(value)) {
-                    return 'Please enter a valid email';
+                    return l10n.validationValidEmail;
                   }
                   return null;
                 },
               ),
               const SizedBox(height: 20),
               CustomTextField(
-                hint: "Enter Password",
-                label: "Password",
+                hint: l10n.enterPassword,
+                label: l10n.password,
                 controller: _password,
                 isPassword: true,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter your password';
+                    return l10n.validationEnterPassword;
                   }
                   if (value.length < 6) {
-                    return 'Password must be at least 6 characters';
+                    return l10n.validationPasswordLength;
                   }
                   return null;
                 },
@@ -76,22 +79,22 @@ class _LoginScreenState extends State<LoginScreen> {
                     final email = _email.text.trim();
                     if (email.isEmpty) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Please enter your email to reset password')),
+                        SnackBar(content: Text(l10n.enterEmailToResetPassword)),
                       );
                       return;
                     }
-                    _authController.resetPassword(email);
+                    _authController.resetPassword(context, email);
                   },
-                  child: const Text(
-                    "Forgot Password?",
-                    style: TextStyle(color: Colors.red),
+                  child: Text(
+                    l10n.forgotPassword,
+                    style: const TextStyle(color: Colors.red),
                   ),
                 ),
               ),
 
               const SizedBox(height: 30),
               CustomButton(
-                label: "Login",
+                label: l10n.login,
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     _authController.loginUser(context, _email.text, _password.text);
@@ -100,11 +103,11 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const SizedBox(height: 5),
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                const Text("Don't have an account? "),
+                Text("${l10n.noAccountPrompt} "),
                 InkWell(
                   onTap: () => AppRoutes.navigateTo(context, AppRoutes.signup),
                   child:
-                      const Text("Signup", style: TextStyle(color: Colors.red)),
+                      Text(l10n.signup, style: const TextStyle(color: Colors.red)),
                 )
               ]),
               const Spacer()

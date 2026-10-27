@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:reservations_app/app_routes.dart';
 import 'package:reservations_app/features/authentication/data/firebase_options.dart';
+import 'package:reservations_app/l10n/app_localizations.dart';
 import 'package:toastification/toastification.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -26,7 +27,9 @@ class MainApp extends StatelessWidget {
       initialRoute: (user != null) ? AppRoutes.home : AppRoutes.login,
       routes: AppRoutes.routes,
       onUnknownRoute: AppRoutes.onUnknownRoute,
-      title: 'Reservations App',
+      onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       theme: ThemeData(
         primarySwatch: Colors.blue,
         primaryColor: Colors.blueAccent,

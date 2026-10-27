@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:reservations_app/features/authentication/presentation/login_screen.dart';
 import 'package:reservations_app/features/authentication/presentation/signup_screen.dart';
 import 'package:reservations_app/features/home/presentation/home_screen.dart';
+import 'package:reservations_app/l10n/app_localizations.dart';
 
 class AppRoutes {
   // Route names as constants
@@ -24,9 +25,10 @@ class AppRoutes {
   // Handle unknown routes
   static Route<dynamic> onUnknownRoute(RouteSettings settings) {
     return MaterialPageRoute(
-      builder: (_) => Scaffold(
+      builder: (context) => Scaffold(
         body: Center(
-          child: Text('No route defined for ${settings.name}'),
+          child: Text(AppLocalizations.of(context)
+              .noRouteDefined(settings.name ?? '')),
         ),
       ),
     );

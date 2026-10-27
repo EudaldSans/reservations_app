@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
+import 'package:reservations_app/l10n/app_localizations.dart';
 
 Text createReservationText(BuildContext context, Timestamp startTime, Timestamp endTime) {
   String formattedStart = DateFormat('kk:mm').format(
@@ -64,7 +65,7 @@ class ReservationCard extends StatelessWidget {
                   }
                   if (!snapshot.hasData) {
                     return Text(
-                      'Unknown Table',
+                      AppLocalizations.of(context).unknownTable,
                       style: TextStyle(color: Theme.of(context).primaryColor),
                     );
                   }
@@ -87,7 +88,8 @@ class ReservationCard extends StatelessWidget {
                   ),
                   const SizedBox(width: 4),
                   Text(
-                    DateFormat('d MMM').format(selectedDate),
+                    DateFormat('d MMM', Localizations.localeOf(context).toString())
+                        .format(selectedDate),
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Theme.of(context).primaryColor,

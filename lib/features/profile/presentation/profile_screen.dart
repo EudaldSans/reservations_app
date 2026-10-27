@@ -10,6 +10,7 @@ import 'package:reservations_app/features/authentication/presentation/auth_contr
 // Widgets
 import 'package:toastification/toastification.dart';
 import 'package:reservations_app/widgets/alert_dialog.dart';
+import 'package:reservations_app/l10n/app_localizations.dart';
 
 class UserProfileScreen extends StatefulWidget {
   const UserProfileScreen({super.key});
@@ -32,11 +33,12 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
   Future<void> _loadUser() async {
     final user = await _authController.getCurrentUserData();
+    if (!mounted) return;
 
     if (user == null) {
       log("Could not find current user!");
       toastification.show(
-          title: Text("Could not find current user!"),
+          title: Text(AppLocalizations.of(context).couldNotFindUser),
           autoCloseDuration: const Duration(seconds: 5),
           type: ToastificationType.error);
       return;
@@ -51,6 +53,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final dateFormat = DateFormat('yyyy-MM-dd HH:mm');
 
     return Center(
@@ -82,22 +85,22 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               style: TextStyle(fontSize: 16, color: Colors.grey[600]),
             ),
             const SizedBox(height: 16),
-            _buildInfoRow("ID", _user.id),
-            _buildInfoRow("Created", dateFormat.format(_user.createdAt)),
+            _buildInfoRow(l10n.profileId, _user.id),
+            _buildInfoRow(l10n.profileCreated, dateFormat.format(_user.createdAt)),
             const SizedBox(height: 24),
             ElevatedButton.icon(
               onPressed: () {
                 // Add your delete logic here
                 showAlertDialog(context, 
-                  "This action will delete your user and all reservations, do you want to continue?",
+                  l10n.deleteUserWarning,
                   () {
-                    _authController.deleteCurrentUser();
+                    _authController.deleteCurrentUser(context);
                     AppRoutes.navigateTo(context, AppRoutes.login);
                   }
                 );
               },
               icon: const Icon(Icons.delete, color: Colors.white),
-              label: const Text("Delete User"),
+              label: Text(l10n.deleteUser),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.red,
                 foregroundColor: Colors.white,

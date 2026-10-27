@@ -6,6 +6,7 @@ import 'package:reservations_app/features/authentication/application/auth_servic
 import 'package:reservations_app/features/authentication/domain/user_model.dart';
 import 'package:reservations_app/features/authentication/data/user_repository.dart';
 import 'package:reservations_app/features/reservations/data/reservation_repository.dart';
+import 'package:reservations_app/l10n/app_localizations.dart';
 
 class AuthController {
   final _authService = AuthService();
@@ -14,12 +15,12 @@ class AuthController {
   final _auth = FirebaseAuth.instance;
 
   Future<void> signOutUser(BuildContext context) async {
-    await _authService.signout();
+    await _authService.signout(AppLocalizations.of(context));
   }
 
   Future<dynamic> loginUser(BuildContext context, String email, String password) async {
-    final user =
-        await _authService.loginUserWithEmailAndPassword(email, password);
+    final user = await _authService.loginUserWithEmailAndPassword(
+        AppLocalizations.of(context), email, password);
     if (user != null) {
       log("User Logged In");
 
@@ -37,8 +38,8 @@ class AuthController {
   }
 
   Future<dynamic> signupUser(BuildContext context, String name, String email, String password) async {
-    final user =
-        await _authService.createUserWithEmailAndPassword(email, password);
+    final user = await _authService.createUserWithEmailAndPassword(
+        AppLocalizations.of(context), email, password);
     if (user != null) {
       log("User Created Successfully");
 
@@ -72,7 +73,7 @@ class AuthController {
   }
 
   // Delete current user
-  void deleteCurrentUser() {
+  void deleteCurrentUser(BuildContext context) {
     final currentUser = _auth.currentUser;
 
     if (currentUser == null) {
@@ -82,10 +83,11 @@ class AuthController {
     
     _reservationRepository.deleteAllReservations(currentUser.uid);
     _userRepository.deleteUser(currentUser.uid);
-    _authService.deleteCurrentUser();
+    _authService.deleteCurrentUser(AppLocalizations.of(context));
   }
 
-  Future<void> resetPassword(String email) async {
-    await _authService.sendPasswordResetEmail(email);
+  Future<void> resetPassword(BuildContext context, String email) async {
+    await _authService.sendPasswordResetEmail(
+        AppLocalizations.of(context), email);
   }
 }

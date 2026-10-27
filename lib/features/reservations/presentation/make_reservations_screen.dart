@@ -8,6 +8,7 @@ import 'package:reservations_app/features/authentication/presentation/auth_contr
 import 'package:reservations_app/widgets/date_selector.dart';
 import 'package:reservations_app/widgets/table_card.dart';
 import 'package:reservations_app/widgets/reserve_table_buttons.dart';
+import 'package:reservations_app/l10n/app_localizations.dart';
 
 class MakeReservationsScreen extends StatefulWidget {
   const MakeReservationsScreen({super.key});
@@ -64,7 +65,7 @@ class _MakeReservationsScreenState extends State<MakeReservationsScreen> {
               child: CircularProgressIndicator(),
             )
           else if (tablesSnapshot == null || tablesSnapshot!.isEmpty)
-            const Text('No tables available')
+            Text(AppLocalizations.of(context).noTablesAvailable)
           else
             ValueListenableBuilder<DateTime>(
               valueListenable: selectedDateNotifier,

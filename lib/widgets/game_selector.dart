@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:reservations_app/features/reservations/domain/reservation_model.dart';
+import 'package:reservations_app/l10n/app_localizations.dart';
 
 class GameSelector extends StatefulWidget {
   final Function(String)? onGameChanged;
@@ -63,6 +64,8 @@ class _GameSelectorState extends State<GameSelector> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Material(
@@ -78,14 +81,14 @@ class _GameSelectorState extends State<GameSelector> {
             value: dropdownValue,
             decoration: InputDecoration(
               labelText:
-                  _isLoading ? 'Loading games...' : 'Select a game system',
+                  _isLoading ? l10n.loadingGames : l10n.selectGameSystem,
               border: InputBorder.none,
               floatingLabelBehavior: FloatingLabelBehavior.always,
-              errorText: _hasError ? 'Unable to load games' : null,
+              errorText: _hasError ? l10n.unableToLoadGames : null,
               suffixIcon: _hasError
                   ? IconButton(
                       icon: const Icon(Icons.refresh),
-                      tooltip: 'Retry loading games',
+                      tooltip: l10n.retryLoadingGames,
                       onPressed: _loadGames,
                     )
                   : null,
