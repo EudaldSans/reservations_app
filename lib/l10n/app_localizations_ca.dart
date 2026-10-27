@@ -110,6 +110,12 @@ class AppLocalizationsCa extends AppLocalizations {
   String get userProfile => 'Perfil d\'usuari';
 
   @override
+  String get language => 'Idioma';
+
+  @override
+  String get languageAutomatic => 'Automàtic';
+
+  @override
   String get profileId => 'ID';
 
   @override

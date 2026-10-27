@@ -286,6 +286,18 @@ abstract class AppLocalizations {
   /// **'User profile'**
   String get userProfile;
 
+  /// No description provided for @language.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get language;
+
+  /// No description provided for @languageAutomatic.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatic'**
+  String get languageAutomatic;
+
   /// No description provided for @profileId.
   ///
   /// In en, this message translates to:

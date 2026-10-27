@@ -108,6 +108,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get userProfile => 'User profile';
 
   @override
+  String get language => 'Language';
+
+  @override
+  String get languageAutomatic => 'Automatic';
+
+  @override
   String get profileId => 'ID';
 
   @override

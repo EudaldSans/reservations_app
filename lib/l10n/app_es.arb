@@ -37,6 +37,9 @@
   "myReservations": "Mis reservas",
   "userProfile": "Perfil de usuario",
 
+  "language": "Idioma",
+  "languageAutomatic": "Automático",
+
   "profileId": "ID",
   "profileCreated": "Creado",
   "deleteUser": "Eliminar usuario",

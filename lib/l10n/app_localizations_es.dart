@@ -112,6 +112,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get userProfile => 'Perfil de usuario';
 
   @override
+  String get language => 'Idioma';
+
+  @override
+  String get languageAutomatic => 'Automático';
+
+  @override
   String get profileId => 'ID';
 
   @override

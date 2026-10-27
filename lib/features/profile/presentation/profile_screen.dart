@@ -11,6 +11,7 @@ import 'package:reservations_app/features/authentication/presentation/auth_contr
 import 'package:toastification/toastification.dart';
 import 'package:reservations_app/widgets/alert_dialog.dart';
 import 'package:reservations_app/l10n/app_localizations.dart';
+import 'package:reservations_app/l10n/locale_controller.dart';
 
 class UserProfileScreen extends StatefulWidget {
   const UserProfileScreen({super.key});
@@ -21,9 +22,14 @@ class UserProfileScreen extends StatefulWidget {
 }
 
 class _UserProfileScreenState extends State<UserProfileScreen> {
+  // Dropdown value standing for "no language configured"
+  static const _automaticLanguage = 'auto';
+
   final selectedDateNotifier = ValueNotifier(DateTime.now());
   final AuthController _authController = AuthController();
   UserModel _user = UserModel(id: "id", name: "name", email: "email", createdAt: DateTime.now(), lastLogin: DateTime.now(), admin: false);
+  // Configured language code, null when automatic
+  String? _language;
 
   @override
   void initState() {
@@ -47,6 +53,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     if (mounted) {
       setState(() {
         _user = user;
+        _language = LocaleController.fromCode(user.language)?.languageCode;
       });
     }
   }
@@ -87,6 +94,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             const SizedBox(height: 16),
             _buildInfoRow(l10n.profileId, _user.id),
             _buildInfoRow(l10n.profileCreated, dateFormat.format(_user.createdAt)),
+            _buildLanguageRow(l10n),
             const SizedBox(height: 24),
             ElevatedButton.icon(
               onPressed: () {
@@ -108,6 +116,60 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Future<void> _onLanguageChanged(String? value) async {
+    if (value == null) return;
+
+    final language = value == _automaticLanguage ? null : value;
+    final l10n = AppLocalizations.of(context);
+
+    try {
+      await _authController.setLanguage(language);
+      if (!mounted) return;
+      setState(() {
+        _language = language;
+      });
+    } catch (e) {
+      log("Could not save language: $e");
+      toastification.show(
+          title: Text(l10n.genericError),
+          autoCloseDuration: const Duration(seconds: 5),
+          type: ToastificationType.error);
+    }
+  }
+
+  Widget _buildLanguageRow(AppLocalizations l10n) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      child: Row(
+        children: [
+          Text(
+            l10n.language,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(width: 8),
+          Expanded(
+            child: DropdownButton<String>(
+              isExpanded: true,
+              value: _language ?? _automaticLanguage,
+              onChanged: _onLanguageChanged,
+              items: [
+                DropdownMenuItem(
+                  value: _automaticLanguage,
+                  child: Text(l10n.languageAutomatic),
+                ),
+                for (final entry in LocaleController.languageNames.entries)
+                  DropdownMenuItem(
+                    value: entry.key,
+                    child: Text(entry.value),
+                  ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
