@@ -1,0 +1,71 @@
+{
+  "@@locale": "es",
+
+  "appTitle": "App de reservas",
+
+  "login": "Iniciar sesión",
+  "signup": "Registrarse",
+  "name": "Nombre",
+  "enterName": "Introduce tu nombre",
+  "email": "Correo electrónico",
+  "enterEmail": "Introduce tu correo electrónico",
+  "password": "Contraseña",
+  "enterPassword": "Introduce tu contraseña",
+  "forgotPassword": "¿Has olvidado la contraseña?",
+  "noAccountPrompt": "¿No tienes una cuenta?",
+  "haveAccountPrompt": "¿Ya tienes una cuenta?",
+
+  "validationEnterName": "Por favor, introduce tu nombre",
+  "validationEnterEmail": "Por favor, introduce tu correo electrónico",
+  "validationValidEmail": "Por favor, introduce un correo electrónico válido",
+  "validationEnterPassword": "Por favor, introduce tu contraseña",
+  "validationPasswordLength": "La contraseña debe tener al menos 6 caracteres",
+  "enterEmailToResetPassword": "Por favor, introduce tu correo electrónico para restablecer la contraseña",
+  "passwordResetEmailSent": "¡Correo de restablecimiento de contraseña enviado!",
+
+  "authInvalidEmail": "El correo electrónico no es válido.",
+  "authInvalidCredentials": "Correo electrónico o contraseña incorrectos.",
+  "authEmailAlreadyInUse": "Ya existe una cuenta con este correo electrónico.",
+  "authWeakPassword": "La contraseña es demasiado débil.",
+  "authTooManyRequests": "Demasiados intentos. Inténtalo de nuevo más tarde.",
+  "authNetworkError": "Error de red. Comprueba tu conexión e inténtalo de nuevo.",
+  "authRequiresRecentLogin": "Vuelve a iniciar sesión antes de hacer esto.",
+  "authUserDisabled": "Esta cuenta ha sido deshabilitada.",
+  "genericError": "Algo ha salido mal. Inténtalo de nuevo.",
+
+  "newReservation": "Nueva reserva",
+  "myReservations": "Mis reservas",
+  "userProfile": "Perfil de usuario",
+
+  "language": "Idioma",
+  "languageAutomatic": "Automático",
+
+  "profileId": "ID",
+  "profileCreated": "Creado",
+  "deleteUser": "Eliminar usuario",
+  "deleteUserWarning": "Esta acción eliminará tu usuario y todas tus reservas. ¿Quieres continuar?",
+  "couldNotFindUser": "¡No se ha podido encontrar el usuario actual!",
+
+  "dialogCareful": "¡Cuidado!",
+  "cancel": "Cancelar",
+  "confirm": "Confirmar",
+
+  "submit": "ENVIAR",
+  "reservationCreated": "¡Franja horaria reservada con éxito!",
+  "reservationCreateFailed": "No se ha podido crear la reserva",
+  "reservationLoginRequired": "Inicia sesión para hacer una reserva",
+  "reservationEqualTimes": "¡La hora de inicio y la de fin no pueden ser iguales!",
+  "reservationTooMany": "No puedes tener más de 5 reservas activas",
+  "reservationSlotUnavailable": "La franja horaria seleccionada no está disponible",
+
+  "noTablesAvailable": "No hay mesas disponibles",
+  "noReservedSlots": "No hay franjas reservadas",
+  "unknownTable": "Mesa desconocida",
+
+  "loadingGames": "Cargando juegos...",
+  "selectGameSystem": "Selecciona un sistema de juego",
+  "unableToLoadGames": "No se han podido cargar los juegos",
+  "retryLoadingGames": "Reintentar la carga de juegos",
+
+  "noRouteDefined": "No hay ninguna ruta definida para {routeName}"
+}

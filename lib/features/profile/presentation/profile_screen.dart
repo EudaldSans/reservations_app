@@ -10,6 +10,8 @@ import 'package:reservations_app/features/authentication/presentation/auth_contr
 // Widgets
 import 'package:toastification/toastification.dart';
 import 'package:reservations_app/widgets/alert_dialog.dart';
+import 'package:reservations_app/l10n/app_localizations.dart';
+import 'package:reservations_app/l10n/locale_controller.dart';
 
 class UserProfileScreen extends StatefulWidget {
   const UserProfileScreen({super.key});
@@ -20,9 +22,14 @@ class UserProfileScreen extends StatefulWidget {
 }
 
 class _UserProfileScreenState extends State<UserProfileScreen> {
+  // Dropdown value standing for "no language configured"
+  static const _automaticLanguage = 'auto';
+
   final selectedDateNotifier = ValueNotifier(DateTime.now());
   final AuthController _authController = AuthController();
   UserModel _user = UserModel(id: "id", name: "name", email: "email", createdAt: DateTime.now(), lastLogin: DateTime.now(), admin: false);
+  // Configured language code, null when automatic
+  String? _language;
 
   @override
   void initState() {
@@ -32,11 +39,12 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
   Future<void> _loadUser() async {
     final user = await _authController.getCurrentUserData();
+    if (!mounted) return;
 
     if (user == null) {
       log("Could not find current user!");
       toastification.show(
-          title: Text("Could not find current user!"),
+          title: Text(AppLocalizations.of(context).couldNotFindUser),
           autoCloseDuration: const Duration(seconds: 5),
           type: ToastificationType.error);
       return;
@@ -45,12 +53,14 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     if (mounted) {
       setState(() {
         _user = user;
+        _language = LocaleController.fromCode(user.language)?.languageCode;
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final dateFormat = DateFormat('yyyy-MM-dd HH:mm');
 
     return Center(
@@ -82,22 +92,23 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               style: TextStyle(fontSize: 16, color: Colors.grey[600]),
             ),
             const SizedBox(height: 16),
-            _buildInfoRow("ID", _user.id),
-            _buildInfoRow("Created", dateFormat.format(_user.createdAt)),
+            _buildInfoRow(l10n.profileId, _user.id),
+            _buildInfoRow(l10n.profileCreated, dateFormat.format(_user.createdAt)),
+            _buildLanguageRow(l10n),
             const SizedBox(height: 24),
             ElevatedButton.icon(
               onPressed: () {
                 // Add your delete logic here
                 showAlertDialog(context, 
-                  "This action will delete your user and all reservations, do you want to continue?",
+                  l10n.deleteUserWarning,
                   () {
-                    _authController.deleteCurrentUser();
+                    _authController.deleteCurrentUser(context);
                     AppRoutes.navigateTo(context, AppRoutes.login);
                   }
                 );
               },
               icon: const Icon(Icons.delete, color: Colors.white),
-              label: const Text("Delete User"),
+              label: Text(l10n.deleteUser),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.red,
                 foregroundColor: Colors.white,
@@ -105,6 +116,60 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Future<void> _onLanguageChanged(String? value) async {
+    if (value == null) return;
+
+    final language = value == _automaticLanguage ? null : value;
+    final l10n = AppLocalizations.of(context);
+
+    try {
+      await _authController.setLanguage(language);
+      if (!mounted) return;
+      setState(() {
+        _language = language;
+      });
+    } catch (e) {
+      log("Could not save language: $e");
+      toastification.show(
+          title: Text(l10n.genericError),
+          autoCloseDuration: const Duration(seconds: 5),
+          type: ToastificationType.error);
+    }
+  }
+
+  Widget _buildLanguageRow(AppLocalizations l10n) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      child: Row(
+        children: [
+          Text(
+            l10n.language,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(width: 8),
+          Expanded(
+            child: DropdownButton<String>(
+              isExpanded: true,
+              value: _language ?? _automaticLanguage,
+              onChanged: _onLanguageChanged,
+              items: [
+                DropdownMenuItem(
+                  value: _automaticLanguage,
+                  child: Text(l10n.languageAutomatic),
+                ),
+                for (final entry in LocaleController.languageNames.entries)
+                  DropdownMenuItem(
+                    value: entry.key,
+                    child: Text(entry.value),
+                  ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

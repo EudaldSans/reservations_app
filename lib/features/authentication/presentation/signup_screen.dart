@@ -2,6 +2,7 @@ import 'package:reservations_app/app_routes.dart';
 import 'package:reservations_app/features/authentication/presentation/auth_controller.dart';
 import 'package:reservations_app/widgets/button.dart';
 import 'package:reservations_app/widgets/textfield.dart';
+import 'package:reservations_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -28,6 +29,8 @@ class _SignupScreenState extends State<SignupScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25),
@@ -36,57 +39,57 @@ class _SignupScreenState extends State<SignupScreen> {
           child: Column(
             children: [
               const Spacer(),
-              const Text("Signup",
-                  style: TextStyle(fontSize: 40, fontWeight: FontWeight.w500)),
+              Text(l10n.signup,
+                  style: const TextStyle(fontSize: 40, fontWeight: FontWeight.w500)),
               const SizedBox(
                 height: 50,
               ),
               CustomTextField(
-                hint: "Enter Name",
-                label: "Name",
+                hint: l10n.enterName,
+                label: l10n.name,
                 controller: _name,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter your name';
+                    return l10n.validationEnterName;
                   }
                   return null;
                 },
               ),
               const SizedBox(height: 20),
               CustomTextField(
-                hint: "Enter Email",
-                label: "Email",
+                hint: l10n.enterEmail,
+                label: l10n.email,
                 controller: _email,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter your email';
+                    return l10n.validationEnterEmail;
                   }
                   if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
                       .hasMatch(value)) {
-                    return 'Please enter a valid email';
+                    return l10n.validationValidEmail;
                   }
                   return null;
                 },
               ),
               const SizedBox(height: 20),
               CustomTextField(
-                hint: "Enter Password",
-                label: "Password",
+                hint: l10n.enterPassword,
+                label: l10n.password,
                 isPassword: true,
                 controller: _password,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter your password';
+                    return l10n.validationEnterPassword;
                   }
                   if (value.length < 6) {
-                    return 'Password must be at least 6 characters';
+                    return l10n.validationPasswordLength;
                   }
                   return null;
                 },
               ),
               const SizedBox(height: 30),
               CustomButton(
-                label: "Signup",
+                label: l10n.signup,
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     _authController.signupUser(
@@ -96,12 +99,12 @@ class _SignupScreenState extends State<SignupScreen> {
               ),
               const SizedBox(height: 5),
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                const Text("Already have an account? "),
+                Text("${l10n.haveAccountPrompt} "),
                 InkWell(
                   onTap: () =>
                       AppRoutes.navigateToAndReplace(context, AppRoutes.login),
                   child:
-                      const Text("Login", style: TextStyle(color: Colors.red)),
+                      Text(l10n.login, style: const TextStyle(color: Colors.red)),
                 )
               ]),
               const Spacer()

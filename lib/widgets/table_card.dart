@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
+import 'package:reservations_app/l10n/app_localizations.dart';
 import 'package:reservations_app/features/reservations/data/reservation_repository.dart';
 
 Row createReservationText(BuildContext context, Timestamp startTime, Timestamp endTime, String userName, String gameName) {
@@ -138,13 +139,13 @@ class _TableCardState extends State<TableCard> {
                 );
               }
               if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                return Text('No reserved slots',
+                return Text(AppLocalizations.of(context).noReservedSlots,
                     style: TextStyle(color: Colors.grey[500]));
               }
 
               final reservationList = snapshot.data;
               if (reservationList == null) {
-                return Text('No reserved slots',
+                return Text(AppLocalizations.of(context).noReservedSlots,
                     style: TextStyle(color: Colors.grey[500]));
               }
 

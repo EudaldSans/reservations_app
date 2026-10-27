@@ -8,6 +8,10 @@ class UserModel {
   final DateTime lastLogin;
   final bool admin;
 
+  /// Preferred language code (e.g. 'es'). Null means automatic: follow the
+  /// device / browser language.
+  final String? language;
+
   UserModel({
     required this.id,
     required this.name,
@@ -15,6 +19,7 @@ class UserModel {
     required this.createdAt,
     required this.lastLogin,
     required this.admin,
+    this.language,
   });
 
   // Create from Firebase authentication data plus name
@@ -44,6 +49,9 @@ class UserModel {
       'createdAt': Timestamp.fromDate(createdAt),
       'lastLogin': Timestamp.fromDate(lastLogin),
       'admin': false,
+      // Omitted when unset so saving never overwrites a stored preference;
+      // clearing it is done explicitly in UserRepository.updateLanguage.
+      if (language != null) 'language': language,
     };
   }
 
@@ -55,6 +63,7 @@ class UserModel {
       email: email,
       createdAt: createdAt,
       admin: admin,
+      language: language,
       lastLogin: DateTime.now(),
     );
   }
@@ -67,6 +76,7 @@ class UserModel {
       name: data['name'] ?? '',
       email: data['email'] ?? '',
       admin: data['admin'] ?? false,
+      language: data['language'] as String?,
       createdAt: (data['createdAt'] as Timestamp).toDate(),
       lastLogin: data['lastLogin'] != null
           ? (data['lastLogin'] as Timestamp).toDate()

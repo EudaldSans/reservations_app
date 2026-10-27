@@ -19,6 +19,17 @@ class UserRepository {
     }
   }
 
+  // Set the user's preferred language, or remove it (null = automatic)
+  Future<void> updateLanguage(String userId, String? language) async {
+    try {
+      await _firestore.collection(_collection).doc(userId).update({
+        'language': language ?? FieldValue.delete(),
+      });
+    } catch (e) {
+      throw Exception('Failed to update language: $e');
+    }
+  }
+
   // Get a user by their ID
   Future<UserModel?> getUserById(String userId) async {
     try {

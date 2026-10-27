@@ -10,6 +10,8 @@ import 'package:reservations_app/widgets/game_selector.dart';
 import 'package:reservations_app/widgets/time_ranges.dart';
 import 'package:reservations_app/features/reservations/data/reservation_repository.dart';
 
+import 'package:reservations_app/l10n/app_localizations.dart';
+
 import '../domain/reservation_model.dart';
 import 'reservation_controller.dart';
 
@@ -84,6 +86,22 @@ class _ReserveTableState extends State<ReserveTable> {
     }
   }
 
+  String _errorMessage(AppLocalizations l10n, ReservationError? error) {
+    switch (error) {
+      case ReservationError.userNotAuthenticated:
+        return l10n.reservationLoginRequired;
+      case ReservationError.equalStartAndEndTimes:
+        return l10n.reservationEqualTimes;
+      case ReservationError.tooManyActiveReservations:
+        return l10n.reservationTooMany;
+      case ReservationError.timeSlotNotAvailable:
+        return l10n.reservationSlotUnavailable;
+      case ReservationError.unknown:
+      case null:
+        return l10n.reservationCreateFailed;
+    }
+  }
+
   Future<void> _onSubmit() async {
     setState(() {
       _isLoading = true;
@@ -103,7 +121,7 @@ class _ReserveTableState extends State<ReserveTable> {
     if (result.success) {
       toastification.show(
         context: context,
-        title: const Text("Time slot successfully reserved!"),
+        title: Text(AppLocalizations.of(context).reservationCreated),
         autoCloseDuration: const Duration(seconds: 5),
         type: ToastificationType.success,
       );
@@ -115,7 +133,8 @@ class _ReserveTableState extends State<ReserveTable> {
 
       toastification.show(
         context: context,
-        title: Text(result.message ?? "Failed to create reservation"),
+        title: Text(
+            _errorMessage(AppLocalizations.of(context), result.error)),
         autoCloseDuration: const Duration(seconds: 5),
         type: ToastificationType.error,
       );
@@ -124,6 +143,9 @@ class _ReserveTableState extends State<ReserveTable> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final locale = Localizations.localeOf(context).toString();
+
     // Build submit button
     ElevatedButton submitButton = ElevatedButton(
       onPressed: _isLoading ? null : _onSubmit,
@@ -134,7 +156,7 @@ class _ReserveTableState extends State<ReserveTable> {
               child: CircularProgressIndicator(strokeWidth: 2),
             )
           : Text(
-              'SUBMIT',
+              l10n.submit,
               style: TextStyle(
                 fontSize: 16,
                 color: Colors.grey.shade800,
@@ -145,7 +167,7 @@ class _ReserveTableState extends State<ReserveTable> {
     // Build main scaffold
     Scaffold scaffold = Scaffold(
       appBar: AppBar(
-        title: Text(DateFormat('d-MMM').format(widget.selectedDate)),
+        title: Text(DateFormat('d-MMM', locale).format(widget.selectedDate)),
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,

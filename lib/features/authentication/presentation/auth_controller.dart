@@ -6,6 +6,8 @@ import 'package:reservations_app/features/authentication/application/auth_servic
 import 'package:reservations_app/features/authentication/domain/user_model.dart';
 import 'package:reservations_app/features/authentication/data/user_repository.dart';
 import 'package:reservations_app/features/reservations/data/reservation_repository.dart';
+import 'package:reservations_app/l10n/app_localizations.dart';
+import 'package:reservations_app/l10n/locale_controller.dart';
 
 class AuthController {
   final _authService = AuthService();
@@ -14,18 +16,22 @@ class AuthController {
   final _auth = FirebaseAuth.instance;
 
   Future<void> signOutUser(BuildContext context) async {
-    await _authService.signout();
+    await _authService.signout(AppLocalizations.of(context));
+    // Back to the device / browser language for the login screen
+    LocaleController.setLanguage(null);
   }
 
   Future<dynamic> loginUser(BuildContext context, String email, String password) async {
-    final user =
-        await _authService.loginUserWithEmailAndPassword(email, password);
+    final user = await _authService.loginUserWithEmailAndPassword(
+        AppLocalizations.of(context), email, password);
     if (user != null) {
       log("User Logged In");
 
       // Update lastLogin timestamp
       final existingUser = await _userRepository.getUserById(user.uid);
       if (existingUser != null) {
+        LocaleController.setLanguage(existingUser.language);
+
         // Update lastLogin
         final updatedUser = existingUser.copyWithUpdatedLogin();
         await _userRepository.saveUser(updatedUser);
@@ -37,8 +43,8 @@ class AuthController {
   }
 
   Future<dynamic> signupUser(BuildContext context, String name, String email, String password) async {
-    final user =
-        await _authService.createUserWithEmailAndPassword(email, password);
+    final user = await _authService.createUserWithEmailAndPassword(
+        AppLocalizations.of(context), email, password);
     if (user != null) {
       log("User Created Successfully");
 
@@ -72,7 +78,7 @@ class AuthController {
   }
 
   // Delete current user
-  void deleteCurrentUser() {
+  void deleteCurrentUser(BuildContext context) {
     final currentUser = _auth.currentUser;
 
     if (currentUser == null) {
@@ -82,10 +88,25 @@ class AuthController {
     
     _reservationRepository.deleteAllReservations(currentUser.uid);
     _userRepository.deleteUser(currentUser.uid);
-    _authService.deleteCurrentUser();
+    _authService.deleteCurrentUser(AppLocalizations.of(context));
+    LocaleController.setLanguage(null);
   }
 
-  Future<void> resetPassword(String email) async {
-    await _authService.sendPasswordResetEmail(email);
+  /// Save the current user's preferred language (null = automatic) and apply
+  /// it right away.
+  Future<void> setLanguage(String? language) async {
+    final currentUser = _auth.currentUser;
+    if (currentUser == null) {
+      log("Current user is null!");
+      return;
+    }
+
+    await _userRepository.updateLanguage(currentUser.uid, language);
+    LocaleController.setLanguage(language);
+  }
+
+  Future<void> resetPassword(BuildContext context, String email) async {
+    await _authService.sendPasswordResetEmail(
+        AppLocalizations.of(context), email);
   }
 }

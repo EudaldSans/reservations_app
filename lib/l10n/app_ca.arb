@@ -1,0 +1,71 @@
+{
+  "@@locale": "ca",
+
+  "appTitle": "Aplicació de reserves",
+
+  "login": "Inicia la sessió",
+  "signup": "Registra't",
+  "name": "Nom",
+  "enterName": "Introdueix el teu nom",
+  "email": "Correu electrònic",
+  "enterEmail": "Introdueix el teu correu electrònic",
+  "password": "Contrasenya",
+  "enterPassword": "Introdueix la teva contrasenya",
+  "forgotPassword": "Has oblidat la contrasenya?",
+  "noAccountPrompt": "No tens un compte?",
+  "haveAccountPrompt": "Ja tens un compte?",
+
+  "validationEnterName": "Introdueix el teu nom",
+  "validationEnterEmail": "Introdueix el teu correu electrònic",
+  "validationValidEmail": "Introdueix un correu electrònic vàlid",
+  "validationEnterPassword": "Introdueix la teva contrasenya",
+  "validationPasswordLength": "La contrasenya ha de tenir almenys 6 caràcters",
+  "enterEmailToResetPassword": "Introdueix el teu correu electrònic per restablir la contrasenya",
+  "passwordResetEmailSent": "S'ha enviat el correu de restabliment de la contrasenya!",
+
+  "authInvalidEmail": "El correu electrònic no és vàlid.",
+  "authInvalidCredentials": "Correu electrònic o contrasenya incorrectes.",
+  "authEmailAlreadyInUse": "Ja existeix un compte amb aquest correu electrònic.",
+  "authWeakPassword": "La contrasenya és massa dèbil.",
+  "authTooManyRequests": "Massa intents. Torna-ho a provar més tard.",
+  "authNetworkError": "Error de xarxa. Comprova la connexió i torna-ho a provar.",
+  "authRequiresRecentLogin": "Torna a iniciar la sessió abans de fer això.",
+  "authUserDisabled": "Aquest compte ha estat deshabilitat.",
+  "genericError": "Alguna cosa ha anat malament. Torna-ho a provar.",
+
+  "newReservation": "Nova reserva",
+  "myReservations": "Les meves reserves",
+  "userProfile": "Perfil d'usuari",
+
+  "language": "Idioma",
+  "languageAutomatic": "Automàtic",
+
+  "profileId": "ID",
+  "profileCreated": "Creat",
+  "deleteUser": "Elimina l'usuari",
+  "deleteUserWarning": "Aquesta acció eliminarà el teu usuari i totes les teves reserves. Vols continuar?",
+  "couldNotFindUser": "No s'ha pogut trobar l'usuari actual!",
+
+  "dialogCareful": "Compte!",
+  "cancel": "Cancel·la",
+  "confirm": "Confirma",
+
+  "submit": "ENVIA",
+  "reservationCreated": "Franja horària reservada correctament!",
+  "reservationCreateFailed": "No s'ha pogut crear la reserva",
+  "reservationLoginRequired": "Inicia la sessió per fer una reserva",
+  "reservationEqualTimes": "L'hora d'inici i la de fi no poden ser iguals!",
+  "reservationTooMany": "No pots tenir més de 5 reserves actives",
+  "reservationSlotUnavailable": "La franja horària seleccionada no està disponible",
+
+  "noTablesAvailable": "No hi ha taules disponibles",
+  "noReservedSlots": "No hi ha franges reservades",
+  "unknownTable": "Taula desconeguda",
+
+  "loadingGames": "Carregant jocs...",
+  "selectGameSystem": "Selecciona un sistema de joc",
+  "unableToLoadGames": "No s'han pogut carregar els jocs",
+  "retryLoadingGames": "Torna a provar de carregar els jocs",
+
+  "noRouteDefined": "No hi ha cap ruta definida per a {routeName}"
+}

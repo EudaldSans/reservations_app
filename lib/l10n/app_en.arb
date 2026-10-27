@@ -1,0 +1,78 @@
+{
+  "@@locale": "en",
+
+  "appTitle": "Reservations App",
+
+  "login": "Login",
+  "signup": "Signup",
+  "name": "Name",
+  "enterName": "Enter Name",
+  "email": "Email",
+  "enterEmail": "Enter Email",
+  "password": "Password",
+  "enterPassword": "Enter Password",
+  "forgotPassword": "Forgot Password?",
+  "noAccountPrompt": "Don't have an account?",
+  "haveAccountPrompt": "Already have an account?",
+
+  "validationEnterName": "Please enter your name",
+  "validationEnterEmail": "Please enter your email",
+  "validationValidEmail": "Please enter a valid email",
+  "validationEnterPassword": "Please enter your password",
+  "validationPasswordLength": "Password must be at least 6 characters",
+  "enterEmailToResetPassword": "Please enter your email to reset password",
+  "passwordResetEmailSent": "Password reset email sent!",
+
+  "authInvalidEmail": "The email address is not valid.",
+  "authInvalidCredentials": "Incorrect email or password.",
+  "authEmailAlreadyInUse": "An account already exists for this email.",
+  "authWeakPassword": "The password is too weak.",
+  "authTooManyRequests": "Too many attempts. Please try again later.",
+  "authNetworkError": "Network error. Check your connection and try again.",
+  "authRequiresRecentLogin": "Please log in again before doing this.",
+  "authUserDisabled": "This account has been disabled.",
+  "genericError": "Something went wrong. Please try again.",
+
+  "newReservation": "New reservation",
+  "myReservations": "My reservations",
+  "userProfile": "User profile",
+
+  "language": "Language",
+  "languageAutomatic": "Automatic",
+
+  "profileId": "ID",
+  "profileCreated": "Created",
+  "deleteUser": "Delete User",
+  "deleteUserWarning": "This action will delete your user and all reservations, do you want to continue?",
+  "couldNotFindUser": "Could not find current user!",
+
+  "dialogCareful": "Careful!",
+  "cancel": "Cancel",
+  "confirm": "Confirm",
+
+  "submit": "SUBMIT",
+  "reservationCreated": "Time slot successfully reserved!",
+  "reservationCreateFailed": "Failed to create reservation",
+  "reservationLoginRequired": "Please login to make a reservation",
+  "reservationEqualTimes": "Start and end times should not be equal!",
+  "reservationTooMany": "You can't have more than 5 active reservations",
+  "reservationSlotUnavailable": "Selected time slot is not available",
+
+  "noTablesAvailable": "No tables available",
+  "noReservedSlots": "No reserved slots",
+  "unknownTable": "Unknown Table",
+
+  "loadingGames": "Loading games...",
+  "selectGameSystem": "Select a game system",
+  "unableToLoadGames": "Unable to load games",
+  "retryLoadingGames": "Retry loading games",
+
+  "noRouteDefined": "No route defined for {routeName}",
+  "@noRouteDefined": {
+    "placeholders": {
+      "routeName": {
+        "type": "String"
+      }
+    }
+  }
+}

@@ -14,6 +14,7 @@ import 'package:toastification/toastification.dart';
 import 'package:reservations_app/widgets/reservation_card.dart';
 import 'package:reservations_app/features/reservations/data/reservation_repository.dart';
 import 'package:reservations_app/features/reservations/domain/reservation_model.dart';
+import 'package:reservations_app/l10n/app_localizations.dart';
 
 class DeleteReservationsScreen extends StatefulWidget {
   const DeleteReservationsScreen({super.key});
@@ -90,7 +91,8 @@ class _DeleteReservationsScreenState extends State<DeleteReservationsScreen> {
                             } on FirebaseException catch (e) {
                               log(e.message!);
                               toastification.show(
-                                  title: Text(e.message!),
+                                  title: Text(
+                                      AppLocalizations.of(context).genericError),
                                   autoCloseDuration: const Duration(seconds: 5),
                                   type: ToastificationType.error);
                             }

@@ -13,6 +13,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 enum ReservationError {
   userNotAuthenticated,
   equalStartAndEndTimes,
+  tooManyActiveReservations,
   timeSlotNotAvailable,
   unknown
 }
@@ -20,23 +21,20 @@ enum ReservationError {
 class ReservationResult {
   final bool success;
   final ReservationError? error;
-  final String? message;
 
   ReservationResult({
     required this.success,
     this.error,
-    this.message,
   });
 
   static ReservationResult successful() {
     return ReservationResult(success: true);
   }
 
-  static ReservationResult failure(ReservationError error, [String? message]) {
+  static ReservationResult failure(ReservationError error) {
     return ReservationResult(
       success: false,
       error: error,
-      message: message,
     );
   }
 }
@@ -61,15 +59,13 @@ class ReservationController {
     final userId = repository.getCurrentUserId();
     if (userId == null) {
       log("User not authenticated");
-      return ReservationResult.failure(ReservationError.userNotAuthenticated,
-          "Please login to make a reservation");
+      return ReservationResult.failure(ReservationError.userNotAuthenticated);
     }
 
     // Validate times
     if (startTime.hour == endTime.hour && startTime.minute == endTime.minute) {
       log("Start and end times should not be equal!");
-      return ReservationResult.failure(ReservationError.equalStartAndEndTimes,
-          "Start and end times should not be equal!");
+      return ReservationResult.failure(ReservationError.equalStartAndEndTimes);
     }
 
     // Create DateTime objects from TimeOfDay
@@ -100,8 +96,7 @@ class ReservationController {
     log("Number of reservations: ${activeUserReservations.length}, admin ${currentUser!.admin}");
 
     if (!currentUser.admin && activeUserReservations.length > 5) {
-      return ReservationResult.failure(ReservationError.timeSlotNotAvailable,
-          "You can't have more than 5 active reservations");
+      return ReservationResult.failure(ReservationError.tooManyActiveReservations);
     }
 
     // Check availability
@@ -113,8 +108,7 @@ class ReservationController {
     );
 
     if (!isAvailable) {
-      return ReservationResult.failure(ReservationError.timeSlotNotAvailable,
-          "Selected time slot is not available");
+      return ReservationResult.failure(ReservationError.timeSlotNotAvailable);
     }
 
     // Create reservation
@@ -130,8 +124,7 @@ class ReservationController {
     if (success) {
       return ReservationResult.successful();
     } else {
-      return ReservationResult.failure(
-          ReservationError.unknown, "Failed to create reservation");
+      return ReservationResult.failure(ReservationError.unknown);
     }
   }
 
