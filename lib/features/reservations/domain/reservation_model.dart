@@ -4,14 +4,20 @@ class Reservation {
   final String id;
   final String userId;
   final String tableId;
+  final String gameName;
+  final String userName;
   final Timestamp startDate;
   final Timestamp endDate;
   final Timestamp creationDate;
+
+  static const String unavailableGameName = "N/A";
 
   const Reservation({
     required this.id,
     required this.userId,
     required this.tableId,
+    required this.userName,
+    required this.gameName,
     required this.startDate,
     required this.endDate,
     required this.creationDate,

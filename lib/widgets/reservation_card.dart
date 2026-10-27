@@ -2,12 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 
-Text createReservationText(Timestamp startTime, Timestamp endTime) {
+Text createReservationText(BuildContext context, Timestamp startTime, Timestamp endTime) {
   String formattedStart = DateFormat('kk:mm').format(
       DateTime.fromMillisecondsSinceEpoch(startTime.millisecondsSinceEpoch));
   String dormattedEnd = DateFormat('kk:mm').format(
       DateTime.fromMillisecondsSinceEpoch(endTime.millisecondsSinceEpoch));
-  return Text('$formattedStart - $dormattedEnd');
+  return Text(
+    '$formattedStart - $dormattedEnd',
+    style: TextStyle(
+      fontWeight: FontWeight.bold,
+      color: Theme.of(context).primaryColor,
+    ),
+  );
 }
 
 class ReservationCard extends StatelessWidget {
@@ -16,6 +22,7 @@ class ReservationCard extends StatelessWidget {
   final Timestamp reservationStart;
   final Timestamp reservationEnd;
   final String tableID;
+  final String gameName;
 
   const ReservationCard({
     super.key,
@@ -24,6 +31,7 @@ class ReservationCard extends StatelessWidget {
     required this.tableName,
     required this.selectedDate,
     required this.tableID,
+    required this.gameName
   });
 
   @override
@@ -36,14 +44,9 @@ class ReservationCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: Colors.grey.shade800, width: 1.5),
       ),
-      child: Row(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          const Icon(
-            Icons.table_restaurant,
-            size: 36,
-            color: Colors.grey,
-          ),
-          const SizedBox(width: 16),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -85,6 +88,10 @@ class ReservationCard extends StatelessWidget {
                   const SizedBox(width: 4),
                   Text(
                     DateFormat('d MMM').format(selectedDate),
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).primaryColor,
+                    ),
                   ),
                   const SizedBox(width: 12),
                   Icon(
@@ -92,11 +99,28 @@ class ReservationCard extends StatelessWidget {
                     size: 16,
                   ),
                   const SizedBox(width: 4),
-                  createReservationText(reservationStart, reservationEnd),
+                  createReservationText(context, reservationStart, reservationEnd),
                 ],
               )
             ],
           ),
+          Row(
+            children: [
+              const SizedBox(width: 4),
+              Icon(
+                Icons.casino_outlined,
+                size: 16,
+              ),
+              const SizedBox(width: 4),
+              Text(
+                gameName,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).primaryColor,
+                ),
+              ),
+            ],
+          )  
         ],
       ),
     );

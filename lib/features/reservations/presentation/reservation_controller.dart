@@ -55,6 +55,7 @@ class ReservationController {
     required TimeOfDay startTime,
     required TimeOfDay endTime,
     required String userName,
+    required String gameName
   }) async {
     // Check if user is authenticated
     final userId = repository.getCurrentUserId();
@@ -98,7 +99,7 @@ class ReservationController {
 
     log("Number of reservations: ${activeUserReservations.length}, admin ${currentUser!.admin}");
 
-    if (!currentUser!.admin && activeUserReservations.length > 5) {
+    if (!currentUser.admin && activeUserReservations.length > 5) {
       return ReservationResult.failure(ReservationError.timeSlotNotAvailable,
           "You can't have more than 5 active reservations");
     }
@@ -123,6 +124,7 @@ class ReservationController {
       startDate: startTimestamp,
       endDate: endTimestamp,
       userName: userName,
+      gameName: gameName,
     );
 
     if (success) {

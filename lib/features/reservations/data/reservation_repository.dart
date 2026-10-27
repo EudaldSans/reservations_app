@@ -52,6 +52,8 @@ class ReservationRepository {
         id: doc.id,
         userId: data['userID'],
         tableId: data['tableID'],
+        userName: data['userName'],
+        gameName: data['gameName'] ?? Reservation.unavailableGameName,
         startDate: data['startDate'],
         endDate: data['endDate'],
         creationDate: data['creationDate'] ?? Timestamp.now(),
@@ -77,6 +79,8 @@ class ReservationRepository {
         id: doc.id,
         userId: data['userID'],
         tableId: data['tableID'],
+        userName: data['userName'],
+        gameName: data['gameName'] ?? Reservation.unavailableGameName,
         startDate: data['startDate'],
         endDate: data['endDate'],
         creationDate: data['creationDate'] ?? Timestamp.now(),
@@ -97,6 +101,7 @@ class ReservationRepository {
     required Timestamp startDate,
     required Timestamp endDate,
     required String userName,
+    required String gameName,
   }) async {
     final id = uuidGenerator.v4();
 
@@ -108,6 +113,7 @@ class ReservationRepository {
         "startDate": startDate,
         "endDate": endDate,
         "userName": userName,
+        "gameName":gameName,
       });
 
       return true;
@@ -159,6 +165,8 @@ class ReservationRepository {
                 id: doc.id,
                 userId: data['userID'],
                 tableId: data['tableID'],
+                userName: data['userName'],
+                gameName: data['gameName'] ?? Reservation.unavailableGameName,
                 startDate: data['startDate'],
                 endDate: data['endDate'],
                 creationDate: data['creationDate'] ?? Timestamp.now(),
