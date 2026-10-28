@@ -184,6 +184,108 @@ class AppLocalizationsEn extends AppLocalizations {
   String get retryLoadingGames => 'Retry loading games';
 
   @override
+  String get adminPanel => 'Admin panel';
+
+  @override
+  String get adminTables => 'Tables';
+
+  @override
+  String get adminGames => 'Game systems';
+
+  @override
+  String get adminReservations => 'Reservations';
+
+  @override
+  String get adminAccessDenied => 'You don\'t have access to this page';
+
+  @override
+  String get backToApp => 'Back to the app';
+
+  @override
+  String get add => 'Add';
+
+  @override
+  String get edit => 'Edit';
+
+  @override
+  String get delete => 'Delete';
+
+  @override
+  String get save => 'Save';
+
+  @override
+  String get validationRequired => 'This field is required';
+
+  @override
+  String get validationPositiveNumber => 'Enter a whole number greater than 0';
+
+  @override
+  String get addTable => 'Add table';
+
+  @override
+  String get editTable => 'Edit table';
+
+  @override
+  String get tableName => 'Table name';
+
+  @override
+  String get tableLength => 'Length (cm)';
+
+  @override
+  String get tableWidth => 'Width (cm)';
+
+  @override
+  String get noTables => 'There are no tables yet';
+
+  @override
+  String deleteTableWarning(String tableName) {
+    return 'Delete \"$tableName\" and all of its reservations? This can\'t be undone.';
+  }
+
+  @override
+  String get gameName => 'Game system name';
+
+  @override
+  String get addGame => 'Add game system';
+
+  @override
+  String get gameAlreadyExists => 'This game system already exists';
+
+  @override
+  String get noGames => 'There are no game systems yet';
+
+  @override
+  String deleteGameWarning(String gameName) {
+    return 'Remove \"$gameName\" from the available game systems? Existing reservations keep their game name.';
+  }
+
+  @override
+  String get searchReservations => 'Search by user, table or game';
+
+  @override
+  String get reservationDate => 'Date';
+
+  @override
+  String get reservationTime => 'Time';
+
+  @override
+  String get reservationTable => 'Table';
+
+  @override
+  String get reservationUser => 'User';
+
+  @override
+  String get reservationGame => 'Game';
+
+  @override
+  String get noReservations => 'No reservations found';
+
+  @override
+  String deleteReservationWarning(String userName) {
+    return 'Delete the reservation of $userName?';
+  }
+
+  @override
   String noRouteDefined(String routeName) {
     return 'No route defined for $routeName';
   }

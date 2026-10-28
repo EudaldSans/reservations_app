@@ -67,6 +67,63 @@
   "unableToLoadGames": "Unable to load games",
   "retryLoadingGames": "Retry loading games",
 
+  "adminPanel": "Admin panel",
+  "adminTables": "Tables",
+  "adminGames": "Game systems",
+  "adminReservations": "Reservations",
+  "adminAccessDenied": "You don't have access to this page",
+  "backToApp": "Back to the app",
+  "add": "Add",
+  "edit": "Edit",
+  "delete": "Delete",
+  "save": "Save",
+  "validationRequired": "This field is required",
+  "validationPositiveNumber": "Enter a whole number greater than 0",
+
+  "addTable": "Add table",
+  "editTable": "Edit table",
+  "tableName": "Table name",
+  "tableLength": "Length (cm)",
+  "tableWidth": "Width (cm)",
+  "noTables": "There are no tables yet",
+  "deleteTableWarning": "Delete \"{tableName}\" and all of its reservations? This can't be undone.",
+  "@deleteTableWarning": {
+    "placeholders": {
+      "tableName": {
+        "type": "String"
+      }
+    }
+  },
+
+  "gameName": "Game system name",
+  "addGame": "Add game system",
+  "gameAlreadyExists": "This game system already exists",
+  "noGames": "There are no game systems yet",
+  "deleteGameWarning": "Remove \"{gameName}\" from the available game systems? Existing reservations keep their game name.",
+  "@deleteGameWarning": {
+    "placeholders": {
+      "gameName": {
+        "type": "String"
+      }
+    }
+  },
+
+  "searchReservations": "Search by user, table or game",
+  "reservationDate": "Date",
+  "reservationTime": "Time",
+  "reservationTable": "Table",
+  "reservationUser": "User",
+  "reservationGame": "Game",
+  "noReservations": "No reservations found",
+  "deleteReservationWarning": "Delete the reservation of {userName}?",
+  "@deleteReservationWarning": {
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+
   "noRouteDefined": "No route defined for {routeName}",
   "@noRouteDefined": {
     "placeholders": {

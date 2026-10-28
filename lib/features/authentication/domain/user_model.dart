@@ -48,7 +48,9 @@ class UserModel {
       'email': email,
       'createdAt': Timestamp.fromDate(createdAt),
       'lastLogin': Timestamp.fromDate(lastLogin),
-      'admin': false,
+      // fromFirestore defaults a missing field to false, so only users that
+      // have no admin property get one; existing values are written back as is.
+      'admin': admin,
       // Omitted when unset so saving never overwrites a stored preference;
       // clearing it is done explicitly in UserRepository.updateLanguage.
       if (language != null) 'language': language,

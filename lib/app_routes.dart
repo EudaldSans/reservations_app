@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:reservations_app/features/admin/presentation/admin_screen.dart';
 import 'package:reservations_app/features/authentication/presentation/login_screen.dart';
 import 'package:reservations_app/features/authentication/presentation/signup_screen.dart';
 import 'package:reservations_app/features/home/presentation/home_screen.dart';
@@ -12,6 +13,7 @@ class AppRoutes {
   static const String home = '/home';
   static const String makeReservations = '/make-reservations';
   static const String deleteReservations = '/delete-reservations';
+  static const String admin = '/admin';
 
   // Route definitions
   static Map<String, WidgetBuilder> get routes {
@@ -19,6 +21,7 @@ class AppRoutes {
       login: (_) => const LoginScreen(),
       signup: (_) => const SignupScreen(),
       home: (_) => const HomeScreen(),
+      admin: (_) => const AdminScreen(),
     };
   }
 

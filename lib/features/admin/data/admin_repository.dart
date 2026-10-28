@@ -1,0 +1,92 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+import 'package:reservations_app/features/admin/domain/game_model.dart';
+import 'package:reservations_app/features/admin/domain/table_model.dart';
+import 'package:reservations_app/features/reservations/domain/reservation_model.dart';
+
+class AdminRepository {
+  final FirebaseFirestore firestore;
+
+  AdminRepository({FirebaseFirestore? firestore})
+      : firestore = firestore ?? FirebaseFirestore.instance;
+
+  // Tables
+
+  Stream<List<TableModel>> watchTables() {
+    return firestore
+        .collection('tables')
+        .orderBy('tableName')
+        .snapshots()
+        .map((snapshot) =>
+            snapshot.docs.map(TableModel.fromFirestore).toList());
+  }
+
+  /// Creates a table, or updates it when [id] is given
+  Future<void> saveTable({
+    String? id,
+    required String name,
+    required int length,
+    required int width,
+  }) {
+    final collection = firestore.collection('tables');
+    final data = {'tableName': name, 'length': length, 'width': width};
+
+    if (id == null) {
+      return collection.add(data);
+    }
+    return collection.doc(id).update(data);
+  }
+
+  /// Deletes a table together with its reservations, so none is left pointing
+  /// to a table that no longer exists.
+  Future<void> deleteTable(String id) async {
+    final reservations = await firestore
+        .collection('reservations')
+        .where('tableID', isEqualTo: id)
+        .get();
+
+    final batch = firestore.batch();
+    for (final doc in reservations.docs) {
+      batch.delete(doc.reference);
+    }
+    batch.delete(firestore.collection('tables').doc(id));
+    await batch.commit();
+  }
+
+  // Game systems
+
+  Stream<List<GameModel>> watchGames() {
+    return firestore.collection('games').snapshots().map((snapshot) {
+      final games = snapshot.docs.map(GameModel.fromFirestore).toList();
+      games.sort((first, second) =>
+          first.name.toLowerCase().compareTo(second.name.toLowerCase()));
+      return games;
+    });
+  }
+
+  Future<void> addGame(String name) {
+    return firestore.collection('games').add({'name': name});
+  }
+
+  Future<void> deleteGame(String id) {
+    return firestore.collection('games').doc(id).delete();
+  }
+
+  // Reservations
+
+  /// Every reservation of every user, earliest first
+  Stream<List<Reservation>> watchAllReservations() {
+    return firestore.collection('reservations').snapshots().map((snapshot) {
+      final reservations =
+          snapshot.docs.map(Reservation.fromFirestore).toList();
+      reservations.sort((first, second) => first.startDate
+          .millisecondsSinceEpoch
+          .compareTo(second.startDate.millisecondsSinceEpoch));
+      return reservations;
+    });
+  }
+
+  Future<void> deleteReservation(String id) {
+    return firestore.collection('reservations').doc(id).delete();
+  }
+}

@@ -430,6 +430,198 @@ abstract class AppLocalizations {
   /// **'Retry loading games'**
   String get retryLoadingGames;
 
+  /// No description provided for @adminPanel.
+  ///
+  /// In en, this message translates to:
+  /// **'Admin panel'**
+  String get adminPanel;
+
+  /// No description provided for @adminTables.
+  ///
+  /// In en, this message translates to:
+  /// **'Tables'**
+  String get adminTables;
+
+  /// No description provided for @adminGames.
+  ///
+  /// In en, this message translates to:
+  /// **'Game systems'**
+  String get adminGames;
+
+  /// No description provided for @adminReservations.
+  ///
+  /// In en, this message translates to:
+  /// **'Reservations'**
+  String get adminReservations;
+
+  /// No description provided for @adminAccessDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'You don\'t have access to this page'**
+  String get adminAccessDenied;
+
+  /// No description provided for @backToApp.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to the app'**
+  String get backToApp;
+
+  /// No description provided for @add.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get add;
+
+  /// No description provided for @edit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get edit;
+
+  /// No description provided for @delete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get delete;
+
+  /// No description provided for @save.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get save;
+
+  /// No description provided for @validationRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'This field is required'**
+  String get validationRequired;
+
+  /// No description provided for @validationPositiveNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a whole number greater than 0'**
+  String get validationPositiveNumber;
+
+  /// No description provided for @addTable.
+  ///
+  /// In en, this message translates to:
+  /// **'Add table'**
+  String get addTable;
+
+  /// No description provided for @editTable.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit table'**
+  String get editTable;
+
+  /// No description provided for @tableName.
+  ///
+  /// In en, this message translates to:
+  /// **'Table name'**
+  String get tableName;
+
+  /// No description provided for @tableLength.
+  ///
+  /// In en, this message translates to:
+  /// **'Length (cm)'**
+  String get tableLength;
+
+  /// No description provided for @tableWidth.
+  ///
+  /// In en, this message translates to:
+  /// **'Width (cm)'**
+  String get tableWidth;
+
+  /// No description provided for @noTables.
+  ///
+  /// In en, this message translates to:
+  /// **'There are no tables yet'**
+  String get noTables;
+
+  /// No description provided for @deleteTableWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete \"{tableName}\" and all of its reservations? This can\'t be undone.'**
+  String deleteTableWarning(String tableName);
+
+  /// No description provided for @gameName.
+  ///
+  /// In en, this message translates to:
+  /// **'Game system name'**
+  String get gameName;
+
+  /// No description provided for @addGame.
+  ///
+  /// In en, this message translates to:
+  /// **'Add game system'**
+  String get addGame;
+
+  /// No description provided for @gameAlreadyExists.
+  ///
+  /// In en, this message translates to:
+  /// **'This game system already exists'**
+  String get gameAlreadyExists;
+
+  /// No description provided for @noGames.
+  ///
+  /// In en, this message translates to:
+  /// **'There are no game systems yet'**
+  String get noGames;
+
+  /// No description provided for @deleteGameWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove \"{gameName}\" from the available game systems? Existing reservations keep their game name.'**
+  String deleteGameWarning(String gameName);
+
+  /// No description provided for @searchReservations.
+  ///
+  /// In en, this message translates to:
+  /// **'Search by user, table or game'**
+  String get searchReservations;
+
+  /// No description provided for @reservationDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get reservationDate;
+
+  /// No description provided for @reservationTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Time'**
+  String get reservationTime;
+
+  /// No description provided for @reservationTable.
+  ///
+  /// In en, this message translates to:
+  /// **'Table'**
+  String get reservationTable;
+
+  /// No description provided for @reservationUser.
+  ///
+  /// In en, this message translates to:
+  /// **'User'**
+  String get reservationUser;
+
+  /// No description provided for @reservationGame.
+  ///
+  /// In en, this message translates to:
+  /// **'Game'**
+  String get reservationGame;
+
+  /// No description provided for @noReservations.
+  ///
+  /// In en, this message translates to:
+  /// **'No reservations found'**
+  String get noReservations;
+
+  /// No description provided for @deleteReservationWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete the reservation of {userName}?'**
+  String deleteReservationWarning(String userName);
+
   /// No description provided for @noRouteDefined.
   ///
   /// In en, this message translates to:

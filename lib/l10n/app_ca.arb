@@ -67,5 +67,41 @@
   "unableToLoadGames": "No s'han pogut carregar els jocs",
   "retryLoadingGames": "Torna a provar de carregar els jocs",
 
-  "noRouteDefined": "No hi ha cap ruta definida per a {routeName}"
+  "adminPanel": "Panell d'administració",
+  "adminTables": "Taules",
+  "adminGames": "Sistemes de joc",
+  "adminReservations": "Reserves",
+  "adminAccessDenied": "No tens accés a aquesta pàgina",
+  "backToApp": "Torna a l'aplicació",
+  "add": "Afegeix",
+  "edit": "Edita",
+  "delete": "Elimina",
+  "save": "Desa",
+  "validationRequired": "Aquest camp és obligatori",
+  "validationPositiveNumber": "Introdueix un nombre enter més gran que 0",
+
+  "addTable": "Afegeix una taula",
+  "editTable": "Edita la taula",
+  "tableName": "Nom de la taula",
+  "tableLength": "Llargada (cm)",
+  "tableWidth": "Amplada (cm)",
+  "noTables": "Encara no hi ha taules",
+  "deleteTableWarning": "Vols eliminar \"{tableName}\" i totes les seves reserves? Aquesta acció no es pot desfer.",
+
+  "gameName": "Nom del sistema de joc",
+  "addGame": "Afegeix un sistema de joc",
+  "gameAlreadyExists": "Aquest sistema de joc ja existeix",
+  "noGames": "Encara no hi ha sistemes de joc",
+  "deleteGameWarning": "Vols treure \"{gameName}\" dels sistemes de joc disponibles? Les reserves existents conserven el nom del joc.",
+
+  "searchReservations": "Cerca per usuari, taula o joc",
+  "reservationDate": "Data",
+  "reservationTime": "Hora",
+  "reservationTable": "Taula",
+  "reservationUser": "Usuari",
+  "reservationGame": "Joc",
+  "noReservations": "No s'ha trobat cap reserva",
+  "deleteReservationWarning": "Vols eliminar la reserva de {userName}?",
+
+  "noRouteDefined":"No hi ha cap ruta definida per a {routeName}"
 }
