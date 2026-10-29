@@ -114,6 +114,24 @@
   "reservationTable": "Table",
   "reservationUser": "User",
   "reservationGame": "Game",
+  "deletePastReservations": "Delete past reservations",
+  "noPastReservations": "There are no past reservations to delete",
+  "deletePastReservationsWarning": "{count, plural, =1{Delete 1 past reservation? This can't be undone.} other{Delete {count} past reservations? This can't be undone.}}",
+  "@deletePastReservationsWarning": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "pastReservationsDeleted": "{count, plural, =1{1 reservation deleted} other{{count} reservations deleted}}",
+  "@pastReservationsDeleted": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "exportCsv": "Export CSV",
   "exportReservations": "Export reservations",
   "exportSelectDateRange": "Select date range",

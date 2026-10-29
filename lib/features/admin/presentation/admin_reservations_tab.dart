@@ -52,6 +52,44 @@ class _AdminReservationsTabState extends State<AdminReservationsTab> {
     }
   }
 
+  Future<void> _deletePast() async {
+    final l10n = AppLocalizations.of(context);
+
+    try {
+      final past = await widget.repository.getPastReservations();
+      if (!mounted) return;
+
+      if (past.isEmpty) {
+        toastification.show(
+            title: Text(l10n.noPastReservations),
+            autoCloseDuration: const Duration(seconds: 5),
+            type: ToastificationType.info);
+        return;
+      }
+
+      final confirmed = await confirmDestructiveAction(
+          context, l10n.deletePastReservationsWarning(past.length));
+      if (!confirmed) return;
+
+      // Delete exactly what the admin confirmed
+      await widget.repository
+          .deleteReservations(past.map((reservation) => reservation.id).toList());
+
+      if (!mounted) return;
+      toastification.show(
+          title: Text(l10n.pastReservationsDeleted(past.length)),
+          autoCloseDuration: const Duration(seconds: 5),
+          type: ToastificationType.success);
+    } catch (e) {
+      log("Admin delete past reservations error: $e");
+      if (!mounted) return;
+      toastification.show(
+          title: Text(l10n.genericError),
+          autoCloseDuration: const Duration(seconds: 5),
+          type: ToastificationType.error);
+    }
+  }
+
   Future<void> _export() async {
     final options = await showDialog<ReservationExportOptions>(
       context: context,
@@ -163,6 +201,11 @@ class _AdminReservationsTabState extends State<AdminReservationsTab> {
               onPressed: _export,
               icon: const Icon(Icons.download),
               label: Text(l10n.exportCsv),
+            ),
+            OutlinedButton.icon(
+              onPressed: _deletePast,
+              icon: const Icon(Icons.delete_sweep_outlined),
+              label: Text(l10n.deletePastReservations),
             ),
           ],
         ),

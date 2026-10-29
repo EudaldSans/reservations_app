@@ -610,6 +610,30 @@ abstract class AppLocalizations {
   /// **'Game'**
   String get reservationGame;
 
+  /// No description provided for @deletePastReservations.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete past reservations'**
+  String get deletePastReservations;
+
+  /// No description provided for @noPastReservations.
+  ///
+  /// In en, this message translates to:
+  /// **'There are no past reservations to delete'**
+  String get noPastReservations;
+
+  /// No description provided for @deletePastReservationsWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Delete 1 past reservation? This can\'t be undone.} other{Delete {count} past reservations? This can\'t be undone.}}'**
+  String deletePastReservationsWarning(int count);
+
+  /// No description provided for @pastReservationsDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 reservation deleted} other{{count} reservations deleted}}'**
+  String pastReservationsDeleted(int count);
+
   /// No description provided for @exportCsv.
   ///
   /// In en, this message translates to:

@@ -122,6 +122,28 @@ class AdminRepository {
     return reservations;
   }
 
+  /// Reservations that have already ended
+  Future<List<Reservation>> getPastReservations() async {
+    final snapshot = await firestore.collection('reservations').get();
+    final now = DateTime.now();
+
+    return snapshot.docs
+        .map(Reservation.fromFirestore)
+        .where((reservation) => reservation.endDate.toDate().isBefore(now))
+        .toList();
+  }
+
+  Future<void> deleteReservations(List<String> ids) async {
+    // A batch holds at most 500 writes
+    for (var offset = 0; offset < ids.length; offset += 500) {
+      final batch = firestore.batch();
+      for (final id in ids.skip(offset).take(500)) {
+        batch.delete(firestore.collection('reservations').doc(id));
+      }
+      await batch.commit();
+    }
+  }
+
   /// Table names by table id
   Future<Map<String, String>> getTableNames() async {
     final snapshot = await firestore.collection('tables').get();

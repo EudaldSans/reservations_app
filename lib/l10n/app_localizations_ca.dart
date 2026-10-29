@@ -280,6 +280,35 @@ class AppLocalizationsCa extends AppLocalizations {
   String get reservationGame => 'Joc';
 
   @override
+  String get deletePastReservations => 'Elimina les reserves passades';
+
+  @override
+  String get noPastReservations => 'No hi ha reserves passades per eliminar';
+
+  @override
+  String deletePastReservationsWarning(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Vols eliminar $count reserves passades? Aquesta acció no es pot desfer.',
+      one: 'Vols eliminar 1 reserva passada? Aquesta acció no es pot desfer.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String pastReservationsDeleted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count reserves eliminades',
+      one: '1 reserva eliminada',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get exportCsv => 'Exporta CSV';
 
   @override
