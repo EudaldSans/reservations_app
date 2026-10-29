@@ -288,6 +288,52 @@ class AppLocalizationsCa extends AppLocalizations {
   }
 
   @override
+  String get adminEvents => 'Esdeveniments';
+
+  @override
+  String get close => 'Tanca';
+
+  @override
+  String get eventDescription =>
+      'Reserva totes les taules durant el període triat, sense durada màxima. El nom de l\'esdeveniment s\'utilitza com a nom del joc de cada reserva.';
+
+  @override
+  String get eventName => 'Nom de l\'esdeveniment';
+
+  @override
+  String get eventStart => 'Inici';
+
+  @override
+  String get eventEnd => 'Fi';
+
+  @override
+  String get createEvent => 'Crea l\'esdeveniment';
+
+  @override
+  String get eventEndBeforeStart => 'El final ha de ser posterior a l\'inici';
+
+  @override
+  String get eventNoTables => 'No hi ha taules per reservar';
+
+  @override
+  String eventCreated(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Esdeveniment creat: $count taules reservades',
+      one: 'Esdeveniment creat: 1 taula reservada',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get eventConflictsTitle => 'Algunes taules ja estan reservades';
+
+  @override
+  String get eventConflictsBody =>
+      'Elimina primer aquestes reserves i torna a crear l\'esdeveniment:';
+
+  @override
   String noRouteDefined(String routeName) {
     return 'No hi ha cap ruta definida per a $routeName';
   }

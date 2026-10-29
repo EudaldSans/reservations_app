@@ -124,6 +124,26 @@
     }
   },
 
+  "adminEvents": "Events",
+  "close": "Close",
+  "eventDescription": "Reserves every table for the chosen period, with no maximum duration. The event name is used as the game name of each reservation.",
+  "eventName": "Event name",
+  "eventStart": "Start",
+  "eventEnd": "End",
+  "createEvent": "Create event",
+  "eventEndBeforeStart": "The end must be after the start",
+  "eventNoTables": "There are no tables to reserve",
+  "eventCreated": "{count, plural, =1{Event created: 1 table reserved} other{Event created: {count} tables reserved}}",
+  "@eventCreated": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "eventConflictsTitle": "Some tables are already reserved",
+  "eventConflictsBody": "Delete these reservations first, then create the event again:",
+
   "noRouteDefined": "No route defined for {routeName}",
   "@noRouteDefined": {
     "placeholders": {

@@ -135,7 +135,14 @@ class ReservationRepository {
       return false;
     }
 
-    final reservations = await getTableReservations(tableId, date);
+    // Check against every reservation of the table, not only the ones that
+    // start on [date]: events and overnight reservations that started earlier
+    // can still be running.
+    final snapshot = await firestore
+        .collection("reservations")
+        .where('tableID', isEqualTo: tableId)
+        .get();
+    final reservations = snapshot.docs.map(Reservation.fromFirestore);
 
     for (var reservation in reservations) {
       if (Reservation.doTimeSlotsOverlap(
@@ -172,10 +179,12 @@ class ReservationRepository {
                 creationDate: data['creationDate'] ?? Timestamp.now(),
               );
             }).where((reservation) {
-              // Filter for reservations on the specified date
-              final startMillis = reservation.startDate.millisecondsSinceEpoch;
-              return startMillis >= dateTimestamp.millisecondsSinceEpoch &&
-                  startMillis < nextDayTimestamp.millisecondsSinceEpoch;
+              // Reservations running at any point of the specified date, so
+              // events spanning several days show up on each of them
+              return reservation.startDate.millisecondsSinceEpoch <
+                      nextDayTimestamp.millisecondsSinceEpoch &&
+                  reservation.endDate.millisecondsSinceEpoch >
+                      dateTimestamp.millisecondsSinceEpoch;
             }).toList());
   }
 
@@ -196,7 +205,9 @@ class ReservationRepository {
     FirebaseFirestore.instance.collection("reservations").where('userID',
                     isEqualTo: FirebaseAuth.instance.currentUser!.uid).get().then((snapshot) {
       for(var index = 0; index < snapshot.docs.length; index++){
-        Timestamp reservationTime = snapshot.docs[index].data()['startDate'];
+        // Judge by the end, so a multi-day reservation isn't removed while it
+        // is still running
+        Timestamp reservationTime = snapshot.docs[index].data()['endDate'];
         if (reservationTime.millisecondsSinceEpoch < getTodayAt0000().millisecondsSinceEpoch) {
           FirebaseFirestore.instance
               .collection("reservations")

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:reservations_app/features/admin/data/admin_repository.dart';
+import 'package:reservations_app/features/admin/presentation/admin_events_tab.dart';
 import 'package:reservations_app/features/admin/presentation/admin_games_tab.dart';
 import 'package:reservations_app/features/admin/presentation/admin_reservations_tab.dart';
 import 'package:reservations_app/features/admin/presentation/admin_tables_tab.dart';
@@ -65,6 +66,7 @@ class _AdminScreenState extends State<AdminScreen> {
           AdminTablesTab(repository: _repository),
           AdminGamesTab(repository: _repository),
           AdminReservationsTab(repository: _repository),
+          AdminEventsTab(repository: _repository),
         ];
 
         return Scaffold(
@@ -101,6 +103,11 @@ class _AdminScreenState extends State<AdminScreen> {
                     icon: const Icon(Icons.event_note_outlined),
                     selectedIcon: const Icon(Icons.event_note),
                     label: Text(l10n.adminReservations),
+                  ),
+                  NavigationRailDestination(
+                    icon: const Icon(Icons.celebration_outlined),
+                    selectedIcon: const Icon(Icons.celebration),
+                    label: Text(l10n.adminEvents),
                   ),
                 ],
               ),

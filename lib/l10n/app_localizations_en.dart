@@ -286,6 +286,52 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get adminEvents => 'Events';
+
+  @override
+  String get close => 'Close';
+
+  @override
+  String get eventDescription =>
+      'Reserves every table for the chosen period, with no maximum duration. The event name is used as the game name of each reservation.';
+
+  @override
+  String get eventName => 'Event name';
+
+  @override
+  String get eventStart => 'Start';
+
+  @override
+  String get eventEnd => 'End';
+
+  @override
+  String get createEvent => 'Create event';
+
+  @override
+  String get eventEndBeforeStart => 'The end must be after the start';
+
+  @override
+  String get eventNoTables => 'There are no tables to reserve';
+
+  @override
+  String eventCreated(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Event created: $count tables reserved',
+      one: 'Event created: 1 table reserved',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get eventConflictsTitle => 'Some tables are already reserved';
+
+  @override
+  String get eventConflictsBody =>
+      'Delete these reservations first, then create the event again:';
+
+  @override
   String noRouteDefined(String routeName) {
     return 'No route defined for $routeName';
   }

@@ -103,5 +103,18 @@
   "noReservations": "No s'ha trobat cap reserva",
   "deleteReservationWarning": "Vols eliminar la reserva de {userName}?",
 
+  "adminEvents": "Esdeveniments",
+  "close": "Tanca",
+  "eventDescription": "Reserva totes les taules durant el període triat, sense durada màxima. El nom de l'esdeveniment s'utilitza com a nom del joc de cada reserva.",
+  "eventName": "Nom de l'esdeveniment",
+  "eventStart": "Inici",
+  "eventEnd": "Fi",
+  "createEvent": "Crea l'esdeveniment",
+  "eventEndBeforeStart": "El final ha de ser posterior a l'inici",
+  "eventNoTables": "No hi ha taules per reservar",
+  "eventCreated": "{count, plural, =1{Esdeveniment creat: 1 taula reservada} other{Esdeveniment creat: {count} taules reservades}}",
+  "eventConflictsTitle": "Algunes taules ja estan reservades",
+  "eventConflictsBody": "Elimina primer aquestes reserves i torna a crear l'esdeveniment:",
+
   "noRouteDefined":"No hi ha cap ruta definida per a {routeName}"
 }

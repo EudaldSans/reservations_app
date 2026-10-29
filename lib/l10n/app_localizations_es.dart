@@ -291,6 +291,52 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
+  String get adminEvents => 'Eventos';
+
+  @override
+  String get close => 'Cerrar';
+
+  @override
+  String get eventDescription =>
+      'Reserva todas las mesas durante el periodo elegido, sin duración máxima. El nombre del evento se usa como nombre del juego de cada reserva.';
+
+  @override
+  String get eventName => 'Nombre del evento';
+
+  @override
+  String get eventStart => 'Inicio';
+
+  @override
+  String get eventEnd => 'Fin';
+
+  @override
+  String get createEvent => 'Crear evento';
+
+  @override
+  String get eventEndBeforeStart => 'El fin debe ser posterior al inicio';
+
+  @override
+  String get eventNoTables => 'No hay mesas que reservar';
+
+  @override
+  String eventCreated(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Evento creado: $count mesas reservadas',
+      one: 'Evento creado: 1 mesa reservada',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get eventConflictsTitle => 'Algunas mesas ya están reservadas';
+
+  @override
+  String get eventConflictsBody =>
+      'Elimina primero estas reservas y vuelve a crear el evento:';
+
+  @override
   String noRouteDefined(String routeName) {
     return 'No hay ninguna ruta definida para $routeName';
   }

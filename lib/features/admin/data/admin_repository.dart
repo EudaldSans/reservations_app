@@ -4,6 +4,16 @@ import 'package:reservations_app/features/admin/domain/game_model.dart';
 import 'package:reservations_app/features/admin/domain/table_model.dart';
 import 'package:reservations_app/features/reservations/domain/reservation_model.dart';
 
+/// There is no table the event could reserve
+class NoTablesException implements Exception {}
+
+/// Some tables already have a reservation overlapping the event
+class EventConflictException implements Exception {
+  final List<({String tableName, Reservation reservation})> conflicts;
+
+  EventConflictException(this.conflicts);
+}
+
 class AdminRepository {
   final FirebaseFirestore firestore;
 
@@ -88,5 +98,63 @@ class AdminRepository {
 
   Future<void> deleteReservation(String id) {
     return firestore.collection('reservations').doc(id).delete();
+  }
+
+  // Events
+
+  /// Reserves every table from [start] to [end], using the event [name] as the
+  /// game name. Unlike regular reservations there is no maximum duration and
+  /// the event may span several days.
+  ///
+  /// All the reservations are written in one batch, so either every table is
+  /// reserved or none is. Returns the number of reserved tables.
+  ///
+  /// Throws [NoTablesException] when there are no tables and
+  /// [EventConflictException] when any table is already reserved during the
+  /// event, in which case nothing is written.
+  Future<int> createEvent({
+    required String name,
+    required String userId,
+    required String userName,
+    required DateTime start,
+    required DateTime end,
+  }) async {
+    final tables = await firestore.collection('tables').get();
+    if (tables.docs.isEmpty) throw NoTablesException();
+
+    final tableNames = {
+      for (final doc in tables.docs) doc.id: TableModel.fromFirestore(doc).name
+    };
+    final startDate = Timestamp.fromDate(start);
+    final endDate = Timestamp.fromDate(end);
+
+    final existing = await firestore.collection('reservations').get();
+    final conflicts = [
+      for (final reservation in existing.docs.map(Reservation.fromFirestore))
+        if (tableNames.containsKey(reservation.tableId) &&
+            Reservation.doTimeSlotsOverlap(
+                startDate, endDate, reservation.startDate, reservation.endDate))
+          (
+            tableName: tableNames[reservation.tableId]!,
+            reservation: reservation,
+          )
+    ];
+    if (conflicts.isNotEmpty) throw EventConflictException(conflicts);
+
+    final batch = firestore.batch();
+    for (final tableId in tableNames.keys) {
+      batch.set(firestore.collection('reservations').doc(), {
+        'userID': userId,
+        'creationDate': FieldValue.serverTimestamp(),
+        'tableID': tableId,
+        'startDate': startDate,
+        'endDate': endDate,
+        'userName': userName,
+        'gameName': name,
+      });
+    }
+    await batch.commit();
+
+    return tableNames.length;
   }
 }

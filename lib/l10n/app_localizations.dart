@@ -622,6 +622,78 @@ abstract class AppLocalizations {
   /// **'Delete the reservation of {userName}?'**
   String deleteReservationWarning(String userName);
 
+  /// No description provided for @adminEvents.
+  ///
+  /// In en, this message translates to:
+  /// **'Events'**
+  String get adminEvents;
+
+  /// No description provided for @close.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get close;
+
+  /// No description provided for @eventDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Reserves every table for the chosen period, with no maximum duration. The event name is used as the game name of each reservation.'**
+  String get eventDescription;
+
+  /// No description provided for @eventName.
+  ///
+  /// In en, this message translates to:
+  /// **'Event name'**
+  String get eventName;
+
+  /// No description provided for @eventStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get eventStart;
+
+  /// No description provided for @eventEnd.
+  ///
+  /// In en, this message translates to:
+  /// **'End'**
+  String get eventEnd;
+
+  /// No description provided for @createEvent.
+  ///
+  /// In en, this message translates to:
+  /// **'Create event'**
+  String get createEvent;
+
+  /// No description provided for @eventEndBeforeStart.
+  ///
+  /// In en, this message translates to:
+  /// **'The end must be after the start'**
+  String get eventEndBeforeStart;
+
+  /// No description provided for @eventNoTables.
+  ///
+  /// In en, this message translates to:
+  /// **'There are no tables to reserve'**
+  String get eventNoTables;
+
+  /// No description provided for @eventCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Event created: 1 table reserved} other{Event created: {count} tables reserved}}'**
+  String eventCreated(int count);
+
+  /// No description provided for @eventConflictsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Some tables are already reserved'**
+  String get eventConflictsTitle;
+
+  /// No description provided for @eventConflictsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete these reservations first, then create the event again:'**
+  String get eventConflictsBody;
+
   /// No description provided for @noRouteDefined.
   ///
   /// In en, this message translates to:
