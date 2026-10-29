@@ -6,6 +6,9 @@ class Reservation {
   final String tableId;
   final String gameName;
   final String userName;
+
+  /// Only set on the reservations of an event
+  final String? eventName;
   final Timestamp startDate;
   final Timestamp endDate;
   final Timestamp creationDate;
@@ -17,11 +20,16 @@ class Reservation {
     required this.userId,
     required this.tableId,
     required this.userName,
+    this.eventName,
     required this.gameName,
     required this.startDate,
     required this.endDate,
     required this.creationDate,
   });
+
+  /// The name to show for the reservation: the event name for events, the
+  /// name of the user who made it otherwise.
+  String get displayName => eventName ?? userName;
 
   factory Reservation.fromFirestore(DocumentSnapshot doc) {
     final data = doc.data() as Map<String, dynamic>;
@@ -30,6 +38,7 @@ class Reservation {
       userId: data['userID'],
       tableId: data['tableID'],
       userName: data['userName'],
+      eventName: data['eventName'] as String?,
       gameName: data['gameName'] ?? unavailableGameName,
       startDate: data['startDate'],
       endDate: data['endDate'],

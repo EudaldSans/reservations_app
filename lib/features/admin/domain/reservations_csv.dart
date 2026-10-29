@@ -2,8 +2,9 @@ import 'package:intl/intl.dart';
 
 import 'package:reservations_app/features/reservations/domain/reservation_model.dart';
 
-/// Builds the CSV text for [reservations]. [headers] are the five column
-/// titles, in the order: start, end, table, user, game.
+/// Builds the CSV text for [reservations]. [headers] are the six column
+/// titles, in the order: start, end, table, user, game, event. The event
+/// column is empty for reservations that don't belong to an event.
 String buildReservationsCsv({
   required List<Reservation> reservations,
   required Map<String, String> tableNames,
@@ -21,6 +22,7 @@ String buildReservationsCsv({
         tableNames[reservation.tableId] ?? unknownTable,
         reservation.userName,
         reservation.gameName,
+        reservation.eventName ?? '',
       ],
   ];
 

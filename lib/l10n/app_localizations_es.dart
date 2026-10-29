@@ -348,7 +348,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get eventDescription =>
-      'Reserva todas las mesas durante el periodo elegido, sin duración máxima. El nombre del evento se usa como nombre del juego de cada reserva.';
+      'Reserva todas las mesas durante el periodo elegido, sin duración máxima. Cada reserva muestra el nombre del evento en lugar de tu nombre, junto con el sistema de juego.';
 
   @override
   String get eventName => 'Nombre del evento';

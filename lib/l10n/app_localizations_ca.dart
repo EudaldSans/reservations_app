@@ -345,7 +345,7 @@ class AppLocalizationsCa extends AppLocalizations {
 
   @override
   String get eventDescription =>
-      'Reserva totes les taules durant el període triat, sense durada màxima. El nom de l\'esdeveniment s\'utilitza com a nom del joc de cada reserva.';
+      'Reserva totes les taules durant el període triat, sense durada màxima. Cada reserva mostra el nom de l\'esdeveniment en lloc del teu nom, juntament amb el sistema de joc.';
 
   @override
   String get eventName => 'Nom de l\'esdeveniment';

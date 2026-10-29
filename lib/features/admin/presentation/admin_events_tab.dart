@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:toastification/toastification.dart';
 
 import 'package:reservations_app/features/admin/data/admin_repository.dart';
+import 'package:reservations_app/features/admin/domain/game_model.dart';
 import 'package:reservations_app/features/authentication/presentation/auth_controller.dart';
 import 'package:reservations_app/l10n/app_localizations.dart';
 
@@ -21,6 +22,10 @@ class _AdminEventsTabState extends State<AdminEventsTab> {
   final _authController = AuthController();
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
+  late final Stream<List<GameModel>> _games = widget.repository.watchGames();
+  String? _gameName;
+  // Bumped to rebuild the dropdown when the selected game is deleted
+  int _gameFieldResets = 0;
 
   late DateTime _start = _today(18);
   late DateTime _end = _today(23);
@@ -96,6 +101,7 @@ class _AdminEventsTabState extends State<AdminEventsTab> {
 
       final count = await widget.repository.createEvent(
         name: _nameController.text.trim(),
+        gameName: _gameName!,
         userId: user.id,
         userName: user.name,
         start: _start,
@@ -214,6 +220,38 @@ class _AdminEventsTabState extends State<AdminEventsTab> {
                 validator: (value) => value == null || value.trim().isEmpty
                     ? l10n.validationRequired
                     : null,
+              ),
+              const SizedBox(height: 16),
+              StreamBuilder<List<GameModel>>(
+                stream: _games,
+                builder: (context, snapshot) {
+                  final names = <String>{
+                    ...?snapshot.data?.map((game) => game.name),
+                  };
+                  if (_gameName != null && !names.contains(_gameName)) {
+                    _gameName = null;
+                    _gameFieldResets++;
+                  }
+
+                  return DropdownButtonFormField<String>(
+                    key: ValueKey(_gameFieldResets),
+                    initialValue: _gameName,
+                    isExpanded: true,
+                    decoration: InputDecoration(
+                      labelText: l10n.selectGameSystem,
+                      border: const OutlineInputBorder(),
+                    ),
+                    items: [
+                      for (final name in names)
+                        DropdownMenuItem(value: name, child: Text(name)),
+                    ],
+                    onChanged: _isSaving
+                        ? null
+                        : (value) => setState(() => _gameName = value),
+                    validator: (value) =>
+                        value == null ? l10n.validationRequired : null,
+                  );
+                },
               ),
               const SizedBox(height: 16),
               Wrap(

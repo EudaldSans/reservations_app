@@ -154,9 +154,10 @@ class AdminRepository {
 
   // Events
 
-  /// Reserves every table from [start] to [end], using the event [name] as the
-  /// game name. Unlike regular reservations there is no maximum duration and
-  /// the event may span several days.
+  /// Reserves every table from [start] to [end] for the game [gameName],
+  /// tagging each reservation with the event [name]. Unlike regular
+  /// reservations there is no maximum duration and the event may span several
+  /// days.
   ///
   /// All the reservations are written in one batch, so either every table is
   /// reserved or none is. Returns the number of reserved tables.
@@ -166,6 +167,7 @@ class AdminRepository {
   /// event, in which case nothing is written.
   Future<int> createEvent({
     required String name,
+    required String gameName,
     required String userId,
     required String userName,
     required DateTime start,
@@ -202,7 +204,8 @@ class AdminRepository {
         'startDate': startDate,
         'endDate': endDate,
         'userName': userName,
-        'gameName': name,
+        'gameName': gameName,
+        'eventName': name,
       });
     }
     await batch.commit();

@@ -37,7 +37,7 @@ class _AdminReservationsTabState extends State<AdminReservationsTab> {
     final confirmed = await confirmDestructiveAction(
         context,
         AppLocalizations.of(context)
-            .deleteReservationWarning(reservation.userName));
+            .deleteReservationWarning(reservation.displayName));
     if (!confirmed) return;
 
     try {
@@ -126,6 +126,7 @@ class _AdminReservationsTabState extends State<AdminReservationsTab> {
           l10n.reservationTable,
           l10n.reservationUser,
           l10n.reservationGame,
+          l10n.eventName,
         ],
         unknownTable: l10n.unknownTable,
       );
@@ -237,8 +238,12 @@ class _AdminReservationsTabState extends State<AdminReservationsTab> {
                     }
                     if (_search.isEmpty) return true;
                     final tableName = tableNames[reservation.tableId] ?? '';
-                    return [reservation.userName, reservation.gameName, tableName]
-                        .any((text) => text.toLowerCase().contains(_search));
+                    return [
+                      reservation.userName,
+                      reservation.eventName ?? '',
+                      reservation.gameName,
+                      tableName
+                    ].any((text) => text.toLowerCase().contains(_search));
                   }).toList();
 
                   if (reservations.isEmpty) {
@@ -271,7 +276,18 @@ class _AdminReservationsTabState extends State<AdminReservationsTab> {
                                   DataCell(Text(
                                       tableNames[reservation.tableId] ??
                                           l10n.unknownTable)),
-                                  DataCell(Text(reservation.userName)),
+                                  DataCell(Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      // Events show their name instead of the
+                                      // admin who created them
+                                      if (reservation.eventName != null) ...[
+                                        const Icon(Icons.celebration, size: 16),
+                                        const SizedBox(width: 6),
+                                      ],
+                                      Text(reservation.displayName),
+                                    ],
+                                  )),
                                   DataCell(Text(reservation.gameName)),
                                   DataCell(IconButton(
                                     tooltip: l10n.delete,

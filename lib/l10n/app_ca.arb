@@ -116,7 +116,7 @@
 
   "adminEvents": "Esdeveniments",
   "close": "Tanca",
-  "eventDescription": "Reserva totes les taules durant el període triat, sense durada màxima. El nom de l'esdeveniment s'utilitza com a nom del joc de cada reserva.",
+  "eventDescription": "Reserva totes les taules durant el període triat, sense durada màxima. Cada reserva mostra el nom de l'esdeveniment en lloc del teu nom, juntament amb el sistema de joc.",
   "eventName": "Nom de l'esdeveniment",
   "eventStart": "Inici",
   "eventEnd": "Fi",

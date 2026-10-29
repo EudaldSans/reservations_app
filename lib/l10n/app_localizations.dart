@@ -703,7 +703,7 @@ abstract class AppLocalizations {
   /// No description provided for @eventDescription.
   ///
   /// In en, this message translates to:
-  /// **'Reserves every table for the chosen period, with no maximum duration. The event name is used as the game name of each reservation.'**
+  /// **'Reserves every table for the chosen period, with no maximum duration. Each reservation shows the event name instead of your name, along with the game system.'**
   String get eventDescription;
 
   /// No description provided for @eventName.

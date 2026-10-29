@@ -156,7 +156,7 @@ class _TableCardState extends State<TableCard> {
                 itemBuilder: (context, index) {
                   final reservation = reservationList[index];
                   return createReservationText(
-                      context, reservation.startDate, reservation.endDate, reservation.userName, reservation.gameName);
+                      context, reservation.startDate, reservation.endDate, reservation.displayName, reservation.gameName);
                 });
             },
           ),

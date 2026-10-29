@@ -151,7 +151,7 @@
 
   "adminEvents": "Events",
   "close": "Close",
-  "eventDescription": "Reserves every table for the chosen period, with no maximum duration. The event name is used as the game name of each reservation.",
+  "eventDescription": "Reserves every table for the chosen period, with no maximum duration. Each reservation shows the event name instead of your name, along with the game system.",
   "eventName": "Event name",
   "eventStart": "Start",
   "eventEnd": "End",

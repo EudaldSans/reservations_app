@@ -44,19 +44,7 @@ class ReservationRepository {
       .where('userID', isEqualTo: userID)
       .get();
 
-    return snapshot.docs.map((doc) {
-      final data = doc.data();
-        return Reservation(
-        id: doc.id,
-        userId: data['userID'],
-        tableId: data['tableID'],
-        userName: data['userName'],
-        gameName: data['gameName'] ?? Reservation.unavailableGameName,
-        startDate: data['startDate'],
-        endDate: data['endDate'],
-        creationDate: data['creationDate'] ?? Timestamp.now(),
-      );
-    }).toList();
+    return snapshot.docs.map(Reservation.fromFirestore).toList();
   }
 
   /// Get reservations for a specific table on a specific date
@@ -71,19 +59,7 @@ class ReservationRepository {
         .get();
 
     // Filter the date range in application code instead of using a second where clause
-    return snapshot.docs.map((doc) {
-      final data = doc.data();
-      return Reservation(
-        id: doc.id,
-        userId: data['userID'],
-        tableId: data['tableID'],
-        userName: data['userName'],
-        gameName: data['gameName'] ?? Reservation.unavailableGameName,
-        startDate: data['startDate'],
-        endDate: data['endDate'],
-        creationDate: data['creationDate'] ?? Timestamp.now(),
-      );
-    }).where((reservation) {
+    return snapshot.docs.map(Reservation.fromFirestore).where((reservation) {
       // Filter for reservations on the specified date
       final startMillis = reservation.startDate.millisecondsSinceEpoch;
       final dateMillis = Timestamp.fromDate(date).millisecondsSinceEpoch;
@@ -164,19 +140,8 @@ class ReservationRepository {
         .collection("reservations")
         .where('tableID', isEqualTo: tableId)
         .snapshots()
-        .map((snapshot) => snapshot.docs.map((doc) {
-              final data = doc.data();
-              return Reservation(
-                id: doc.id,
-                userId: data['userID'],
-                tableId: data['tableID'],
-                userName: data['userName'],
-                gameName: data['gameName'] ?? Reservation.unavailableGameName,
-                startDate: data['startDate'],
-                endDate: data['endDate'],
-                creationDate: data['creationDate'] ?? Timestamp.now(),
-              );
-            }).where((reservation) {
+        .map((snapshot) =>
+            snapshot.docs.map(Reservation.fromFirestore).where((reservation) {
               // Reservations running at any point of the specified date, so
               // events spanning several days show up on each of them
               return reservation.startDate.millisecondsSinceEpoch <

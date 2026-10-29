@@ -116,7 +116,7 @@
 
   "adminEvents": "Eventos",
   "close": "Cerrar",
-  "eventDescription": "Reserva todas las mesas durante el periodo elegido, sin duración máxima. El nombre del evento se usa como nombre del juego de cada reserva.",
+  "eventDescription": "Reserva todas las mesas durante el periodo elegido, sin duración máxima. Cada reserva muestra el nombre del evento en lugar de tu nombre, junto con el sistema de juego.",
   "eventName": "Nombre del evento",
   "eventStart": "Inicio",
   "eventEnd": "Fin",
