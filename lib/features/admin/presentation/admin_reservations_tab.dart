@@ -26,6 +26,7 @@ class _AdminReservationsTabState extends State<AdminReservationsTab> {
       widget.repository.watchAllReservations();
   late final Stream<List<TableModel>> _tables = widget.repository.watchTables();
   String _search = '';
+  bool _hidePast = true;
 
   Future<void> _delete(Reservation reservation) async {
     final confirmed = await confirmDestructiveAction(
@@ -56,17 +57,39 @@ class _AdminReservationsTabState extends State<AdminReservationsTab> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(
-          width: 400,
-          child: TextField(
-            decoration: InputDecoration(
-              prefixIcon: const Icon(Icons.search),
-              hintText: l10n.searchReservations,
-              border: const OutlineInputBorder(),
+        Wrap(
+          spacing: 24,
+          runSpacing: 8,
+          crossAxisAlignment: WrapCrossAlignment.center,
+          children: [
+            SizedBox(
+              width: 400,
+              child: TextField(
+                decoration: InputDecoration(
+                  prefixIcon: const Icon(Icons.search),
+                  hintText: l10n.searchReservations,
+                  border: const OutlineInputBorder(),
+                ),
+                onChanged: (value) =>
+                    setState(() => _search = value.trim().toLowerCase()),
+              ),
             ),
-            onChanged: (value) =>
-                setState(() => _search = value.trim().toLowerCase()),
-          ),
+            InkWell(
+              onTap: () => setState(() => _hidePast = !_hidePast),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Checkbox(
+                    value: _hidePast,
+                    onChanged: (value) =>
+                        setState(() => _hidePast = value ?? true),
+                  ),
+                  Text(l10n.hidePastReservations),
+                  const SizedBox(width: 8),
+                ],
+              ),
+            ),
+          ],
         ),
         const SizedBox(height: 16),
         Expanded(
@@ -88,7 +111,12 @@ class _AdminReservationsTabState extends State<AdminReservationsTab> {
                     return const Center(child: CircularProgressIndicator());
                   }
 
+                  final now = DateTime.now();
                   final reservations = snapshot.data!.where((reservation) {
+                    // Past means already over: a running one stays listed
+                    if (_hidePast && reservation.endDate.toDate().isBefore(now)) {
+                      return false;
+                    }
                     if (_search.isEmpty) return true;
                     final tableName = tableNames[reservation.tableId] ?? '';
                     return [reservation.userName, reservation.gameName, tableName]

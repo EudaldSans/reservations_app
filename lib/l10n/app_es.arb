@@ -100,6 +100,7 @@
   "reservationTable": "Mesa",
   "reservationUser": "Usuario",
   "reservationGame": "Juego",
+  "hidePastReservations": "Ocultar reservas pasadas",
   "noReservations": "No se han encontrado reservas",
   "deleteReservationWarning": "¿Eliminar la reserva de {userName}?",
 

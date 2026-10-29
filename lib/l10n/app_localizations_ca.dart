@@ -280,6 +280,9 @@ class AppLocalizationsCa extends AppLocalizations {
   String get reservationGame => 'Joc';
 
   @override
+  String get hidePastReservations => 'Amaga les reserves passades';
+
+  @override
   String get noReservations => 'No s\'ha trobat cap reserva';
 
   @override

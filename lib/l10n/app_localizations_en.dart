@@ -278,6 +278,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reservationGame => 'Game';
 
   @override
+  String get hidePastReservations => 'Hide past reservations';
+
+  @override
   String get noReservations => 'No reservations found';
 
   @override

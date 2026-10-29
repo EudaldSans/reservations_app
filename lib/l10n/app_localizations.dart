@@ -610,6 +610,12 @@ abstract class AppLocalizations {
   /// **'Game'**
   String get reservationGame;
 
+  /// No description provided for @hidePastReservations.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide past reservations'**
+  String get hidePastReservations;
+
   /// No description provided for @noReservations.
   ///
   /// In en, this message translates to:

@@ -114,6 +114,7 @@
   "reservationTable": "Table",
   "reservationUser": "User",
   "reservationGame": "Game",
+  "hidePastReservations": "Hide past reservations",
   "noReservations": "No reservations found",
   "deleteReservationWarning": "Delete the reservation of {userName}?",
   "@deleteReservationWarning": {
