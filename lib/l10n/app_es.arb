@@ -100,6 +100,8 @@
   "reservationTable": "Mesa",
   "reservationUser": "Usuario",
   "reservationGame": "Juego",
+  "editEvent": "Editar evento",
+  "eventUpdated": "Evento actualizado",
   "upcomingEvents": "Próximos eventos",
   "noUpcomingEvents": "No hay próximos eventos",
   "cancelEvent": "Cancelar evento",
@@ -130,7 +132,7 @@
   "eventNoTables": "No hay mesas que reservar",
   "eventCreated": "{count, plural, =1{Evento creado: 1 mesa reservada} other{Evento creado: {count} mesas reservadas}}",
   "eventConflictsTitle": "Algunas mesas ya están reservadas",
-  "eventConflictsBody": "Elimina primero estas reservas y vuelve a crear el evento:",
+  "eventConflictsBody": "Elimina primero estas reservas y vuelve a intentarlo:",
 
   "noRouteDefined":"No hay ninguna ruta definida para {routeName}"
 }

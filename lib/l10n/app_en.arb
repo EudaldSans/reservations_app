@@ -114,6 +114,8 @@
   "reservationTable": "Table",
   "reservationUser": "User",
   "reservationGame": "Game",
+  "editEvent": "Edit event",
+  "eventUpdated": "Event updated",
   "upcomingEvents": "Upcoming events",
   "noUpcomingEvents": "There are no upcoming events",
   "cancelEvent": "Cancel event",
@@ -179,7 +181,7 @@
     }
   },
   "eventConflictsTitle": "Some tables are already reserved",
-  "eventConflictsBody": "Delete these reservations first, then create the event again:",
+  "eventConflictsBody": "Delete these reservations first, then try again:",
 
   "noRouteDefined": "No route defined for {routeName}",
   "@noRouteDefined": {

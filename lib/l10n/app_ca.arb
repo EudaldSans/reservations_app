@@ -100,6 +100,8 @@
   "reservationTable": "Taula",
   "reservationUser": "Usuari",
   "reservationGame": "Joc",
+  "editEvent": "Edita l'esdeveniment",
+  "eventUpdated": "Esdeveniment actualitzat",
   "upcomingEvents": "Propers esdeveniments",
   "noUpcomingEvents": "No hi ha propers esdeveniments",
   "cancelEvent": "Cancel·la l'esdeveniment",
@@ -130,7 +132,7 @@
   "eventNoTables": "No hi ha taules per reservar",
   "eventCreated": "{count, plural, =1{Esdeveniment creat: 1 taula reservada} other{Esdeveniment creat: {count} taules reservades}}",
   "eventConflictsTitle": "Algunes taules ja estan reservades",
-  "eventConflictsBody": "Elimina primer aquestes reserves i torna a crear l'esdeveniment:",
+  "eventConflictsBody": "Elimina primer aquestes reserves i torna-ho a provar:",
 
   "noRouteDefined":"No hi ha cap ruta definida per a {routeName}"
 }

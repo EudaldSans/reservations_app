@@ -180,10 +180,10 @@ class AdminRepository {
                       gameName: reservation.gameName,
                       start: reservation.startDate.toDate(),
                       end: end,
-                      reservationIds: [],
+                      reservations: [],
                     ))
-            .reservationIds
-            .add(reservation.id);
+            .reservations
+            .add(reservation);
       }
 
       // The reservations come sorted by start, and so does the map
@@ -219,17 +219,7 @@ class AdminRepository {
     final startDate = Timestamp.fromDate(start);
     final endDate = Timestamp.fromDate(end);
 
-    final existing = await firestore.collection('reservations').get();
-    final conflicts = [
-      for (final reservation in existing.docs.map(Reservation.fromFirestore))
-        if (tableNames.containsKey(reservation.tableId) &&
-            Reservation.doTimeSlotsOverlap(
-                startDate, endDate, reservation.startDate, reservation.endDate))
-          (
-            tableName: tableNames[reservation.tableId]!,
-            reservation: reservation,
-          )
-    ];
+    final conflicts = await _findConflicts(startDate, endDate, tableNames);
     if (conflicts.isNotEmpty) throw EventConflictException(conflicts);
 
     final batch = firestore.batch();
@@ -248,5 +238,68 @@ class AdminRepository {
     await batch.commit();
 
     return tableNames.length;
+  }
+
+  /// Changes the name, game system and period of [event] on every table it
+  /// reserves. The event stays on the same tables and under the admin who
+  /// created it.
+  ///
+  /// All the reservations are updated in one batch. Throws
+  /// [EventConflictException], writing nothing, when another reservation
+  /// overlaps the new period on any of the event's tables.
+  Future<void> updateEvent({
+    required AdminEvent event,
+    required String name,
+    required String gameName,
+    required DateTime start,
+    required DateTime end,
+  }) async {
+    final startDate = Timestamp.fromDate(start);
+    final endDate = Timestamp.fromDate(end);
+
+    final allTableNames = await getTableNames();
+    final tableNames = {
+      for (final reservation in event.reservations)
+        reservation.tableId: allTableNames[reservation.tableId] ?? ''
+    };
+
+    // The event's own reservations are what is being moved, not a conflict
+    final conflicts = await _findConflicts(startDate, endDate, tableNames,
+        ignoreIds: event.reservationIds.toSet());
+    if (conflicts.isNotEmpty) throw EventConflictException(conflicts);
+
+    final batch = firestore.batch();
+    for (final reservation in event.reservations) {
+      batch.update(firestore.collection('reservations').doc(reservation.id), {
+        'startDate': startDate,
+        'endDate': endDate,
+        'gameName': gameName,
+        'eventName': name,
+      });
+    }
+    await batch.commit();
+  }
+
+  /// Reservations overlapping [start]..[end] on the tables of [tableNames],
+  /// except those in [ignoreIds]
+  Future<List<({String tableName, Reservation reservation})>> _findConflicts(
+    Timestamp start,
+    Timestamp end,
+    Map<String, String> tableNames, {
+    Set<String> ignoreIds = const {},
+  }) async {
+    final existing = await firestore.collection('reservations').get();
+
+    return [
+      for (final reservation in existing.docs.map(Reservation.fromFirestore))
+        if (!ignoreIds.contains(reservation.id) &&
+            tableNames.containsKey(reservation.tableId) &&
+            Reservation.doTimeSlotsOverlap(
+                start, end, reservation.startDate, reservation.endDate))
+          (
+            tableName: tableNames[reservation.tableId]!,
+            reservation: reservation,
+          )
+    ];
   }
 }

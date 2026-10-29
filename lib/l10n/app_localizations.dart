@@ -610,6 +610,18 @@ abstract class AppLocalizations {
   /// **'Game'**
   String get reservationGame;
 
+  /// No description provided for @editEvent.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit event'**
+  String get editEvent;
+
+  /// No description provided for @eventUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Event updated'**
+  String get eventUpdated;
+
   /// No description provided for @upcomingEvents.
   ///
   /// In en, this message translates to:
@@ -787,7 +799,7 @@ abstract class AppLocalizations {
   /// No description provided for @eventConflictsBody.
   ///
   /// In en, this message translates to:
-  /// **'Delete these reservations first, then create the event again:'**
+  /// **'Delete these reservations first, then try again:'**
   String get eventConflictsBody;
 
   /// No description provided for @noRouteDefined.

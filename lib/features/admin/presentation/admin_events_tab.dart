@@ -28,6 +28,9 @@ class _AdminEventsTabState extends State<AdminEventsTab> {
   late final Stream<List<AdminEvent>> _events =
       widget.repository.watchUpcomingEvents();
   String? _gameName;
+
+  /// The event loaded in the form, null when creating a new one
+  AdminEvent? _editing;
   // Bumped to rebuild the dropdown when the selected game is deleted
   int _gameFieldResets = 0;
 
@@ -48,10 +51,12 @@ class _AdminEventsTabState extends State<AdminEventsTab> {
   }
 
   Future<DateTime?> _pickDateTime(DateTime initial) async {
+    // An event being edited may have started earlier than the usual limit
+    final earliest = DateTime.now().subtract(const Duration(days: 1));
     final date = await showDatePicker(
       context: context,
       initialDate: initial,
-      firstDate: DateTime.now().subtract(const Duration(days: 1)),
+      firstDate: initial.isBefore(earliest) ? initial : earliest,
       lastDate: DateTime.now().add(const Duration(days: 365 * 2)),
     );
     if (date == null || !mounted) return null;
@@ -88,7 +93,32 @@ class _AdminEventsTabState extends State<AdminEventsTab> {
     });
   }
 
-  Future<void> _create() async {
+  void _startEditing(AdminEvent event) {
+    setState(() {
+      _editing = event;
+      _nameController.text = event.name;
+      // If the game was deleted since, the dropdown clears and asks again
+      _gameName = event.gameName;
+      _gameFieldResets++;
+      _start = event.start;
+      _end = event.end;
+      _endBeforeStart = false;
+    });
+  }
+
+  void _stopEditing() {
+    setState(() {
+      _editing = null;
+      _nameController.clear();
+      _gameName = null;
+      _gameFieldResets++;
+      _start = _today(18);
+      _end = _today(23);
+      _endBeforeStart = false;
+    });
+  }
+
+  Future<void> _submit() async {
     final l10n = AppLocalizations.of(context);
     if (!_formKey.currentState!.validate()) return;
 
@@ -100,6 +130,25 @@ class _AdminEventsTabState extends State<AdminEventsTab> {
     setState(() => _isSaving = true);
 
     try {
+      final editing = _editing;
+      if (editing != null) {
+        await widget.repository.updateEvent(
+          event: editing,
+          name: _nameController.text.trim(),
+          gameName: _gameName!,
+          start: _start,
+          end: _end,
+        );
+
+        if (!mounted) return;
+        _stopEditing();
+        toastification.show(
+            title: Text(l10n.eventUpdated),
+            autoCloseDuration: const Duration(seconds: 5),
+            type: ToastificationType.success);
+        return;
+      }
+
       final user = await _authController.getCurrentUserData();
       if (user == null) throw StateError('Current user not found');
 
@@ -199,6 +248,10 @@ class _AdminEventsTabState extends State<AdminEventsTab> {
       await widget.repository.deleteReservations(event.reservationIds);
 
       if (!mounted) return;
+      // Nothing left to edit if the event being edited was just cancelled
+      if (_editing?.reservations.first.id == event.reservations.first.id) {
+        _stopEditing();
+      }
       toastification.show(
           title: Text(l10n.eventCancelled),
           autoCloseDuration: const Duration(seconds: 5),
@@ -259,10 +312,22 @@ class _AdminEventsTabState extends State<AdminEventsTab> {
                       subtitle: Text(
                           '${event.gameName} · $period · ${l10n.adminTables}: ${event.tableCount}'),
                       isThreeLine: true,
-                      trailing: IconButton(
-                        tooltip: l10n.cancelEvent,
-                        icon: const Icon(Icons.event_busy),
-                        onPressed: () => _cancel(event),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            tooltip: l10n.edit,
+                            icon: const Icon(Icons.edit_outlined),
+                            onPressed: _isSaving
+                                ? null
+                                : () => _startEditing(event),
+                          ),
+                          IconButton(
+                            tooltip: l10n.cancelEvent,
+                            icon: const Icon(Icons.event_busy),
+                            onPressed: () => _cancel(event),
+                          ),
+                        ],
                       ),
                     );
                   },
@@ -314,6 +379,11 @@ class _AdminEventsTabState extends State<AdminEventsTab> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              if (_editing != null) ...[
+                Text(l10n.editEvent,
+                    style: Theme.of(context).textTheme.titleMedium),
+                const SizedBox(height: 8),
+              ],
               Text(l10n.eventDescription),
               const SizedBox(height: 24),
               TextFormField(
@@ -377,16 +447,27 @@ class _AdminEventsTabState extends State<AdminEventsTab> {
                   ),
                 ),
               const SizedBox(height: 24),
-              FilledButton.icon(
-                onPressed: _isSaving ? null : _create,
-                icon: _isSaving
-                    ? const SizedBox(
-                        height: 16,
-                        width: 16,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      )
-                    : const Icon(Icons.celebration),
-                label: Text(l10n.createEvent),
+              Row(
+                children: [
+                  FilledButton.icon(
+                    onPressed: _isSaving ? null : _submit,
+                    icon: _isSaving
+                        ? const SizedBox(
+                            height: 16,
+                            width: 16,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          )
+                        : Icon(_editing == null ? Icons.celebration : Icons.save),
+                    label: Text(_editing == null ? l10n.createEvent : l10n.save),
+                  ),
+                  if (_editing != null) ...[
+                    const SizedBox(width: 16),
+                    TextButton(
+                      onPressed: _isSaving ? null : _stopEditing,
+                      child: Text(l10n.cancel),
+                    ),
+                  ],
+                ],
               ),
             ],
           ),

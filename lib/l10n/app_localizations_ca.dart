@@ -280,6 +280,12 @@ class AppLocalizationsCa extends AppLocalizations {
   String get reservationGame => 'Joc';
 
   @override
+  String get editEvent => 'Edita l\'esdeveniment';
+
+  @override
+  String get eventUpdated => 'Esdeveniment actualitzat';
+
+  @override
   String get upcomingEvents => 'Propers esdeveniments';
 
   @override
@@ -398,7 +404,7 @@ class AppLocalizationsCa extends AppLocalizations {
 
   @override
   String get eventConflictsBody =>
-      'Elimina primer aquestes reserves i torna a crear l\'esdeveniment:';
+      'Elimina primer aquestes reserves i torna-ho a provar:';
 
   @override
   String noRouteDefined(String routeName) {
