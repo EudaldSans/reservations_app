@@ -100,6 +100,36 @@ class AdminRepository {
     return firestore.collection('reservations').doc(id).delete();
   }
 
+  /// Reservations starting in [from] (inclusive) to [to] (exclusive), earliest
+  /// first, optionally only those for the game [gameName].
+  Future<List<Reservation>> getReservations({
+    required DateTime from,
+    required DateTime to,
+    String? gameName,
+  }) async {
+    final snapshot = await firestore.collection('reservations').get();
+
+    final reservations = snapshot.docs.map(Reservation.fromFirestore).where(
+        (reservation) {
+      final start = reservation.startDate.toDate();
+      return !start.isBefore(from) &&
+          start.isBefore(to) &&
+          (gameName == null || reservation.gameName == gameName);
+    }).toList();
+
+    reservations.sort((first, second) => first.startDate.millisecondsSinceEpoch
+        .compareTo(second.startDate.millisecondsSinceEpoch));
+    return reservations;
+  }
+
+  /// Table names by table id
+  Future<Map<String, String>> getTableNames() async {
+    final snapshot = await firestore.collection('tables').get();
+    return {
+      for (final doc in snapshot.docs) doc.id: TableModel.fromFirestore(doc).name
+    };
+  }
+
   // Events
 
   /// Reserves every table from [start] to [end], using the event [name] as the

@@ -1,12 +1,17 @@
+import 'dart:convert';
 import 'dart:developer';
+import 'dart:typed_data';
 
+import 'package:file_saver/file_saver.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:toastification/toastification.dart';
 
 import 'package:reservations_app/features/admin/data/admin_repository.dart';
+import 'package:reservations_app/features/admin/domain/reservations_csv.dart';
 import 'package:reservations_app/features/admin/domain/table_model.dart';
 import 'package:reservations_app/features/admin/presentation/confirm_dialog.dart';
+import 'package:reservations_app/features/admin/presentation/export_reservations_dialog.dart';
 import 'package:reservations_app/features/reservations/domain/reservation_model.dart';
 import 'package:reservations_app/l10n/app_localizations.dart';
 
@@ -42,6 +47,71 @@ class _AdminReservationsTabState extends State<AdminReservationsTab> {
       if (!mounted) return;
       toastification.show(
           title: Text(AppLocalizations.of(context).genericError),
+          autoCloseDuration: const Duration(seconds: 5),
+          type: ToastificationType.error);
+    }
+  }
+
+  Future<void> _export() async {
+    final options = await showDialog<ReservationExportOptions>(
+      context: context,
+      builder: (_) => ExportReservationsDialog(repository: widget.repository),
+    );
+    if (options == null || !mounted) return;
+    final l10n = AppLocalizations.of(context);
+
+    try {
+      final range = options.dateRange;
+      final reservations = await widget.repository.getReservations(
+        from: DateTime(range.start.year, range.start.month, range.start.day),
+        // Exclusive end, so the whole last day is included
+        to: DateTime(range.end.year, range.end.month, range.end.day + 1),
+        gameName: options.gameName,
+      );
+
+      if (reservations.isEmpty) {
+        if (!mounted) return;
+        toastification.show(
+            title: Text(l10n.noReservations),
+            autoCloseDuration: const Duration(seconds: 5),
+            type: ToastificationType.info);
+        return;
+      }
+
+      final tableNames = await widget.repository.getTableNames();
+      final csv = buildReservationsCsv(
+        reservations: reservations,
+        tableNames: tableNames,
+        headers: [
+          l10n.eventStart,
+          l10n.eventEnd,
+          l10n.reservationTable,
+          l10n.reservationUser,
+          l10n.reservationGame,
+        ],
+        unknownTable: l10n.unknownTable,
+      );
+
+      final day = DateFormat('yyyy-MM-dd');
+      final saved = await FileSaver.instance.saveAs(
+        name: 'reservations_${day.format(range.start)}_${day.format(range.end)}',
+        // The BOM lets spreadsheet apps read the accents as UTF-8
+        bytes: Uint8List.fromList(utf8.encode('﻿$csv')),
+        fileExtension: 'csv',
+        mimeType: MimeType.csv,
+      );
+
+      // Null when the save dialog was cancelled
+      if (saved == null || !mounted) return;
+      toastification.show(
+          title: Text(l10n.exportDone),
+          autoCloseDuration: const Duration(seconds: 5),
+          type: ToastificationType.success);
+    } catch (e) {
+      log("Admin export error: $e");
+      if (!mounted) return;
+      toastification.show(
+          title: Text(l10n.genericError),
           autoCloseDuration: const Duration(seconds: 5),
           type: ToastificationType.error);
     }
@@ -88,6 +158,11 @@ class _AdminReservationsTabState extends State<AdminReservationsTab> {
                   const SizedBox(width: 8),
                 ],
               ),
+            ),
+            OutlinedButton.icon(
+              onPressed: _export,
+              icon: const Icon(Icons.download),
+              label: Text(l10n.exportCsv),
             ),
           ],
         ),

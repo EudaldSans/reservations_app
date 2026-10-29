@@ -280,6 +280,24 @@ class AppLocalizationsCa extends AppLocalizations {
   String get reservationGame => 'Joc';
 
   @override
+  String get exportCsv => 'Exporta CSV';
+
+  @override
+  String get exportReservations => 'Exporta les reserves';
+
+  @override
+  String get exportSelectDateRange => 'Selecciona un interval de dates';
+
+  @override
+  String get exportAllGames => 'Tots els sistemes de joc';
+
+  @override
+  String get exportDownload => 'Descarrega';
+
+  @override
+  String get exportDone => 'Reserves exportades';
+
+  @override
   String get hidePastReservations => 'Amaga les reserves passades';
 
   @override

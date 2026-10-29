@@ -278,6 +278,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reservationGame => 'Game';
 
   @override
+  String get exportCsv => 'Export CSV';
+
+  @override
+  String get exportReservations => 'Export reservations';
+
+  @override
+  String get exportSelectDateRange => 'Select date range';
+
+  @override
+  String get exportAllGames => 'All game systems';
+
+  @override
+  String get exportDownload => 'Download';
+
+  @override
+  String get exportDone => 'Reservations exported';
+
+  @override
   String get hidePastReservations => 'Hide past reservations';
 
   @override

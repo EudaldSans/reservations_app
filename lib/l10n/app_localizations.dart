@@ -610,6 +610,42 @@ abstract class AppLocalizations {
   /// **'Game'**
   String get reservationGame;
 
+  /// No description provided for @exportCsv.
+  ///
+  /// In en, this message translates to:
+  /// **'Export CSV'**
+  String get exportCsv;
+
+  /// No description provided for @exportReservations.
+  ///
+  /// In en, this message translates to:
+  /// **'Export reservations'**
+  String get exportReservations;
+
+  /// No description provided for @exportSelectDateRange.
+  ///
+  /// In en, this message translates to:
+  /// **'Select date range'**
+  String get exportSelectDateRange;
+
+  /// No description provided for @exportAllGames.
+  ///
+  /// In en, this message translates to:
+  /// **'All game systems'**
+  String get exportAllGames;
+
+  /// No description provided for @exportDownload.
+  ///
+  /// In en, this message translates to:
+  /// **'Download'**
+  String get exportDownload;
+
+  /// No description provided for @exportDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Reservations exported'**
+  String get exportDone;
+
   /// No description provided for @hidePastReservations.
   ///
   /// In en, this message translates to:
