@@ -610,6 +610,36 @@ abstract class AppLocalizations {
   /// **'Game'**
   String get reservationGame;
 
+  /// No description provided for @upcomingEvents.
+  ///
+  /// In en, this message translates to:
+  /// **'Upcoming events'**
+  String get upcomingEvents;
+
+  /// No description provided for @noUpcomingEvents.
+  ///
+  /// In en, this message translates to:
+  /// **'There are no upcoming events'**
+  String get noUpcomingEvents;
+
+  /// No description provided for @cancelEvent.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel event'**
+  String get cancelEvent;
+
+  /// No description provided for @cancelEventWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel \"{eventName}\"? Its reservations on all tables will be deleted. This can\'t be undone.'**
+  String cancelEventWarning(String eventName);
+
+  /// No description provided for @eventCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Event cancelled'**
+  String get eventCancelled;
+
   /// No description provided for @deletePastReservations.
   ///
   /// In en, this message translates to:

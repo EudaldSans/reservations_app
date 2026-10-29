@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'package:reservations_app/features/admin/domain/event_model.dart';
 import 'package:reservations_app/features/admin/domain/game_model.dart';
 import 'package:reservations_app/features/admin/domain/table_model.dart';
 import 'package:reservations_app/features/reservations/domain/reservation_model.dart';
@@ -153,6 +154,42 @@ class AdminRepository {
   }
 
   // Events
+
+  /// Events that haven't ended yet, earliest first. Events have no document of
+  /// their own: the reservations sharing an event name and period (the ones
+  /// [createEvent] made together) are one event.
+  Stream<List<AdminEvent>> watchUpcomingEvents() {
+    return watchAllReservations().map((reservations) {
+      final now = DateTime.now();
+      final events = <String, AdminEvent>{};
+
+      for (final reservation in reservations) {
+        final name = reservation.eventName;
+        if (name == null) continue;
+
+        final end = reservation.endDate.toDate();
+        if (!end.isAfter(now)) continue;
+
+        final key = '$name|${reservation.startDate.millisecondsSinceEpoch}'
+            '|${reservation.endDate.millisecondsSinceEpoch}';
+        events
+            .putIfAbsent(
+                key,
+                () => AdminEvent(
+                      name: name,
+                      gameName: reservation.gameName,
+                      start: reservation.startDate.toDate(),
+                      end: end,
+                      reservationIds: [],
+                    ))
+            .reservationIds
+            .add(reservation.id);
+      }
+
+      // The reservations come sorted by start, and so does the map
+      return events.values.toList();
+    });
+  }
 
   /// Reserves every table from [start] to [end] for the game [gameName],
   /// tagging each reservation with the event [name]. Unlike regular

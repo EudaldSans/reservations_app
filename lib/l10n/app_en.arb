@@ -114,6 +114,18 @@
   "reservationTable": "Table",
   "reservationUser": "User",
   "reservationGame": "Game",
+  "upcomingEvents": "Upcoming events",
+  "noUpcomingEvents": "There are no upcoming events",
+  "cancelEvent": "Cancel event",
+  "cancelEventWarning": "Cancel \"{eventName}\"? Its reservations on all tables will be deleted. This can't be undone.",
+  "@cancelEventWarning": {
+    "placeholders": {
+      "eventName": {
+        "type": "String"
+      }
+    }
+  },
+  "eventCancelled": "Event cancelled",
   "deletePastReservations": "Delete past reservations",
   "noPastReservations": "There are no past reservations to delete",
   "deletePastReservationsWarning": "{count, plural, =1{Delete 1 past reservation? This can't be undone.} other{Delete {count} past reservations? This can't be undone.}}",

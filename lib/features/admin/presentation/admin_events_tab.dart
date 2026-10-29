@@ -5,7 +5,9 @@ import 'package:intl/intl.dart';
 import 'package:toastification/toastification.dart';
 
 import 'package:reservations_app/features/admin/data/admin_repository.dart';
+import 'package:reservations_app/features/admin/domain/event_model.dart';
 import 'package:reservations_app/features/admin/domain/game_model.dart';
+import 'package:reservations_app/features/admin/presentation/confirm_dialog.dart';
 import 'package:reservations_app/features/authentication/presentation/auth_controller.dart';
 import 'package:reservations_app/l10n/app_localizations.dart';
 
@@ -23,6 +25,8 @@ class _AdminEventsTabState extends State<AdminEventsTab> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   late final Stream<List<GameModel>> _games = widget.repository.watchGames();
+  late final Stream<List<AdminEvent>> _events =
+      widget.repository.watchUpcomingEvents();
   String? _gameName;
   // Bumped to rebuild the dropdown when the selected game is deleted
   int _gameFieldResets = 0;
@@ -184,6 +188,93 @@ class _AdminEventsTabState extends State<AdminEventsTab> {
     );
   }
 
+  Future<void> _cancel(AdminEvent event) async {
+    final l10n = AppLocalizations.of(context);
+
+    final confirmed =
+        await confirmDestructiveAction(context, l10n.cancelEventWarning(event.name));
+    if (!confirmed) return;
+
+    try {
+      await widget.repository.deleteReservations(event.reservationIds);
+
+      if (!mounted) return;
+      toastification.show(
+          title: Text(l10n.eventCancelled),
+          autoCloseDuration: const Duration(seconds: 5),
+          type: ToastificationType.success);
+    } catch (e) {
+      log("Admin cancel event error: $e");
+      if (!mounted) return;
+      toastification.show(
+          title: Text(l10n.genericError),
+          autoCloseDuration: const Duration(seconds: 5),
+          type: ToastificationType.error);
+    }
+  }
+
+  Widget _buildEvents(AppLocalizations l10n) {
+    final locale = Localizations.localeOf(context).toString();
+    final dateTime = DateFormat.MMMd(locale).add_Hm();
+    final time = DateFormat.Hm(locale);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(l10n.upcomingEvents,
+            style: Theme.of(context).textTheme.titleMedium),
+        const SizedBox(height: 12),
+        Expanded(
+          child: StreamBuilder<List<AdminEvent>>(
+            stream: _events,
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                return Center(child: Text(l10n.genericError));
+              }
+              if (!snapshot.hasData) {
+                return const Center(child: CircularProgressIndicator());
+              }
+
+              final events = snapshot.data!;
+              if (events.isEmpty) {
+                return Center(child: Text(l10n.noUpcomingEvents));
+              }
+
+              return Card(
+                child: ListView.separated(
+                  itemCount: events.length,
+                  separatorBuilder: (_, __) => const Divider(height: 1),
+                  itemBuilder: (context, index) {
+                    final event = events[index];
+                    final sameDay = event.start.year == event.end.year &&
+                        event.start.month == event.end.month &&
+                        event.start.day == event.end.day;
+                    final period = sameDay
+                        ? '${dateTime.format(event.start)} - ${time.format(event.end)}'
+                        : '${dateTime.format(event.start)} - ${dateTime.format(event.end)}';
+
+                    return ListTile(
+                      leading: const Icon(Icons.celebration),
+                      title: Text(event.name),
+                      subtitle: Text(
+                          '${event.gameName} · $period · ${l10n.adminTables}: ${event.tableCount}'),
+                      isThreeLine: true,
+                      trailing: IconButton(
+                        tooltip: l10n.cancelEvent,
+                        icon: const Icon(Icons.event_busy),
+                        onPressed: () => _cancel(event),
+                      ),
+                    );
+                  },
+                ),
+              );
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget _dateTimeButton(String label, DateTime value, VoidCallback onTap) {
     final format = DateFormat.yMMMd(Localizations.localeOf(context).toString())
         .add_Hm();
@@ -199,10 +290,25 @@ class _AdminEventsTabState extends State<AdminEventsTab> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
 
+    // Create form on the left, the events that can be cancelled on the right
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          width: 480,
+          child: SingleChildScrollView(child: _buildForm(l10n)),
+        ),
+        const SizedBox(width: 32),
+        Expanded(child: _buildEvents(l10n)),
+      ],
+    );
+  }
+
+  Widget _buildForm(AppLocalizations l10n) {
     return Align(
       alignment: Alignment.topLeft,
       child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 560),
+        constraints: const BoxConstraints(maxWidth: 480),
         child: Form(
           key: _formKey,
           child: Column(

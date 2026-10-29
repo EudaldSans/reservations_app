@@ -280,6 +280,23 @@ class AppLocalizationsCa extends AppLocalizations {
   String get reservationGame => 'Joc';
 
   @override
+  String get upcomingEvents => 'Propers esdeveniments';
+
+  @override
+  String get noUpcomingEvents => 'No hi ha propers esdeveniments';
+
+  @override
+  String get cancelEvent => 'Cancel·la l\'esdeveniment';
+
+  @override
+  String cancelEventWarning(String eventName) {
+    return 'Vols cancel·lar \"$eventName\"? S\'eliminaran les seves reserves a totes les taules. Aquesta acció no es pot desfer.';
+  }
+
+  @override
+  String get eventCancelled => 'Esdeveniment cancel·lat';
+
+  @override
   String get deletePastReservations => 'Elimina les reserves passades';
 
   @override

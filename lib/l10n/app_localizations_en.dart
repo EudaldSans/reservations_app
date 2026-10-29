@@ -278,6 +278,23 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reservationGame => 'Game';
 
   @override
+  String get upcomingEvents => 'Upcoming events';
+
+  @override
+  String get noUpcomingEvents => 'There are no upcoming events';
+
+  @override
+  String get cancelEvent => 'Cancel event';
+
+  @override
+  String cancelEventWarning(String eventName) {
+    return 'Cancel \"$eventName\"? Its reservations on all tables will be deleted. This can\'t be undone.';
+  }
+
+  @override
+  String get eventCancelled => 'Event cancelled';
+
+  @override
   String get deletePastReservations => 'Delete past reservations';
 
   @override
