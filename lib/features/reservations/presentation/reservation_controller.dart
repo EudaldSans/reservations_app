@@ -90,7 +90,12 @@ class ReservationController {
     // Debug: Print Timestamp objects
     log("Timestamps created - Start: ${startTimestamp.toDate().toString()}, End: ${endTimestamp.toDate().toString()}");
 
-    final activeUserReservations = await repository.getUserReservations(FirebaseAuth.instance.currentUser!.uid);
+    // Past reservations are kept, so they must not count towards the limit
+    final now = DateTime.now();
+    final activeUserReservations = (await repository
+            .getUserReservations(FirebaseAuth.instance.currentUser!.uid))
+        .where((reservation) => reservation.endDate.toDate().isAfter(now))
+        .toList();
     final currentUser = await _authController.getCurrentUserData();
 
     log("Number of reservations: ${activeUserReservations.length}, admin ${currentUser!.admin}");

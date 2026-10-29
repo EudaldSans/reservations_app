@@ -185,6 +185,205 @@ class AppLocalizationsCa extends AppLocalizations {
   String get retryLoadingGames => 'Torna a provar de carregar els jocs';
 
   @override
+  String get adminPanel => 'Panell d\'administració';
+
+  @override
+  String get adminTables => 'Taules';
+
+  @override
+  String get adminGames => 'Sistemes de joc';
+
+  @override
+  String get adminReservations => 'Reserves';
+
+  @override
+  String get adminAccessDenied => 'No tens accés a aquesta pàgina';
+
+  @override
+  String get backToApp => 'Torna a l\'aplicació';
+
+  @override
+  String get add => 'Afegeix';
+
+  @override
+  String get edit => 'Edita';
+
+  @override
+  String get delete => 'Elimina';
+
+  @override
+  String get save => 'Desa';
+
+  @override
+  String get validationRequired => 'Aquest camp és obligatori';
+
+  @override
+  String get validationPositiveNumber =>
+      'Introdueix un nombre enter més gran que 0';
+
+  @override
+  String get addTable => 'Afegeix una taula';
+
+  @override
+  String get editTable => 'Edita la taula';
+
+  @override
+  String get tableName => 'Nom de la taula';
+
+  @override
+  String get tableLength => 'Llargada (cm)';
+
+  @override
+  String get tableWidth => 'Amplada (cm)';
+
+  @override
+  String get noTables => 'Encara no hi ha taules';
+
+  @override
+  String deleteTableWarning(String tableName) {
+    return 'Vols eliminar \"$tableName\" i totes les seves reserves? Aquesta acció no es pot desfer.';
+  }
+
+  @override
+  String get gameName => 'Nom del sistema de joc';
+
+  @override
+  String get addGame => 'Afegeix un sistema de joc';
+
+  @override
+  String get gameAlreadyExists => 'Aquest sistema de joc ja existeix';
+
+  @override
+  String get noGames => 'Encara no hi ha sistemes de joc';
+
+  @override
+  String deleteGameWarning(String gameName) {
+    return 'Vols treure \"$gameName\" dels sistemes de joc disponibles? Les reserves existents conserven el nom del joc.';
+  }
+
+  @override
+  String get searchReservations => 'Cerca per usuari, taula o joc';
+
+  @override
+  String get reservationDate => 'Data';
+
+  @override
+  String get reservationTime => 'Hora';
+
+  @override
+  String get reservationTable => 'Taula';
+
+  @override
+  String get reservationUser => 'Usuari';
+
+  @override
+  String get reservationGame => 'Joc';
+
+  @override
+  String get deletePastReservations => 'Elimina les reserves passades';
+
+  @override
+  String get noPastReservations => 'No hi ha reserves passades per eliminar';
+
+  @override
+  String deletePastReservationsWarning(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Vols eliminar $count reserves passades? Aquesta acció no es pot desfer.',
+      one: 'Vols eliminar 1 reserva passada? Aquesta acció no es pot desfer.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String pastReservationsDeleted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count reserves eliminades',
+      one: '1 reserva eliminada',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get exportCsv => 'Exporta CSV';
+
+  @override
+  String get exportReservations => 'Exporta les reserves';
+
+  @override
+  String get exportSelectDateRange => 'Selecciona un interval de dates';
+
+  @override
+  String get exportAllGames => 'Tots els sistemes de joc';
+
+  @override
+  String get exportDownload => 'Descarrega';
+
+  @override
+  String get exportDone => 'Reserves exportades';
+
+  @override
+  String get hidePastReservations => 'Amaga les reserves passades';
+
+  @override
+  String get noReservations => 'No s\'ha trobat cap reserva';
+
+  @override
+  String deleteReservationWarning(String userName) {
+    return 'Vols eliminar la reserva de $userName?';
+  }
+
+  @override
+  String get adminEvents => 'Esdeveniments';
+
+  @override
+  String get close => 'Tanca';
+
+  @override
+  String get eventDescription =>
+      'Reserva totes les taules durant el període triat, sense durada màxima. El nom de l\'esdeveniment s\'utilitza com a nom del joc de cada reserva.';
+
+  @override
+  String get eventName => 'Nom de l\'esdeveniment';
+
+  @override
+  String get eventStart => 'Inici';
+
+  @override
+  String get eventEnd => 'Fi';
+
+  @override
+  String get createEvent => 'Crea l\'esdeveniment';
+
+  @override
+  String get eventEndBeforeStart => 'El final ha de ser posterior a l\'inici';
+
+  @override
+  String get eventNoTables => 'No hi ha taules per reservar';
+
+  @override
+  String eventCreated(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Esdeveniment creat: $count taules reservades',
+      one: 'Esdeveniment creat: 1 taula reservada',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get eventConflictsTitle => 'Algunes taules ja estan reservades';
+
+  @override
+  String get eventConflictsBody =>
+      'Elimina primer aquestes reserves i torna a crear l\'esdeveniment:';
+
+  @override
   String noRouteDefined(String routeName) {
     return 'No hi ha cap ruta definida per a $routeName';
   }

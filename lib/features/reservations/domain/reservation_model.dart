@@ -23,6 +23,20 @@ class Reservation {
     required this.creationDate,
   });
 
+  factory Reservation.fromFirestore(DocumentSnapshot doc) {
+    final data = doc.data() as Map<String, dynamic>;
+    return Reservation(
+      id: doc.id,
+      userId: data['userID'],
+      tableId: data['tableID'],
+      userName: data['userName'],
+      gameName: data['gameName'] ?? unavailableGameName,
+      startDate: data['startDate'],
+      endDate: data['endDate'],
+      creationDate: data['creationDate'] ?? Timestamp.now(),
+    );
+  }
+
   // Helper method to check if two time slots overlap
   static bool doTimeSlotsOverlap(Timestamp startTime1, Timestamp endTime1,
       Timestamp startTime2, Timestamp endTime2) {

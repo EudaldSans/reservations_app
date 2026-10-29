@@ -67,6 +67,108 @@
   "unableToLoadGames": "Unable to load games",
   "retryLoadingGames": "Retry loading games",
 
+  "adminPanel": "Admin panel",
+  "adminTables": "Tables",
+  "adminGames": "Game systems",
+  "adminReservations": "Reservations",
+  "adminAccessDenied": "You don't have access to this page",
+  "backToApp": "Back to the app",
+  "add": "Add",
+  "edit": "Edit",
+  "delete": "Delete",
+  "save": "Save",
+  "validationRequired": "This field is required",
+  "validationPositiveNumber": "Enter a whole number greater than 0",
+
+  "addTable": "Add table",
+  "editTable": "Edit table",
+  "tableName": "Table name",
+  "tableLength": "Length (cm)",
+  "tableWidth": "Width (cm)",
+  "noTables": "There are no tables yet",
+  "deleteTableWarning": "Delete \"{tableName}\" and all of its reservations? This can't be undone.",
+  "@deleteTableWarning": {
+    "placeholders": {
+      "tableName": {
+        "type": "String"
+      }
+    }
+  },
+
+  "gameName": "Game system name",
+  "addGame": "Add game system",
+  "gameAlreadyExists": "This game system already exists",
+  "noGames": "There are no game systems yet",
+  "deleteGameWarning": "Remove \"{gameName}\" from the available game systems? Existing reservations keep their game name.",
+  "@deleteGameWarning": {
+    "placeholders": {
+      "gameName": {
+        "type": "String"
+      }
+    }
+  },
+
+  "searchReservations": "Search by user, table or game",
+  "reservationDate": "Date",
+  "reservationTime": "Time",
+  "reservationTable": "Table",
+  "reservationUser": "User",
+  "reservationGame": "Game",
+  "deletePastReservations": "Delete past reservations",
+  "noPastReservations": "There are no past reservations to delete",
+  "deletePastReservationsWarning": "{count, plural, =1{Delete 1 past reservation? This can't be undone.} other{Delete {count} past reservations? This can't be undone.}}",
+  "@deletePastReservationsWarning": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "pastReservationsDeleted": "{count, plural, =1{1 reservation deleted} other{{count} reservations deleted}}",
+  "@pastReservationsDeleted": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "exportCsv": "Export CSV",
+  "exportReservations": "Export reservations",
+  "exportSelectDateRange": "Select date range",
+  "exportAllGames": "All game systems",
+  "exportDownload": "Download",
+  "exportDone": "Reservations exported",
+  "hidePastReservations": "Hide past reservations",
+  "noReservations": "No reservations found",
+  "deleteReservationWarning": "Delete the reservation of {userName}?",
+  "@deleteReservationWarning": {
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+
+  "adminEvents": "Events",
+  "close": "Close",
+  "eventDescription": "Reserves every table for the chosen period, with no maximum duration. The event name is used as the game name of each reservation.",
+  "eventName": "Event name",
+  "eventStart": "Start",
+  "eventEnd": "End",
+  "createEvent": "Create event",
+  "eventEndBeforeStart": "The end must be after the start",
+  "eventNoTables": "There are no tables to reserve",
+  "eventCreated": "{count, plural, =1{Event created: 1 table reserved} other{Event created: {count} tables reserved}}",
+  "@eventCreated": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "eventConflictsTitle": "Some tables are already reserved",
+  "eventConflictsBody": "Delete these reservations first, then create the event again:",
+
   "noRouteDefined": "No route defined for {routeName}",
   "@noRouteDefined": {
     "placeholders": {

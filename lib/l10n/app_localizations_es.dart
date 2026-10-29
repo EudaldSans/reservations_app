@@ -188,6 +188,205 @@ class AppLocalizationsEs extends AppLocalizations {
   String get retryLoadingGames => 'Reintentar la carga de juegos';
 
   @override
+  String get adminPanel => 'Panel de administración';
+
+  @override
+  String get adminTables => 'Mesas';
+
+  @override
+  String get adminGames => 'Sistemas de juego';
+
+  @override
+  String get adminReservations => 'Reservas';
+
+  @override
+  String get adminAccessDenied => 'No tienes acceso a esta página';
+
+  @override
+  String get backToApp => 'Volver a la aplicación';
+
+  @override
+  String get add => 'Añadir';
+
+  @override
+  String get edit => 'Editar';
+
+  @override
+  String get delete => 'Eliminar';
+
+  @override
+  String get save => 'Guardar';
+
+  @override
+  String get validationRequired => 'Este campo es obligatorio';
+
+  @override
+  String get validationPositiveNumber =>
+      'Introduce un número entero mayor que 0';
+
+  @override
+  String get addTable => 'Añadir mesa';
+
+  @override
+  String get editTable => 'Editar mesa';
+
+  @override
+  String get tableName => 'Nombre de la mesa';
+
+  @override
+  String get tableLength => 'Largo (cm)';
+
+  @override
+  String get tableWidth => 'Ancho (cm)';
+
+  @override
+  String get noTables => 'Todavía no hay mesas';
+
+  @override
+  String deleteTableWarning(String tableName) {
+    return '¿Eliminar \"$tableName\" y todas sus reservas? Esta acción no se puede deshacer.';
+  }
+
+  @override
+  String get gameName => 'Nombre del sistema de juego';
+
+  @override
+  String get addGame => 'Añadir sistema de juego';
+
+  @override
+  String get gameAlreadyExists => 'Este sistema de juego ya existe';
+
+  @override
+  String get noGames => 'Todavía no hay sistemas de juego';
+
+  @override
+  String deleteGameWarning(String gameName) {
+    return '¿Quitar \"$gameName\" de los sistemas de juego disponibles? Las reservas existentes conservan el nombre del juego.';
+  }
+
+  @override
+  String get searchReservations => 'Buscar por usuario, mesa o juego';
+
+  @override
+  String get reservationDate => 'Fecha';
+
+  @override
+  String get reservationTime => 'Hora';
+
+  @override
+  String get reservationTable => 'Mesa';
+
+  @override
+  String get reservationUser => 'Usuario';
+
+  @override
+  String get reservationGame => 'Juego';
+
+  @override
+  String get deletePastReservations => 'Eliminar reservas pasadas';
+
+  @override
+  String get noPastReservations => 'No hay reservas pasadas que eliminar';
+
+  @override
+  String deletePastReservationsWarning(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '¿Eliminar $count reservas pasadas? Esta acción no se puede deshacer.',
+      one: '¿Eliminar 1 reserva pasada? Esta acción no se puede deshacer.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String pastReservationsDeleted(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count reservas eliminadas',
+      one: '1 reserva eliminada',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get exportCsv => 'Exportar CSV';
+
+  @override
+  String get exportReservations => 'Exportar reservas';
+
+  @override
+  String get exportSelectDateRange => 'Seleccionar rango de fechas';
+
+  @override
+  String get exportAllGames => 'Todos los sistemas de juego';
+
+  @override
+  String get exportDownload => 'Descargar';
+
+  @override
+  String get exportDone => 'Reservas exportadas';
+
+  @override
+  String get hidePastReservations => 'Ocultar reservas pasadas';
+
+  @override
+  String get noReservations => 'No se han encontrado reservas';
+
+  @override
+  String deleteReservationWarning(String userName) {
+    return '¿Eliminar la reserva de $userName?';
+  }
+
+  @override
+  String get adminEvents => 'Eventos';
+
+  @override
+  String get close => 'Cerrar';
+
+  @override
+  String get eventDescription =>
+      'Reserva todas las mesas durante el periodo elegido, sin duración máxima. El nombre del evento se usa como nombre del juego de cada reserva.';
+
+  @override
+  String get eventName => 'Nombre del evento';
+
+  @override
+  String get eventStart => 'Inicio';
+
+  @override
+  String get eventEnd => 'Fin';
+
+  @override
+  String get createEvent => 'Crear evento';
+
+  @override
+  String get eventEndBeforeStart => 'El fin debe ser posterior al inicio';
+
+  @override
+  String get eventNoTables => 'No hay mesas que reservar';
+
+  @override
+  String eventCreated(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Evento creado: $count mesas reservadas',
+      one: 'Evento creado: 1 mesa reservada',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get eventConflictsTitle => 'Algunas mesas ya están reservadas';
+
+  @override
+  String get eventConflictsBody =>
+      'Elimina primero estas reservas y vuelve a crear el evento:';
+
+  @override
   String noRouteDefined(String routeName) {
     return 'No hay ninguna ruta definida para $routeName';
   }

@@ -29,13 +29,6 @@ class _DeleteReservationsScreenState extends State<DeleteReservationsScreen> {
   final _reservationRepository = ReservationRepository();
 
   @override
-  void initState() {
-    super.initState();
-
-    _reservationRepository.deleteOutdatedReservations();
-  }
-
-  @override
   Widget build(BuildContext context) {
     log(FirebaseAuth.instance.currentUser!.uid);
 

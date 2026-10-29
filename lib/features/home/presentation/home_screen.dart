@@ -21,7 +21,24 @@ class _MyHomeScreenState extends State<HomeScreen> {
   final selectedDateNotifier = ValueNotifier(DateTime.now());
   var selectedIndex = Page.makeReservationsPage;
   var pageTitle = 'ERROR';
-  
+  bool _isAdmin = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAdminStatus();
+  }
+
+  Future<void> _loadAdminStatus() async {
+    try {
+      final user = await _authController.getCurrentUserData();
+      if (!mounted || user == null) return;
+      setState(() => _isAdmin = user.admin);
+    } catch (_) {
+      // Stay a regular user if the profile can't be loaded
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
@@ -67,6 +84,11 @@ class _MyHomeScreenState extends State<HomeScreen> {
       }),
     );
 
+    final adminButton = CustomIconButton(
+      icon: Icons.admin_panel_settings,
+      onPressed: () => AppRoutes.navigateTo(context, AppRoutes.admin),
+    );
+
     final logOutButton = CustomIconButton(
       icon: Icons.logout,
       onPressed: () {
@@ -84,6 +106,7 @@ class _MyHomeScreenState extends State<HomeScreen> {
           makeReservationsButton,
           deleteReservationsButton,
           userProfileButton,
+          if (_isAdmin) adminButton,
           logOutButton,
         ],
       ),
